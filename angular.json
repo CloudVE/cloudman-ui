@@ -23,7 +23,12 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              {
+                "input": "node_modules/@angular/material/prebuilt-themes/indigo-pink.css"
+              },
+              "node_modules/bootstrap-material-design/dist/css/ripples.min.css",
+              "src/styles.css",
+              "src/assets/scss/angular2-material-custom-theme.scss"
             ],
             "scripts": []
           },
@@ -72,6 +77,9 @@
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
             "styles": [
+              {
+                "input": "node_modules/@angular/material/prebuilt-themes/indigo-pink.css"
+              },
               "styles.css"
             ],
             "scripts": [],
