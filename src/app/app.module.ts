@@ -7,7 +7,7 @@ import { HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule, MatGridListModule,
-         MatCardModule, MatMenuModule } from '@angular/material';
+         MatCardModule, MatMenuModule, MatTabsModule } from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -31,6 +31,7 @@ import { AuthInterceptor } from './login/services/auth-interceptor';
     MatGridListModule,
     MatCardModule,
     MatMenuModule,
+    MatTabsModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
