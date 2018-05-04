@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AppSettings } from '../../../app.settings';
 
 @Component({
-    selector: 'clui-login-box',
+    selector: 'app-login-box',
     templateUrl: './login-box.component.html',
     styleUrls: ['./login-box.component.css']
 })

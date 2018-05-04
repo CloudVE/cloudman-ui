@@ -1,7 +1,7 @@
 import { Component, ViewEncapsulation, Directive } from '@angular/core';
 
 @Component({
-    selector: 'clui-config-panel',
+    selector: 'app-config-panel',
     templateUrl: './config-panel.component.html',
     styleUrls: ['./config-panel.component.css'],
     encapsulation: ViewEncapsulation.None

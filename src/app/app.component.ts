@@ -1,5 +1,5 @@
 
-import {filter} from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 import { Component } from '@angular/core';
 import { Router, RouterOutlet, NavigationEnd, Event as NavigationEvent } from '@angular/router';
 import { routerTransition } from './app.routing.animations';

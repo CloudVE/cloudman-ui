@@ -1,7 +1,7 @@
 import { Component, Directive } from '@angular/core';
 
 @Component({
-    selector: 'clui-standard-layout',
+    selector: 'app-standard-layout',
     templateUrl: 'standard-layout.component.html',
     styleUrls: ['standard-layout.component.css'],
 })
