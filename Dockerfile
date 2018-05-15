@@ -14,13 +14,13 @@ WORKDIR /app
 # install and cache app dependencies
 COPY package.json /app/package.json
 RUN npm install
-RUN npm install -g @angular/cli@6.0.0 --unsafe
+RUN npm install -g @angular/cli@6.0.1 --unsafe
 
 # add app
 COPY . /app
 
 # Build the angular app in production mode and store the artifacts in dist folder
-RUN npm run build --prod --build-optimizer
+RUN npm run build --prod
 
 ##################
 ### production ###
