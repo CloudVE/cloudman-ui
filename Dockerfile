@@ -20,7 +20,7 @@ RUN npm install -g @angular/cli@6.0.1 --unsafe
 COPY . /app
 
 # Build the angular app in production mode and store the artifacts in dist folder
-RUN npm run build --prod
+RUN npm run build
 
 ##################
 ### production ###
@@ -30,7 +30,7 @@ RUN npm run build --prod
 FROM nginx:1.13.9-alpine
 
 # copy artifact build from the 'build environment'
-COPY --from=builder /app/dist/cloudman-ui/ /usr/share/nginx/html
+COPY --from=builder /app/dist/cloudman-ui /usr/share/nginx/html
 
 # expose port 80
 EXPOSE 80
