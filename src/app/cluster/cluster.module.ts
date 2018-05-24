@@ -5,7 +5,7 @@ import { LayoutModule } from '../shared/layout.module';
 
 import { MatCardModule, MatIconModule, MatTabsModule } from '@angular/material';
 
-import { ClusterOverviewPageComponent } from './components/cluster-overview-page/cluster-overview-page.component';
+import { ClusterManagementComponent } from './components/cluster-management/cluster-management.component';
 
 
 @NgModule({
@@ -17,6 +17,7 @@ import { ClusterOverviewPageComponent } from './components/cluster-overview-page
     ClusterRoutingModule,
     LayoutModule
   ],
-  declarations: [ClusterOverviewPageComponent]
+  declarations: [ClusterManagementComponent],
+  exports: [ClusterManagementComponent]
 })
 export class ClusterModule { }

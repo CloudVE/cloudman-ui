@@ -10,19 +10,21 @@
             <mat-tab-group class="demo-tab-group">
               <mat-tab label="Tab 1">
                 <ng-template mat-tab-label>
-                  <mat-icon>build</mat-icon> Cluster Status
+                  <mat-icon>extension</mat-icon> Applications
                 </ng-template>
                 <mat-card>
-                    <mat-card-content>
-                    Some content
-                    </mat-card-content>
+                    No content
                 </mat-card>  
               </mat-tab>
               <mat-tab label="Tab 2">
                 <ng-template mat-tab-label>
-                  <mat-icon>extension</mat-icon> Applications
+                  <mat-icon>build</mat-icon> Cluster Status
                 </ng-template>
-                No content  
+                <mat-card>
+                    <mat-card-content>
+                        <app-cluster-management></app-cluster-management>
+                    </mat-card-content>
+                </mat-card>  
               </mat-tab>
             </mat-tab-group>
           </div>

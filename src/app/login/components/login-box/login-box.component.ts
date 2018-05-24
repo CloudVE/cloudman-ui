@@ -14,7 +14,7 @@ export class LoginBoxComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.redirectUrl = this.route.snapshot.queryParams['next'] || '/catalog';
+        this.redirectUrl = this.route.snapshot.queryParams['next'] || '/system_overview';
     }
 
     getApiRoot(): string {
