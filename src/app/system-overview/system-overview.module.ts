@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { SystemOverviewRoutingModule } from './system-overview-routing.module';
 import { LayoutModule } from '../shared/layout.module';
 import { ClusterModule } from '../cluster/cluster.module';
+import { HelmsmanModule } from '../helmsman/helmsman.module';
 import { MatCardModule, MatIconModule, MatTabsModule } from '@angular/material';
 
 import { SystemOverviewPageComponent } from './components/system-overview-page/system-overview-page.component';
@@ -16,7 +17,8 @@ import { SystemOverviewPageComponent } from './components/system-overview-page/s
     MatTabsModule,
     SystemOverviewRoutingModule,
     LayoutModule,
-    ClusterModule
+    ClusterModule,
+    HelmsmanModule
   ],
   declarations: [SystemOverviewPageComponent]
 })

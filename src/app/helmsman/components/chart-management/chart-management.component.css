@@ -1,0 +1,16 @@
+table {
+  width: 100%;
+}
+
+.mat-column-name {
+  width: 30%;
+}
+
+.mat-column-access_adress {
+  width: 45%;
+}
+
+.mat-column-actions {
+  width: 25%;
+}
+

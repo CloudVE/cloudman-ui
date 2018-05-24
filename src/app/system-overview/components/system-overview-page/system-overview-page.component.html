@@ -10,15 +10,17 @@
             <mat-tab-group class="demo-tab-group">
               <mat-tab label="Tab 1">
                 <ng-template mat-tab-label>
-                  <mat-icon>extension</mat-icon> Applications
+                  <mat-icon>extension</mat-icon>&nbsp;Applications
                 </ng-template>
                 <mat-card>
-                    No content
+                    <mat-card-content>
+                        <app-chart-management></app-chart-management>
+                    </mat-card-content>
                 </mat-card>  
               </mat-tab>
               <mat-tab label="Tab 2">
                 <ng-template mat-tab-label>
-                  <mat-icon>build</mat-icon> Cluster Status
+                  <mat-icon>build</mat-icon>&nbsp;Cluster Status
                 </ng-template>
                 <mat-card>
                     <mat-card-content>
