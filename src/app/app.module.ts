@@ -13,7 +13,8 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { LoginModule } from './login/login.module';
 import { AuthInterceptor } from './login/services/auth-interceptor';
-
+import { HelmsmanModule } from './helmsman/helmsman.module';
+import { ChartReconfigurationDlgComponent } from './helmsman/components/dialogs/chart-reconfiguration.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { AuthInterceptor } from './login/services/auth-interceptor';
         headerName: 'X-CSRFToken',
     }),
     AppRoutingModule,
-    LoginModule
+    LoginModule,
+    HelmsmanModule
   ],
   providers: [
   {
@@ -49,6 +51,7 @@ import { AuthInterceptor } from './login/services/auth-interceptor';
     multi: true,
   }
   ],
+  entryComponents: [ChartReconfigurationDlgComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

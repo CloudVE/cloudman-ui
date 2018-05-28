@@ -1,4 +1,8 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material';
+
+import { ChartReconfigurationDlgComponent } from '../dialogs/chart-reconfiguration.component';
+
 
 export interface ChartDefinition {
   name: string;
@@ -16,6 +20,20 @@ const ELEMENT_DATA: ChartDefinition[] = [
     styleUrls: ['./chart-management.component.css']
 })
 export class ChartManagementComponent {
-  displayedColumns = ['name', 'access_address', 'actions'];
-  dataSource = ELEMENT_DATA;
+    displayedColumns = ['name', 'access_address', 'actions'];
+    dataSource = ELEMENT_DATA;
+
+    constructor(private dialog: MatDialog) {}
+
+    openChartReconfigurationDialog(chart: ChartDefinition) {
+        const dialogRef = this.dialog.open(ChartReconfigurationDlgComponent,
+                { width: '500px' });
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result === 'delete') {
+            } else if (result === 'archive') {
+            }
+        });
+    }
+
 }
