@@ -30,8 +30,7 @@ export class ChartManagementComponent {
                 { width: '500px' });
 
         dialogRef.afterClosed().subscribe(result => {
-            if (result === 'delete') {
-            } else if (result === 'archive') {
+            if (result === 'save') {
             }
         });
     }
