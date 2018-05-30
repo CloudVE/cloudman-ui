@@ -26,8 +26,7 @@ export class ChartManagementComponent {
     constructor(private dialog: MatDialog) {}
 
     openChartReconfigurationDialog(chart: ChartDefinition) {
-        const dialogRef = this.dialog.open(ChartReconfigurationDlgComponent,
-                { width: '500px' });
+        const dialogRef = this.dialog.open(ChartReconfigurationDlgComponent);
 
         dialogRef.afterClosed().subscribe(result => {
             if (result === 'save') {
