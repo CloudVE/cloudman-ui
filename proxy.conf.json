@@ -1,0 +1,10 @@
+{
+  "/cloudman/": {
+    "target": "http://localhost:8000/",
+    "secure": false
+  },
+  "/cloudlaunch": {
+    "target": "http://localhost:8000/",
+    "secure": false
+  }
+}
