@@ -9,6 +9,7 @@ import { MatCardModule, MatIconModule, MatTabsModule, MatTableModule, MatButtonM
 import { ChartManagementComponent } from './components/chart-management/chart-management.component';
 import { ChartReconfigurationDlgComponent } from './components/dialogs/chart-reconfiguration.component';
 import { MaterialDesignFrameworkModule, JsonSchemaFormModule } from 'angular2-json-schema-form'
+import { HelmsManService } from './services/helmsman.service';
 
 @NgModule({
   imports: [
@@ -28,6 +29,7 @@ import { MaterialDesignFrameworkModule, JsonSchemaFormModule } from 'angular2-js
     JsonSchemaFormModule.forRoot(MaterialDesignFrameworkModule)
   ],
   declarations: [ChartManagementComponent, ChartReconfigurationDlgComponent],
-  exports: [ChartManagementComponent, ChartReconfigurationDlgComponent],
+  providers: [HelmsManService],
+  exports: [ChartManagementComponent, ChartReconfigurationDlgComponent]
 })
 export class HelmsmanModule { }

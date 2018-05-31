@@ -1,17 +1,11 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material';
+import { Observable } from 'rxjs/Observable';
+
+import { Chart } from '../../models/chart';
+import { HelmsManService } from '../../services/helmsman.service';
 
 import { ChartReconfigurationDlgComponent } from '../dialogs/chart-reconfiguration.component';
-
-
-export interface ChartDefinition {
-  name: string;
-  access_address: string;
-}
-
-const ELEMENT_DATA: ChartDefinition[] = [
-  {name: 'Galaxy', access_address: '<cluster_ip>/galaxy'}
-];
 
 
 @Component({
@@ -21,12 +15,17 @@ const ELEMENT_DATA: ChartDefinition[] = [
 })
 export class ChartManagementComponent {
     displayedColumns = ['name', 'access_address', 'actions'];
-    dataSource = ELEMENT_DATA;
+    charts: Observable<Chart[]>;
 
-    constructor(private dialog: MatDialog) {}
+    constructor(private dialog: MatDialog, private _helmsmanService: HelmsManService) {}
 
-    openChartReconfigurationDialog(chart: ChartDefinition) {
-        const dialogRef = this.dialog.open(ChartReconfigurationDlgComponent);
+    ngOnInit() {
+        this.charts = this._helmsmanService.getInstalledCharts();
+    }
+
+    openChartReconfigurationDialog(chart: Chart) {
+        const dialogRef = this.dialog.open(ChartReconfigurationDlgComponent,
+                                           { data: chart.config });
 
         dialogRef.afterClosed().subscribe(result => {
             if (result === 'save') {
