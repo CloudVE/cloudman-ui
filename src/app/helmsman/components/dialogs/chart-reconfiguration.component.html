@@ -3,8 +3,9 @@
     <div mat-dialog-content>
         <json-schema-form
           [options]="jsonFormOptions"
-          [form]="jsonSchemaJson"
-          [ngModel]="jsonSchemaJson?.data">
+          [form]="jsonSchema"
+          [(ngModel)]="configData"
+          (onChanges)="trackChanges($event)">
         </json-schema-form>
     </div>
 <div mat-dialog-actions class="pull-right">

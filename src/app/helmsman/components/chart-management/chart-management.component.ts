@@ -25,10 +25,11 @@ export class ChartManagementComponent {
 
     openChartReconfigurationDialog(chart: Chart) {
         const dialogRef = this.dialog.open(ChartReconfigurationDlgComponent,
-                                           { data: chart.config });
+                                           { data: chart });
 
         dialogRef.afterClosed().subscribe(result => {
             if (result === 'save') {
+                console.log(dialogRef.componentInstance.getChanges())
             }
         });
     }
