@@ -29,7 +29,10 @@ export class ChartManagementComponent {
 
         dialogRef.afterClosed().subscribe(result => {
             if (result === 'save') {
-                console.log(dialogRef.componentInstance.getChanges())
+                let clonedChart = Object.assign({}, chart)
+                clonedChart.config = dialogRef.componentInstance.getChanges();
+                this._helmsmanService.updateInstalledChart(clonedChart)
+                    .subscribe(updatedChart => chart.config = updatedChart.config);
             }
         });
     }
