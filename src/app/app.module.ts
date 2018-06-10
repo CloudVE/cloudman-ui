@@ -15,6 +15,8 @@ import { LoginModule } from './login/login.module';
 import { AuthInterceptor } from './login/services/auth-interceptor';
 import { HelmsmanModule } from './helmsman/helmsman.module';
 import { ChartReconfigurationDlgComponent } from './helmsman/components/dialogs/chart-reconfiguration.component';
+import { ClusterModule } from './cluster/cluster.module';
+import { NodeAddDlgComponent } from './cluster/components/dialogs/node-add.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +44,7 @@ import { ChartReconfigurationDlgComponent } from './helmsman/components/dialogs/
     }),
     AppRoutingModule,
     LoginModule,
+    ClusterModule,
     HelmsmanModule
   ],
   providers: [
@@ -51,7 +54,7 @@ import { ChartReconfigurationDlgComponent } from './helmsman/components/dialogs/
     multi: true,
   }
   ],
-  entryComponents: [ChartReconfigurationDlgComponent],
+  entryComponents: [ChartReconfigurationDlgComponent, NodeAddDlgComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
