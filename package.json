@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --proxy-config proxy.conf.json",
+    "startprod": "lite-server -c lite-server-config.js",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -27,6 +28,7 @@
     "angular2-json-schema-form": "https://github.com/rhalff/angular2-json-schema-form#angular-6-dist",
     "bootstrap-material-design": "^0.5.10",
     "core-js": "^2.5.4",
+    "lite-server": "^2.3.0",
     "lodash": "4.x",
     "ngx-order-pipe": "^2.0.1",
     "rxjs": "6",
