@@ -21,7 +21,7 @@
   <!-- Access address Column -->
   <ng-container matColumnDef="access_address">
     <th mat-header-cell *matHeaderCellDef> Access Address </th>
-    <td mat-cell *matCellDef="let element"> {{element.access_address}} </td>
+    <td mat-cell *matCellDef="let element"> <a href="{{ getAppURL(element.access_address) }}">{{ getAppURL(element.access_address) }}</a></td>
   </ng-container>
 
   <!-- Actions Column -->

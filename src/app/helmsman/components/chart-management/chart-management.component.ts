@@ -37,4 +37,8 @@ export class ChartManagementComponent {
         });
     }
 
+    getAppURL(relPath) {
+        // FIXME: Should not be directly accessing DOM elements
+        return window.location.origin + relPath;
+    }
 }
