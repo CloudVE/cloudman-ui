@@ -28,13 +28,12 @@ export class IframeAutoHeightDirective implements OnInit {
 
     setHeight() {
         const self = this;
-        console.log("#############", this.el.contentWindow.document.body.scrollHeight);
         this.el.contentWindow.document.body.background = "white";
         this.el.contentWindow.document.body.height = this.el.contentWindow.document.body.scrollHeight;
             this.renderer.setElementStyle(
                 self.el,
                 "height",
-                this.el.contentWindow.document.body.scrollHeight + "px"
+                this.el.contentWindow.document.body.scrollHeight + 20 + "px"
             );
 
     }

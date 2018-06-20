@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef } from '@angular/core';
 import { MatDialog } from '@angular/material';
 
 import { NodeAddDlgComponent } from '../dialogs/node-add.component';
@@ -11,7 +11,9 @@ import { NodeAddDlgComponent } from '../dialogs/node-add.component';
 })
 export class ClusterManagementComponent {
 
-    constructor(private dialog: MatDialog) {}
+    show_animation = true;
+
+    constructor(private dialog: MatDialog, private elementRef: ElementRef) {}
 
     openAddNodeDialog(obj: any) {
         const dialogRef = this.dialog.open(NodeAddDlgComponent,
@@ -22,5 +24,9 @@ export class ClusterManagementComponent {
 
             }
         });
+    }
+
+    onGrafanaLoaded(event: any) {
+        this.show_animation = false;
     }
 }
