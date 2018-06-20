@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { StandardLayoutComponent, PageHeaderDirective, PageBodyDirective } from './layouts/standard-layout.component';
 import { ConfigPanelComponent, PanelHeaderDirective, PanelBodyDirective } from './layouts/config-panel.component';
+import { IframeAutoHeightDirective } from './layouts/iframe-resizer';
 
 @NgModule({
     declarations: [
@@ -10,7 +11,8 @@ import { ConfigPanelComponent, PanelHeaderDirective, PanelBodyDirective } from '
         PageBodyDirective,
         ConfigPanelComponent,
         PanelHeaderDirective,
-        PanelBodyDirective
+        PanelBodyDirective,
+        IframeAutoHeightDirective
     ],
     imports: [
     ],
@@ -20,7 +22,8 @@ import { ConfigPanelComponent, PanelHeaderDirective, PanelBodyDirective } from '
         PageBodyDirective,
         ConfigPanelComponent,
         PanelHeaderDirective,
-        PanelBodyDirective
+        PanelBodyDirective,
+        IframeAutoHeightDirective
     ]
 })
 export class LayoutModule { }
