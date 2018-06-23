@@ -6,3 +6,7 @@
 material-design-framework {
 	min-height: 75px;
 }
+
+.mat-form-field {
+  width: 100%;
+}
