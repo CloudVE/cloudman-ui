@@ -32,6 +32,12 @@ export class HelmsManService {
             .pipe(catchError(this.handleError));
     }
 
+    public rollbackChart(chart: Chart): Observable<Chart> {
+        chart.state = "rollback";
+        return this.http.put<Chart>(`${this._charts_url}${chart.id}/`, chart)
+            .pipe(catchError(this.handleError));
+    }
+
     private handleError(err: HttpErrorResponse) {
         console.error(err);
         if (err.error instanceof Error) {

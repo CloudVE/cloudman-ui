@@ -31,6 +31,9 @@
         <button class="btn btn-secondary pill" type="button" matTooltip="Upgrade Galaxy" disabled="true">
             <i class="fa fa-arrow-up"></i>
         </button>
+        <button class="btn btn-secondary pill" type="button" matTooltip="Rollback to previous revision" (click)="rollbackChart(element)">
+            <i class="fa fa-undo"></i>
+        </button>
         <button class="btn btn-secondary pill" type="button" matTooltip="Configure Galaxy" (click)="openChartReconfigurationDialog(element)">
             <i class="fa fa-edit"></i>
         </button>

@@ -4,4 +4,5 @@ export class Chart {
     access_url: string;
     schema: any;
     config: any;
+    state: string;
 }

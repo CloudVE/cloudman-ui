@@ -23,6 +23,12 @@ export class ChartManagementComponent {
         this.charts = this._helmsmanService.getInstalledCharts();
     }
 
+    rollbackChart(chart: Chart) {
+        let clonedChart = Object.assign({}, chart)
+        this._helmsmanService.rollbackChart(clonedChart)
+                    .subscribe(updatedChart => chart.config = updatedChart.config);
+    }
+
     openChartReconfigurationDialog(chart: Chart) {
         const dialogRef = this.dialog.open(ChartReconfigurationDlgComponent,
                                            { data: chart });
