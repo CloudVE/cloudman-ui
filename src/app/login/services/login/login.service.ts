@@ -15,9 +15,9 @@ import { addCredentialHeaders } from '../../../shared/services/profile.service';
 export class LoginService {
     constructor(private http: HttpClient) { }
 
-    private _loginUrl = `${AppSettings.CLOUDMAN_API_ENDPOINT}/auth/login/`;
-    private _logoutUrl = `${AppSettings.CLOUDMAN_API_ENDPOINT}/auth/logout/`;
-    private _currentUserUrl = `${AppSettings.CLOUDMAN_API_ENDPOINT}/auth/user/`;
+    private _loginUrl = `${AppSettings.CLOUDLAUNCH_API_ENDPOINT}/auth/login/`;
+    private _logoutUrl = `${AppSettings.CLOUDLAUNCH_API_ENDPOINT}/auth/logout/`;
+    private _currentUserUrl = `${AppSettings.CLOUDLAUNCH_API_ENDPOINT}/auth/user/`;
     private _login_method: string = null;
     private _current_user: User = null;
     private credentials: Credentials = null;
