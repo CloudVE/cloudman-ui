@@ -1,16 +1,19 @@
 {
-  "/cloudman/": {
-    "target": "http://localhost:8000/",
-    "secure": false
-  },
-  "/grafana/": {
-    "target": {
-        "host": "192.168.99.100",
-        "protocol": "https:",
-        "port": 443
-      },
-    "secure": false,
-    "logLevel": "debug",
-    "changeOrigin": true
-  }
+    "/cloudman": {
+        "target": "http://localhost:8000",
+        "secure": false,
+        "changeOrigin": true,
+        "logLevel": "debug",
+        "pathRewrite": {"^/cloudman" : ""}
+    },
+    "/grafana": {
+        "target": {
+            "host": "192.168.99.100",
+            "protocol": "https:",
+            "port": 443
+        },
+        "secure": false,
+        "logLevel": "debug",
+        "changeOrigin": true
+    }
 }
