@@ -7,6 +7,7 @@ import { AppSettings } from '../../app.settings';
 import { QueryResult } from '../models/query';
 import {Cluster, ClusterNode} from "../models/cluster";
 import {PlacementZone} from "../models/cloud";
+import {Credentials} from "../models/profile";
 
 @Injectable()
 export class ClusterService {
@@ -38,7 +39,7 @@ export class ClusterService {
         return this.http.get<Cluster>(`${this._cluster_url}/${id}/`);
     }
 
-    public getClusterNodes(cluster_id: string): Observable<ClusterNode[]> {
+    public getClusterNodes(cluster_id: number): Observable<ClusterNode[]> {
         return this.http.get<QueryResult<ClusterNode>>(`${this._cluster_url}/${cluster_id}/nodes/`)
             .pipe(
                 map(response => response.results),
@@ -47,6 +48,11 @@ export class ClusterService {
 
     public createClusterNode(node: ClusterNode): Observable<ClusterNode> {
         return this.http.post<ClusterNode>(`${this._cluster_url}/${node.cluster.id}/nodes/`, node)
+            .pipe(catchError(this.handleError));
+    }
+
+    public deleteClusterNode(node: ClusterNode): Observable<ClusterNode> {
+        return this.http.delete<ClusterNode>(`${this._cluster_url}/${node.cluster.id}/nodes/${node.id}/`)
             .pipe(catchError(this.handleError));
     }
 

@@ -1,0 +1,53 @@
+<div>
+    <form class="form">
+        <mat-expansion-panel #nodePanel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Nodes
+                </mat-panel-title>
+                <mat-panel-description>
+                    Expand to view nodes in your cluster
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <br />
+            <table class="table table-hover" *ngIf="nodePanel.expanded">
+                <thead>
+                    <tr>
+                        <th class="col-md-3"><p> Name </p></th>
+                        <th class="col-md-5"><p> Status</p></th>
+                        <th class="col-md-3"><p> IP</p></th>
+                        <th class="col-md-1"><p> Actions</p></th>
+                    </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let node of nodeObservable | async;">
+                    <td>{{ node.name }}</td>
+                    <td class="text-left">
+                        <div>
+                            <div [ngSwitch]="node.deployment.latest_task?.status">
+                              <div *ngSwitchCase="'SUCCESS'">
+                                <p class="text-success"><i class="fa fa-bolt fa-fw"></i> RUNNING</p>
+                              </div>
+                              <p *ngSwitchCase="'FAILURE'" class="text-danger">FAILURE
+                                 <br />{{ node.deployment.latest_task?.result?.exc_message }}
+                              </p>
+                              <p *ngSwitchCase="'UNKNOWN'" class="text-warning">FAILURE
+                                 <br />{{ node.deployment.latest_task?.result?.exc_message }}
+                              </p>
+                              <p *ngSwitchCase="'PENDING'" class="text-info">PENDING</p>
+                              <p *ngSwitchCase="'PROGRESSING'" class="text-info"><i class="fa fa-cog fa-spin fa-fw"></i> PROGRESSING
+                                <br />{{ node.deployment.latest_task?.result?.action }}
+                              </p>
+                            </div>
+                        </div>
+                    </td>
+                    <td>{{ node.deployment.launch_task?.result?.cloudLaunch?.publicIP }}</td>
+                    <td class="col-md-1">
+                        <a class="text-info" href="javascript:void(0);" (click)="deleteNode(node)" title="Delete"><i class="fa fa-remove"></i></a>
+                    </td>
+                  </tr>
+                </tbody>
+            </table>
+        </mat-expansion-panel>
+    </form>
+</div>
