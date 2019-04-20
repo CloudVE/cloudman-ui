@@ -3,8 +3,7 @@
         "target": "http://localhost:8000",
         "secure": false,
         "changeOrigin": true,
-        "logLevel": "debug",
-        "pathRewrite": {"^/cloudman" : ""}
+        "logLevel": "debug"
     },
     "/grafana": {
         "target": {
