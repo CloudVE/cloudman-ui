@@ -66,7 +66,7 @@ export class NodeAddDlgComponent {
         this.submitPending = true;
         let node = new ClusterNode();
         node.cluster = this.clusterCtrl.value;
-        node.instance_type = this.vmTypeCtrl.value.id;
+        node.instance_type = this.vmTypeCtrl.value.name;
         this.clusterService.createClusterNode(node).subscribe(
             data => this.dialogRef.close(),
             error => this.handleErrors(error));
