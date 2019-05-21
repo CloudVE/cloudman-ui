@@ -8,7 +8,7 @@ import { MatCardModule, MatIconModule, MatTabsModule, MatTableModule, MatButtonM
 
 import { ChartManagementComponent } from './components/chart-management/chart-management.component';
 import { ChartReconfigurationDlgComponent } from './components/dialogs/chart-reconfiguration.component';
-import { MaterialDesignFrameworkModule, JsonSchemaFormModule } from 'angular2-json-schema-form'
+import { AceEditorModule } from 'ng2-ace-editor';
 import { HelmsManService } from './services/helmsman.service';
 
 @NgModule({
@@ -26,8 +26,7 @@ import { HelmsManService } from './services/helmsman.service';
     MatTooltipModule,
     HelmsmanRoutingModule,
     LayoutModule,
-    MaterialDesignFrameworkModule,
-    JsonSchemaFormModule.forRoot(MaterialDesignFrameworkModule)
+    AceEditorModule
   ],
   declarations: [ChartManagementComponent, ChartReconfigurationDlgComponent],
   providers: [HelmsManService],

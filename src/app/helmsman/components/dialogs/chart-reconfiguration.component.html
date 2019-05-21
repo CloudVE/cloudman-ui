@@ -1,12 +1,16 @@
 <!-- Modal -->
 <h1 mat-dialog-title>Edit Application Configuration</h1>
     <div mat-dialog-content>
-        <json-schema-form
-          [options]="jsonFormOptions"
-          [form]="jsonSchema"
-          [(ngModel)]="configData"
-          (onChanges)="trackChanges($event)">
-        </json-schema-form>
+        <mat-tab-group>
+            <mat-tab label="galaxy.yml">
+                <div ace-editor [(text)]="galaxyYaml" [mode]="'yaml'"
+                     style="min-height: 300px; width:100%; overflow: auto;"></div>
+            </mat-tab>
+            <mat-tab label="job_conf.xml">
+                <div ace-editor [(text)]="jobConf" [mode]="'xml'"
+                     style="min-height: 300px; width:100%; overflow: auto;"></div>
+            </mat-tab>
+        </mat-tab-group>
     </div>
 <div mat-dialog-actions class="pull-right">
     <button mat-button mat-stroked-button mat-dialog-close="cancel" tabindex="1">Cancel</button>

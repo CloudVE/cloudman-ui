@@ -20,7 +20,8 @@
             "tsConfig": "src/tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              { "glob": "worker-xml.js", "input": "./node_modules/ace-builds/src-min/", "output": "/" }
             ],
             "styles": [
               {
@@ -30,7 +31,13 @@
               "src/styles.css",
               "src/assets/scss/angular2-material-custom-theme.scss"
             ],
-            "scripts": []
+            "scripts": [
+                "node_modules/ace-builds/src-min/ace.js",
+                "node_modules/ace-builds/src-min/mode-yaml.js",
+                "node_modules/ace-builds/src-min/mode-xml.js",
+                "node_modules/ace-builds/src-min/theme-chrome.js",
+                "node_modules/ace-builds/src-min/worker-xml.js"
+            ]
           },
           "configurations": {
             "production": {

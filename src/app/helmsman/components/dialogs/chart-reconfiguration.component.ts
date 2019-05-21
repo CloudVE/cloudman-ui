@@ -11,34 +11,28 @@ import { Chart } from '../../models/chart';
 })
 export class ChartReconfigurationDlgComponent {
 
-    jsonFormOptions: any = {
-            addSubmit: false, // Add a submit button if layout does not have one
-            debug: false, // Don't show inline debugging information
-            loadExternalAssets: false, // Load external css and JavaScript for frameworks
-            returnEmptyFields: false, // Don't return values for empty input fields
-            setSchemaDefaults: true, // Always use schema defaults for empty fields
-            defautWidgetOptions: { feedback: true }, // Show inline feedback icons
-          };
-
-    jsonSchema: any;
-    configData: any = {};
+    config: any = {};
     initialFrozenConfig: any;
 
     constructor(@Optional() @Inject(MAT_DIALOG_DATA) public data: Chart) {
-        this.jsonSchema = data.schema;
-        this.configData = data.config;
+        this.config = data.config;
+        this.initialFrozenConfig = JSON.parse(JSON.stringify(this.config));
     }
 
-    trackChanges(event: any) {
-        // A bit of a hack to get track changes working. Initially, the configData
-        // will contain whatever values the user has set. However, angular2-json-schema
-        // will update that configData with the schema's default values, resulting in a dict
-        // containing configData + defaults. Therefore, to get the final list of user-edited
-        // values, we should diff the final set of values against those initial
-        // values (configData + defaults). So we store this initial dict here.
-        if (!this.initialFrozenConfig) {
-            this.initialFrozenConfig = event;
-        }
+    public get galaxyYaml() {
+        return this.config['galaxy.yml'];
+    }
+
+    public set galaxyYaml(value) {
+        this.config['galaxy.yml'] = value;
+    }
+
+    public get jobConf() {
+        return this.config['job_conf.xml'];
+    }
+
+    public set jobConf(value) {
+        this.config['job_conf.xml'] = value;
     }
 
     // based on: https://stackoverflow.com/a/37396358
@@ -55,6 +49,6 @@ export class ChartReconfigurationDlgComponent {
 
     getChanges() {
         // Return difference between initially stored values, and final set of values
-        return this.getObjDiff(this.initialFrozenConfig, this.configData);
+        return this.getObjDiff(this.initialFrozenConfig, this.config);
     }
 }
