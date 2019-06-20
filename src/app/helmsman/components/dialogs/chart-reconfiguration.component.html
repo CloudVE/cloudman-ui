@@ -2,13 +2,20 @@
 <h1 mat-dialog-title>Edit Application Configuration</h1>
     <div mat-dialog-content>
         <mat-tab-group>
-            <mat-tab label="galaxy.yml">
-                <div ace-editor [(text)]="galaxyYaml" [mode]="'yaml'"
-                     style="min-height: 300px; width:100%; overflow: auto;"></div>
+            <mat-tab *ngFor="let config of configs | keyvalue; trackBy: trackByKey" [label]="config.key">
+                <ng-template mat-tab-label>
+                    <app-inline-edit required="true" [(ngModel)]="config.key"></app-inline-edit>
+                </ng-template>
+                <div ace-editor [(text)]="configs[config.key]"
+                     [mode]="config.key.endsWith('xml') ? 'xml' : 'yaml'"
+                     style="min-height: 500px; width:100%; overflow: auto;"></div>
             </mat-tab>
-            <mat-tab label="job_conf.xml">
-                <div ace-editor [(text)]="jobConf" [mode]="'xml'"
-                     style="min-height: 300px; width:100%; overflow: auto;"></div>
+            <mat-tab disabled>
+                <ng-template mat-tab-label>
+                    <button mat-icon-button (click)="addNewTab()">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                </ng-template>
             </mat-tab>
         </mat-tab-group>
     </div>

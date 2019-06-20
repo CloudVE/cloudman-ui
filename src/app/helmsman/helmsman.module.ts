@@ -8,6 +8,7 @@ import { MatCardModule, MatIconModule, MatTabsModule, MatTableModule, MatButtonM
 
 import { ChartManagementComponent } from './components/chart-management/chart-management.component';
 import { ChartReconfigurationDlgComponent } from './components/dialogs/chart-reconfiguration.component';
+import { InlineEditComponent } from './components/inline-edit/inline-edit.component';
 import { AceEditorModule } from 'ng2-ace-editor';
 import { HelmsManService } from './services/helmsman.service';
 
@@ -28,7 +29,7 @@ import { HelmsManService } from './services/helmsman.service';
     LayoutModule,
     AceEditorModule
   ],
-  declarations: [ChartManagementComponent, ChartReconfigurationDlgComponent],
+  declarations: [ChartManagementComponent, ChartReconfigurationDlgComponent, InlineEditComponent],
   providers: [HelmsManService],
   exports: [ChartManagementComponent, ChartReconfigurationDlgComponent]
 })

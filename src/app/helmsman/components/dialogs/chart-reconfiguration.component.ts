@@ -11,28 +11,28 @@ import { Chart } from '../../models/chart';
 })
 export class ChartReconfigurationDlgComponent {
 
-    config: any = {};
-    initialFrozenConfig: any;
+    configs: any = {};
+    initialFrozenConfigs: any;
 
     constructor(@Optional() @Inject(MAT_DIALOG_DATA) public data: Chart) {
-        this.config = data.config;
-        this.initialFrozenConfig = JSON.parse(JSON.stringify(this.config));
+        this.configs = data.config;
+        this.initialFrozenConfigs = JSON.parse(JSON.stringify(this.configs));
     }
 
     public get galaxyYaml() {
-        return this.config['galaxy.yml'];
+        return this.configs['galaxy.yml'];
     }
 
     public set galaxyYaml(value) {
-        this.config['galaxy.yml'] = value;
+        this.configs['galaxy.yml'] = value;
     }
 
     public get jobConf() {
-        return this.config['job_conf.xml'];
+        return this.configs['job_conf.xml'];
     }
 
     public set jobConf(value) {
-        this.config['job_conf.xml'] = value;
+        this.configs['job_conf.xml'] = value;
     }
 
     // based on: https://stackoverflow.com/a/37396358
@@ -49,6 +49,14 @@ export class ChartReconfigurationDlgComponent {
 
     getChanges() {
         // Return difference between initially stored values, and final set of values
-        return this.getObjDiff(this.initialFrozenConfig, this.config);
+        return this.getObjDiff(this.initialFrozenConfigs, this.configs);
+    }
+
+    trackByKey(index: number, obj: any): string {
+        return obj.key;
+    }
+
+    addNewTab() {
+        this.configs['unnamed'] = "";
     }
 }

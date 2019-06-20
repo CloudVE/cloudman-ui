@@ -6,3 +6,8 @@
 material-design-framework {
 	min-height: 75px;
 }
+
+::ng-deep .mat-tab-label:last-of-type {
+  padding: 0px !important;
+  justify-content: left !important;
+}
