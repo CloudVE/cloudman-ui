@@ -14,7 +14,7 @@ import { ChartReconfigurationDlgComponent } from '../dialogs/chart-reconfigurati
     styleUrls: ['./chart-management.component.css']
 })
 export class ChartManagementComponent {
-    displayedColumns = ['name', 'access_address', 'actions'];
+    displayedColumns = ['name', 'access_address', 'updated', 'actions'];
     charts: Observable<Chart[]>;
 
     constructor(private dialog: MatDialog, private _helmsmanService: HelmsManService) {}
@@ -26,7 +26,7 @@ export class ChartManagementComponent {
     rollbackChart(chart: Chart) {
         let clonedChart = Object.assign({}, chart)
         this._helmsmanService.rollbackChart(clonedChart)
-                    .subscribe(updatedChart => chart.config = updatedChart.config);
+                    .subscribe(updatedChart => chart.values = updatedChart.values);
     }
 
     openChartReconfigurationDialog(chart: Chart) {
@@ -36,9 +36,9 @@ export class ChartManagementComponent {
         dialogRef.afterClosed().subscribe(result => {
             if (result === 'save') {
                 let clonedChart = Object.assign({}, chart)
-                clonedChart.config = dialogRef.componentInstance.getChanges();
+                clonedChart.values = dialogRef.componentInstance.getChanges();
                 this._helmsmanService.updateInstalledChart(clonedChart)
-                    .subscribe(updatedChart => chart.config = updatedChart.config);
+                    .subscribe(updatedChart => chart.values = updatedChart.values);
             }
         });
     }

@@ -14,25 +14,9 @@ export class ChartReconfigurationDlgComponent {
     configs: any = {};
     initialFrozenConfigs: any;
 
-    constructor(@Optional() @Inject(MAT_DIALOG_DATA) public data: Chart) {
-        this.configs = data.config;
+    constructor(@Optional() @Inject(MAT_DIALOG_DATA) public chart: Chart) {
+        this.configs = chart.values.configs;
         this.initialFrozenConfigs = JSON.parse(JSON.stringify(this.configs));
-    }
-
-    public get galaxyYaml() {
-        return this.configs['galaxy.yml'];
-    }
-
-    public set galaxyYaml(value) {
-        this.configs['galaxy.yml'] = value;
-    }
-
-    public get jobConf() {
-        return this.configs['job_conf.xml'];
-    }
-
-    public set jobConf(value) {
-        this.configs['job_conf.xml'] = value;
     }
 
     // based on: https://stackoverflow.com/a/37396358
@@ -49,7 +33,8 @@ export class ChartReconfigurationDlgComponent {
 
     getChanges() {
         // Return difference between initially stored values, and final set of values
-        return this.getObjDiff(this.initialFrozenConfigs, this.configs);
+        this.chart.values.config = this.getObjDiff(this.initialFrozenConfigs, this.configs);
+        return this.chart.values;
     }
 
     trackByKey(index: number, obj: any): string {
