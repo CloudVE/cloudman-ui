@@ -6,7 +6,7 @@ import { Chart } from '../../models/chart';
 import { HelmsManService } from '../../services/helmsman.service';
 
 import { ChartReconfigurationDlgComponent } from '../dialogs/chart-reconfiguration.component';
-
+import { CreateProjectDlgComponent } from '../dialogs/create-project.component';
 
 @Component({
     selector: 'app-chart-management',
@@ -39,6 +39,15 @@ export class ChartManagementComponent {
                 clonedChart.values = dialogRef.componentInstance.getChanges();
                 this._helmsmanService.updateInstalledChart(clonedChart)
                     .subscribe(updatedChart => chart.values = updatedChart.values);
+            }
+        });
+    }
+
+    openCreateProjectDialog() {
+        const dialogRef = this.dialog.open(CreateProjectDlgComponent);
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result === 'save') {
             }
         });
     }

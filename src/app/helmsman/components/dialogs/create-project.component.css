@@ -1,0 +1,17 @@
+.mat-dialog-content {
+  min-width: 500px;
+  width: 500px;
+}
+
+material-design-framework {
+	min-height: 75px;
+}
+
+.project-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.project-container > * {
+  width: 100%;
+}

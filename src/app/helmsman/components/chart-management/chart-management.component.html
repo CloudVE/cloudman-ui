@@ -1,3 +1,23 @@
+<mat-grid-list cols="12" rowHeight="40px">
+    <mat-grid-tile colspan="1">
+        <h5>Active Project</h5>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="7">
+        <mat-select id="id_project">
+            <mat-option>Hello World</mat-option>
+        </mat-select>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="1">
+        <button mat-icon-button (click)="openCreateProjectDialog()">
+            <mat-icon>add</mat-icon>
+        </button>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="3">
+    </mat-grid-tile>
+</mat-grid-list>
+
+<br /><br />
+
 <table mat-table [dataSource]="charts">
 
   <!-- Name Column -->

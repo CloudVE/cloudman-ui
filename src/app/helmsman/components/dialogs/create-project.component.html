@@ -1,0 +1,14 @@
+<!-- Modal -->
+<h1 mat-dialog-title>Create New Project</h1>
+<div mat-dialog-content>
+    <div class="project-container">
+        <mat-form-field>
+            <input matInput type="text" placeholder="Project Name"/>
+            <mat-hint>Name of new project</mat-hint>
+        </mat-form-field>
+    </div>
+</div>
+<div mat-dialog-actions class="pull-right">
+    <button mat-button mat-stroked-button mat-dialog-close="cancel" tabindex="1">Cancel</button>
+    <button mat-button mat-raised-button mat-dialog-close="save" color="primary" tabindex="2">Save</button>
+</div>
