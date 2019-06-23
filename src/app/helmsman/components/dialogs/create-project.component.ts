@@ -1,6 +1,6 @@
 import { Component, Inject, Optional } from '@angular/core';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material';
-import { NgSwitch, NgSwitchDefault } from '@angular/common';
+import { FormControl } from "@angular/forms";
+import { Project } from "../../models/project";
 
 @Component({
     selector: 'app-create-project-dialog',
@@ -9,7 +9,15 @@ import { NgSwitch, NgSwitchDefault } from '@angular/common';
 })
 export class CreateProjectDlgComponent {
 
+    projectCtrl = new FormControl('');
+
     constructor() {
+    }
+
+    getProject() : Project {
+        let proj = new Project();
+        proj.name = this.projectCtrl.value;
+        return proj;
     }
 
 }

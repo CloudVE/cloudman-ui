@@ -3,7 +3,7 @@
 <div mat-dialog-content>
     <div class="project-container">
         <mat-form-field>
-            <input matInput type="text" placeholder="Project Name"/>
+            <input matInput type="text" placeholder="Project Name" [formControl]="projectCtrl" />
             <mat-hint>Name of new project</mat-hint>
         </mat-form-field>
     </div>

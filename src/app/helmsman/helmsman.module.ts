@@ -12,6 +12,7 @@ import { CreateProjectDlgComponent } from "./components/dialogs/create-project.c
 import { InlineEditComponent } from './components/inline-edit/inline-edit.component';
 import { AceEditorModule } from 'ng2-ace-editor';
 import { HelmsManService } from './services/helmsman.service';
+import { ProjManService } from "./services/projman.service";
 
 
 @NgModule({
@@ -35,7 +36,7 @@ import { HelmsManService } from './services/helmsman.service';
     AceEditorModule
   ],
   declarations: [ChartManagementComponent, CreateProjectDlgComponent, ChartReconfigurationDlgComponent, InlineEditComponent],
-  providers: [HelmsManService],
+  providers: [HelmsManService, ProjManService],
   exports: [ChartManagementComponent, ChartReconfigurationDlgComponent]
 })
 export class HelmsmanModule { }

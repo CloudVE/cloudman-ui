@@ -4,7 +4,7 @@ export class Chart {
     display_name: string;
     chart_version: string;
     app_version: string;
-    project: string;
+    namespace: string;
     state: string;
     updated: string;
     access_address: string;

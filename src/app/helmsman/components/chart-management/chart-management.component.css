@@ -20,3 +20,8 @@ table {
 
 .text-inside-grid {
 }
+
+.project-header {
+  position: absolute;
+  left: 5px;
+}

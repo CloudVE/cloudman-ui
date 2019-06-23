@@ -1,18 +1,23 @@
+<form class="full-width-container">
 <mat-grid-list cols="12" rowHeight="40px">
     <mat-grid-tile colspan="1">
-        <h5>Active Project</h5>
+        <div class="project-header"><h5>Project</h5></div>
     </mat-grid-tile>
-    <mat-grid-tile colspan="7">
-        <mat-select id="id_project">
-            <mat-option>Hello World</mat-option>
-        </mat-select>
+    <mat-grid-tile colspan="4" class="full-width-container">
+        <mat-form-field class="full-width-container" style="width: 100%" required>
+            <mat-select id="id_project" [formControl]="projectCtrl">
+                <mat-option *ngFor="let proj of projectsObs | async" [value]="proj" class="full-width-container">
+                    {{ proj.name }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
     </mat-grid-tile>
     <mat-grid-tile colspan="1">
         <button mat-icon-button (click)="openCreateProjectDialog()">
             <mat-icon>add</mat-icon>
         </button>
     </mat-grid-tile>
-    <mat-grid-tile colspan="3">
+    <mat-grid-tile colspan="6">
     </mat-grid-tile>
 </mat-grid-list>
 
@@ -65,3 +70,4 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
+</form>
