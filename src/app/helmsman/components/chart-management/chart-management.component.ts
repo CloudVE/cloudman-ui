@@ -3,13 +3,11 @@ import { MatDialog } from '@angular/material';
 import { FormControl } from "@angular/forms";
 import { Observable } from 'rxjs/Observable';
 
-import { Chart } from '../../models/chart';
-import { HelmsManService } from '../../services/helmsman.service';
-
 import { ChartReconfigurationDlgComponent } from '../dialogs/chart-reconfiguration.component';
 import { CreateProjectDlgComponent } from '../dialogs/create-project.component';
 import { ProjManService } from "../../services/projman.service";
 import { Project } from "../../models/project";
+import { ProjectChart } from "../../models/project";
 
 import { Subject } from "rxjs";
 import { startWith, switchMap, tap } from 'rxjs/operators';
@@ -22,14 +20,13 @@ import { startWith, switchMap, tap } from 'rxjs/operators';
 export class ChartManagementComponent implements OnInit {
     displayedColumns = ['name', 'access_address', 'updated', 'actions'];
     projectsObs: Observable<Project[]>;
-    charts: Observable<Chart[]>;
+    chartObjs: Observable<ProjectChart[]>;
 
     // Form controls
     projectChanged = new Subject();
     projectCtrl = new FormControl('');
 
-    constructor(private dialog: MatDialog, private _helmsmanService: HelmsManService,
-                private _projectService: ProjManService) {}
+    constructor(private dialog: MatDialog, private _projectService: ProjManService) {}
 
     ngOnInit() {
         this.projectsObs = this.projectChanged.pipe(
@@ -37,19 +34,20 @@ export class ChartManagementComponent implements OnInit {
             switchMap(() => this._projectService.getProjects()),
             tap(projects => {
                 if (projects && projects.length && !this.projectCtrl.value) {
-                    this.projectCtrl.patchValue(projects[0]);
+                    this.projectCtrl.setValue(projects[0]);
                 }
             }));
-        this.charts = this._helmsmanService.getInstalledCharts();
+        this.chartObjs = this.projectCtrl.valueChanges.pipe(
+            switchMap(project => this._projectService.getProjectCharts(project)));
     }
 
-    rollbackChart(chart: Chart) {
+    rollbackChart(chart: ProjectChart) {
         let clonedChart = Object.assign({}, chart)
-        this._helmsmanService.rollbackChart(clonedChart)
+        this._projectService.rollbackProjectChart(clonedChart)
                     .subscribe(updatedChart => chart.values = updatedChart.values);
     }
 
-    openChartReconfigurationDialog(chart: Chart) {
+    openChartReconfigurationDialog(chart: ProjectChart) {
         const dialogRef = this.dialog.open(ChartReconfigurationDlgComponent,
                                            { data: chart });
 
@@ -57,7 +55,7 @@ export class ChartManagementComponent implements OnInit {
             if (result === 'save') {
                 let clonedChart = Object.assign({}, chart)
                 clonedChart.values = dialogRef.componentInstance.getChanges();
-                this._helmsmanService.updateInstalledChart(clonedChart)
+                this._projectService.updateProjectChart(clonedChart)
                     .subscribe(updatedChart => chart.values = updatedChart.values);
             }
         });
@@ -81,5 +79,9 @@ export class ChartManagementComponent implements OnInit {
     getAppURL(relPath) {
         // FIXME: Should not be directly accessing DOM elements
         return window.location.origin + relPath;
+    }
+
+    compareProjectIds(p1: Project, p2: Project) {
+        return (!p1 && !p2) || (p1.id == p2.id);
     }
 }

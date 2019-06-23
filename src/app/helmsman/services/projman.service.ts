@@ -36,6 +36,38 @@ export class ProjManService {
             .pipe(catchError(this.handleError));
     }
 
+    public getProjectCharts(project: Project): Observable<ProjectChart[]> {
+        return this.http.get<QueryResult<ProjectChart>>(`${this._projects_url}/${project.id}/charts/`)
+            .pipe(map(response => response.results),
+                  catchError(this.handleError));
+    }
+
+    public getProjectChart(project: Project, chart_id: string): Observable<ProjectChart> {
+        return this.http.get<ProjectChart>(`${this._projects_url}/${project.id}/charts/${chart_id}/`)
+            .pipe(catchError(this.handleError));
+    }
+
+    public createProjectChart(chart: ProjectChart): Observable<ProjectChart> {
+        return this.http.post<ProjectChart>(`${this._projects_url}/${chart.project.id}/charts/`, chart)
+            .pipe(catchError(this.handleError));
+    }
+
+    public deleteProjectChart(chart: ProjectChart): Observable<ProjectChart> {
+        return this.http.delete<ProjectChart>(`${this._projects_url}/${chart.project.id}/charts/${chart.id}/`)
+            .pipe(catchError(this.handleError));
+    }
+
+    public updateProjectChart(chart: ProjectChart): Observable<ProjectChart> {
+        return this.http.put<ProjectChart>(`${this._projects_url}/${chart.project.id}/charts/${chart.id}/`, chart)
+            .pipe(catchError(this.handleError));
+    }
+
+    public rollbackProjectChart(chart: ProjectChart): Observable<ProjectChart> {
+        chart.state = "rollback";
+        return this.http.put<ProjectChart>(`${this._projects_url}/${chart.project.id}/charts/${chart.id}/`, chart)
+            .pipe(catchError(this.handleError));
+    }
+
     private handleError(err: HttpErrorResponse) {
         console.error(err);
         if (err.error instanceof Error) {

@@ -1,73 +1,73 @@
-<form class="full-width-container">
-<mat-grid-list cols="12" rowHeight="40px">
-    <mat-grid-tile colspan="1">
-        <div class="project-header"><h5>Project</h5></div>
-    </mat-grid-tile>
-    <mat-grid-tile colspan="4" class="full-width-container">
-        <mat-form-field class="full-width-container" style="width: 100%" required>
-            <mat-select id="id_project" [formControl]="projectCtrl">
-                <mat-option *ngFor="let proj of projectsObs | async" [value]="proj" class="full-width-container">
-                    {{ proj.name }}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-    </mat-grid-tile>
-    <mat-grid-tile colspan="1">
-        <button mat-icon-button (click)="openCreateProjectDialog()">
-            <mat-icon>add</mat-icon>
-        </button>
-    </mat-grid-tile>
-    <mat-grid-tile colspan="6">
-    </mat-grid-tile>
-</mat-grid-list>
-
-<br /><br />
-
-<table mat-table [dataSource]="charts">
-
-  <!-- Name Column -->
-  <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef> Name </th>
-    <td mat-cell *matCellDef="let element"> {{element.display_name}} </td>
-  </ng-container>
-
-  <!-- Access address Column -->
-  <ng-container matColumnDef="access_address">
-    <th mat-header-cell *matHeaderCellDef> Access Address </th>
-    <td mat-cell *matCellDef="let element"> <a href="{{ getAppURL(element.access_address) }}">{{ getAppURL(element.access_address) }}</a></td>
-  </ng-container>
-
-  <!-- Updated Column -->
-  <ng-container matColumnDef="updated">
-    <th mat-header-cell *matHeaderCellDef> Updated </th>
-    <td mat-cell *matCellDef="let element"> {{element.updated}} </td>
-  </ng-container>
-
-  <!-- Actions Column -->
-  <ng-container matColumnDef="actions">
-    <th mat-header-cell *matHeaderCellDef> Actions </th>
-    <td mat-cell *matCellDef="let element">
-        <button class="btn btn-secondary pill" type="button" matTooltip="Upgrade Galaxy" disabled="true">
-            <i class="fa fa-arrow-up"></i>
-        </button>
-        <button class="btn btn-secondary pill" type="button" matTooltip="Rollback to previous revision" (click)="rollbackChart(element)">
-            <i class="fa fa-undo"></i>
-        </button>
-        <button *ngIf="element.name=='galaxy'; else place_holder" class="btn btn-secondary pill" type="button" matTooltip="Configure Galaxy" (click)="openChartReconfigurationDialog(element)">
-            <i class="fa fa-edit"></i>
-        </button>
-        <ng-template #place_holder>
-            <button class="btn btn-secondary pill" type="button" disabled>
-            <i class="fa fa-edit"></i>
+<form>
+    <mat-grid-list cols="12" rowHeight="40px">
+        <mat-grid-tile colspan="1">
+            <div class="project-header"><h5>Project</h5></div>
+        </mat-grid-tile>
+        <mat-grid-tile colspan="4" class="full-width-container">
+            <mat-form-field class="full-width-container" style="width: 100%" required>
+                <mat-select id="id_project" [formControl]="projectCtrl" [compareWith]="compareProjectIds">
+                    <mat-option *ngFor="let proj of projectsObs | async" [value]="proj" class="full-width-container">
+                        {{ proj.name }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile colspan="1">
+            <button mat-icon-button (click)="openCreateProjectDialog()">
+                <mat-icon>add</mat-icon>
             </button>
-        </ng-template>
-        <button class="btn btn-secondary pill" type="button" matTooltip="Delete Galaxy" disabled="true">
-            <i class="fa fa-trash"></i>
-        </button>
-    </td>
-  </ng-container>
+        </mat-grid-tile>
+        <mat-grid-tile colspan="6">
+        </mat-grid-tile>
+    </mat-grid-list>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
+    <br /><br />
+
+    <table mat-table [dataSource]="chartObjs | async">
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.display_name}} </td>
+      </ng-container>
+
+      <!-- Access address Column -->
+      <ng-container matColumnDef="access_address">
+        <th mat-header-cell *matHeaderCellDef> Access Address </th>
+        <td mat-cell *matCellDef="let element"> <a href="{{ getAppURL(element.access_address) }}">{{ getAppURL(element.access_address) }}</a></td>
+      </ng-container>
+
+      <!-- Updated Column -->
+      <ng-container matColumnDef="updated">
+        <th mat-header-cell *matHeaderCellDef> Updated </th>
+        <td mat-cell *matCellDef="let element"> {{element.updated}} </td>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let element">
+            <button class="btn btn-secondary pill" type="button" matTooltip="Upgrade Galaxy" disabled="true">
+                <i class="fa fa-arrow-up"></i>
+            </button>
+            <button class="btn btn-secondary pill" type="button" matTooltip="Rollback to previous revision" (click)="rollbackChart(element)">
+                <i class="fa fa-undo"></i>
+            </button>
+            <button *ngIf="element.name=='galaxy'; else place_holder" class="btn btn-secondary pill" type="button" matTooltip="Configure Galaxy" (click)="openChartReconfigurationDialog(element)">
+                <i class="fa fa-edit"></i>
+            </button>
+            <ng-template #place_holder>
+                <button class="btn btn-secondary pill" type="button" disabled>
+                <i class="fa fa-edit"></i>
+                </button>
+            </ng-template>
+            <button class="btn btn-secondary pill" type="button" matTooltip="Delete Galaxy" disabled="true">
+                <i class="fa fa-trash"></i>
+            </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
 </form>
