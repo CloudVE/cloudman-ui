@@ -1,6 +1,5 @@
 import { Component, Inject, Optional } from '@angular/core';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material';
-import { NgSwitch, NgSwitchDefault } from '@angular/common';
+import { MAT_DIALOG_DATA } from '@angular/material';
 
 import { Chart } from '../../models/chart';
 

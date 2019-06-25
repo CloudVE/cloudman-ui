@@ -18,6 +18,7 @@ import { ChartReconfigurationDlgComponent } from './helmsman/components/dialogs/
 import { CreateProjectDlgComponent } from "./helmsman/components/dialogs/create-project.component";
 import { ClusterModule } from './cluster/cluster.module';
 import { NodeAddDlgComponent } from './cluster/components/dialogs/node-add.component';
+import { AddChartDlgComponent } from "./helmsman/components/dialogs/add-chart.component";
 
 
 @NgModule({
@@ -56,7 +57,7 @@ import { NodeAddDlgComponent } from './cluster/components/dialogs/node-add.compo
     multi: true,
   }
   ],
-  entryComponents: [CreateProjectDlgComponent, ChartReconfigurationDlgComponent, NodeAddDlgComponent],
+  entryComponents: [CreateProjectDlgComponent, AddChartDlgComponent, ChartReconfigurationDlgComponent, NodeAddDlgComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -13,6 +13,7 @@ import { InlineEditComponent } from './components/inline-edit/inline-edit.compon
 import { AceEditorModule } from 'ng2-ace-editor';
 import { HelmsManService } from './services/helmsman.service';
 import { ProjManService } from "./services/projman.service";
+import { AddChartDlgComponent } from "./components/dialogs/add-chart.component";
 
 
 @NgModule({
@@ -35,7 +36,7 @@ import { ProjManService } from "./services/projman.service";
     LayoutModule,
     AceEditorModule
   ],
-  declarations: [ChartManagementComponent, CreateProjectDlgComponent, ChartReconfigurationDlgComponent, InlineEditComponent],
+  declarations: [ChartManagementComponent, CreateProjectDlgComponent, AddChartDlgComponent, ChartReconfigurationDlgComponent, InlineEditComponent],
   providers: [HelmsManService, ProjManService],
   exports: [ChartManagementComponent, ChartReconfigurationDlgComponent]
 })

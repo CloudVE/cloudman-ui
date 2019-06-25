@@ -11,6 +11,7 @@ import { ProjectChart } from "../../models/project";
 
 import { Subject } from "rxjs";
 import { startWith, switchMap, tap } from 'rxjs/operators';
+import { AddChartDlgComponent } from "../dialogs/add-chart.component";
 
 @Component({
     selector: 'app-chart-management',
@@ -22,14 +23,18 @@ export class ChartManagementComponent implements OnInit {
     projectsObs: Observable<Project[]>;
     chartObjs: Observable<ProjectChart[]>;
 
+    // TODO: Temp hack to track installed charts
+    installedCharts: ProjectChart[];
+
     // Form controls
-    projectChanged = new Subject();
+    projectsChanged = new Subject();
+    activeProjectChanged = new Subject<Project>();
     projectCtrl = new FormControl('');
 
     constructor(private dialog: MatDialog, private _projectService: ProjManService) {}
 
     ngOnInit() {
-        this.projectsObs = this.projectChanged.pipe(
+        this.projectsObs = this.projectsChanged.pipe(
             startWith(null),
             switchMap(() => this._projectService.getProjects()),
             tap(projects => {
@@ -37,8 +42,11 @@ export class ChartManagementComponent implements OnInit {
                     this.projectCtrl.setValue(projects[0]);
                 }
             }));
-        this.chartObjs = this.projectCtrl.valueChanges.pipe(
-            switchMap(project => this._projectService.getProjectCharts(project)));
+        this.chartObjs = this.activeProjectChanged.pipe(
+            switchMap(project => this._projectService.getProjectCharts(project)),
+            tap(charts => this.installedCharts = charts));
+        this.projectCtrl.valueChanges.subscribe(
+            proj => this.activeProjectChanged.next(proj));
     }
 
     rollbackChart(chart: ProjectChart) {
@@ -70,15 +78,76 @@ export class ChartManagementComponent implements OnInit {
                 this._projectService.createProject(project)
                     .subscribe(proj => {
                         this.projectCtrl.patchValue(proj);
-                        this.projectChanged.next(null);
+                        this.projectsChanged.next(null);
                     });
             }
         });
     }
 
-    getAppURL(relPath) {
-        // FIXME: Should not be directly accessing DOM elements
-        return window.location.origin + relPath;
+    openAddChartDialog() {
+        const dialogRef = this.dialog.open(AddChartDlgComponent,
+            { data: this.installedCharts });
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result === 'save') {
+                let charts = dialogRef.componentInstance.getCharts();
+                if (charts["galaxy"]) {
+                    let newChart = new ProjectChart()
+                    newChart.name = 'galaxy';
+                    newChart.project = this.projectCtrl.value;
+                    newChart.values = {
+                        'ingress': {
+                            'path': `/${this.projectCtrl.value.name}/galaxy/`
+                        },
+                        'persistence': {
+                            'storageClass': 'ebs-provisioner'
+                        },
+                        'postgresql': {
+                            'persistence': {
+                                'storageClass': 'nfs-provisioner'
+                            }
+                        }
+                    };
+                    this._projectService.createProjectChart(newChart)
+                        .subscribe(proj => {
+                            this.projectsChanged.next(null);
+                        });
+                }
+                if (charts["jupyterhub"]) {
+                    let newChart = new ProjectChart()
+                    newChart.name = 'jupyterhub';
+                    newChart.repo_name = 'jupyterhub';
+                    newChart.project = this.projectCtrl.value;
+                    newChart.values = {
+                        'ingress': {
+                            'enabled': true,
+                            'path': `/${this.projectCtrl.value.name}/jupyterhub/`,
+                            'hosts': [
+                                null,
+                            ]
+                        },
+                        'hub': {
+                            'baseUrl': `/${this.projectCtrl.value.name}/jupyterhub/`
+                        },
+                        'proxy': {
+                            'secretToken': 'dummyvaluefornowd5ba12469a356b7a14df426248bceb8fd368dccc2af567644'
+                        }
+                    };
+                    this._projectService.createProjectChart(newChart)
+                        .subscribe(proj => {
+                            this.activeProjectChanged.next(this.projectCtrl.value);
+                        });
+                }
+            }
+        });
+    }
+
+    getAppURL(values) {
+        if (values && values['ingress'] && values['ingress']['path'])
+            // FIXME: Should not be directly accessing DOM elements
+            return window.location.origin + values['ingress']['path'];
+        else
+            return "";
     }
 
     compareProjectIds(p1: Project, p2: Project) {

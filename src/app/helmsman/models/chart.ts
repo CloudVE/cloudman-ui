@@ -9,4 +9,5 @@ export class Chart {
     updated: string;
     access_address: string;
     values: any;
+    repo_name: string;
 }
