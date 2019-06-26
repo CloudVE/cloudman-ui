@@ -97,7 +97,7 @@ export class ChartManagementComponent implements OnInit {
                     newChart.project = this.projectCtrl.value;
                     newChart.values = {
                         'ingress': {
-                            'path': `/${this.projectCtrl.value.name}/galaxy/`
+                            'path': `/${this.projectCtrl.value.name}/galaxy`
                         },
                         'persistence': {
                             'storageClass': 'ebs-provisioner'
@@ -121,13 +121,13 @@ export class ChartManagementComponent implements OnInit {
                     newChart.values = {
                         'ingress': {
                             'enabled': true,
-                            'path': `/${this.projectCtrl.value.name}/jupyterhub/`,
+                            'path': `/${this.projectCtrl.value.name}/jupyterhub`,
                             'hosts': [
                                 null,
                             ]
                         },
                         'hub': {
-                            'baseUrl': `/${this.projectCtrl.value.name}/jupyterhub/`
+                            'baseUrl': `/${this.projectCtrl.value.name}/jupyterhub`
                         },
                         'proxy': {
                             'secretToken': 'dummyvaluefornowd5ba12469a356b7a14df426248bceb8fd368dccc2af567644'
@@ -145,7 +145,7 @@ export class ChartManagementComponent implements OnInit {
     getAppURL(values) {
         if (values && values['ingress'] && values['ingress']['path'])
             // FIXME: Should not be directly accessing DOM elements
-            return window.location.origin + values['ingress']['path'];
+            return `${window.location.origin}${values['ingress']['path']}/`;
         else
             return "";
     }
