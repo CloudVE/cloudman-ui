@@ -4,7 +4,17 @@ import { HelmsmanRoutingModule } from './helmsman-routing.module';
 import { LayoutModule } from '../shared/layout.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { MatInputModule, MatCardModule, MatIconModule, MatTabsModule, MatTableModule, MatButtonModule, MatCheckboxModule, MatDialogModule, MatTooltipModule, MatSelectModule, MatGridListModule } from '@angular/material';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTableModule } from '@angular/material/table';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { ChartManagementComponent } from './components/chart-management/chart-management.component';
 import { ChartReconfigurationDlgComponent } from './components/dialogs/chart-reconfiguration.component';

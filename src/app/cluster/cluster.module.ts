@@ -6,7 +6,14 @@ import { LayoutModule } from '../shared/layout.module';
 import { OrderModule } from 'ngx-order-pipe';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatCardModule, MatExpansionModule, MatIconModule, MatTabsModule, MatButtonModule, MatDialogModule, MatSelectModule, MatInputModule } from '@angular/material';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTabsModule } from '@angular/material/tabs';
 
 import { ClusterManagementComponent } from './components/cluster-management/cluster-management.component';
 import { ClusterNodeListComponent } from "./components/cluster-node-list/cluster-node-list.component";

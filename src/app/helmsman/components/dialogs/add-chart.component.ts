@@ -1,7 +1,7 @@
 import { Component, Inject, Optional } from '@angular/core';
 import { FormControl } from "@angular/forms";
 import { Project, ProjectChart } from "../../models/project";
-import { MAT_DIALOG_DATA } from "@angular/material";
+import { MAT_DIALOG_DATA } from "@angular/material/dialog";
 
 @Component({
     selector: 'app-add-chart-dialog',

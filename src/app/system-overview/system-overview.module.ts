@@ -4,7 +4,9 @@ import { SystemOverviewRoutingModule } from './system-overview-routing.module';
 import { LayoutModule } from '../shared/layout.module';
 import { ClusterModule } from '../cluster/cluster.module';
 import { HelmsmanModule } from '../helmsman/helmsman.module';
-import { MatCardModule, MatIconModule, MatTabsModule } from '@angular/material';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTabsModule } from '@angular/material/tabs';
 
 import { SystemOverviewPageComponent } from './components/system-overview-page/system-overview-page.component';
 
