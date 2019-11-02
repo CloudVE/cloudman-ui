@@ -27,7 +27,7 @@ const INLINE_EDIT_CONTROL_VALUE_ACCESSOR = {
 
 export class InlineEditComponent implements ControlValueAccessor {
 
-    @ViewChild('inlineEditControl') inlineEditControl: ElementRef; // input DOM element
+    @ViewChild('inlineEditControl', { static: false }) inlineEditControl: ElementRef; // input DOM element
     @Output() public onSave:EventEmitter<any> = new EventEmitter();
 
     @Input() label: string = '';  // Label value for input element

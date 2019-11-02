@@ -3,9 +3,9 @@ import { Routes, RouterModule } from '@angular/router';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'system_overview', pathMatch: 'full' },
-    { path: 'system_overview', loadChildren: './system-overview/system-overview.module#SystemOverviewModule' },
-    { path: 'about', loadChildren: './about/about.module#AboutModule' },
-    { path: 'auth', loadChildren: './login/login.module#LoginModule' }
+    { path: 'system_overview', loadChildren: () => import('./system-overview/system-overview.module').then(m => m.SystemOverviewModule) },
+    { path: 'about', loadChildren: () => import('./about/about.module').then(m => m.AboutModule) },
+    { path: 'auth', loadChildren: () => import('./login/login.module').then(m => m.LoginModule) }
 ];
 
 @NgModule({
