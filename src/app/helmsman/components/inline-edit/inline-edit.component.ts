@@ -75,7 +75,7 @@ export class InlineEditComponent implements ControlValueAccessor {
         this.editing = false;
     }
 
-    // Start the editting process for the input element
+    // Start the editing process for the input element
     edit(value) {
         if (this.disabled) {
             return;

@@ -1,4 +1,4 @@
-<button class="btn btn-primary" type="button" matTooltip="Add node" (click)="openAddNodeDialog(element)">
+<button class="btn btn-primary" type="button" matTooltip="Add node" (click)="openAddNodeDialog(element)" *ngIf="_loginService.getCurrentUser().isAdmin()">
     <i class="fa fa-plus"></i> Add Node
 </button>
 <cluster-node-list></cluster-node-list>

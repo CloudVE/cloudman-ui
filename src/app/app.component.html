@@ -40,13 +40,13 @@
                             <div class="ripple-container"></div>
                         </a>
                         <ul class="dropdown-menu">
-                            <li>
+                            <li *ngIf="_loginService.getCurrentUser().isAdmin()">
                                 <a routerLink="/profile">
                                     <i class="fa fa-user-circle-o"></i> My Credentials
                                     <span class="sr-only">(My Credentials)</span>
                                 </a>
                             </li>
-                            <li class="divider"></li>
+                            <li class="divider" *ngIf="_loginService.getCurrentUser().isAdmin()"></li>
                             <li>
                                 <a routerLink="/logout" (click)=logout()>
                                     <i class="fa fa-sign-out"></i> Logout

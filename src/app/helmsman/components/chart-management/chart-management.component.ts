@@ -12,6 +12,7 @@ import { ProjectChart } from "../../models/project";
 import { Subject } from "rxjs";
 import { startWith, switchMap, tap } from 'rxjs/operators';
 import { AddChartDlgComponent } from "../dialogs/add-chart.component";
+import {LoginService} from "../../../login/services/login/login.service";
 
 @Component({
     selector: 'app-chart-management',
@@ -31,7 +32,8 @@ export class ChartManagementComponent implements OnInit {
     activeProjectChanged = new Subject<Project>();
     projectCtrl = new FormControl('');
 
-    constructor(private dialog: MatDialog, private _projectService: ProjManService) {}
+    constructor(private dialog: MatDialog, private _projectService: ProjManService,
+                private _loginService: LoginService) {}
 
     ngOnInit() {
         this.projectsObs = this.projectsChanged.pipe(

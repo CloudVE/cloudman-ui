@@ -34,7 +34,7 @@ export class LoginService {
                     }),
                     tap(function (item) {
                         // Cache the login method
-                        loginService._current_user = item;
+                        loginService._current_user = Object.assign(new User(), item);
                         loginService._login_method = 'session';
                     }))
                     .subscribe(
