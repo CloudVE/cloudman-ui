@@ -2,9 +2,10 @@
 <h1 mat-dialog-title>Edit Application Configuration</h1>
     <div mat-dialog-content>
         <mat-tab-group>
-            <mat-tab *ngFor="let config of configs | keyvalue: sortConfigs; trackBy: trackByKey" [label]="config.key">
+            <mat-tab *ngFor="let config of configs | keyvalue: sortConfigs; trackBy: trackByKey;" [label]="config.key">
                 <ng-template mat-tab-label>
-                    <app-inline-edit required="true" [(ngModel)]="config.key"></app-inline-edit>
+                    <app-inline-edit required="true" [ngModel]="config.key"
+                                     (ngModelChange)="configChanged(config.key, $event)"></app-inline-edit>
                 </ng-template>
                 <div ace-editor [(text)]="configs[config.key]"
                      [mode]="config.key.endsWith('xml') ? 'xml' : 'yaml'"

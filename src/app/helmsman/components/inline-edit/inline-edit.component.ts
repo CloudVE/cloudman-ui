@@ -34,22 +34,19 @@ export class InlineEditComponent implements ControlValueAccessor {
     @Input() type: string = 'text'; // The type of input element
     @Input() required: boolean = false; // Is input required?
     @Input() disabled: boolean = false; // Is input disabled?
-    private _value: string = ''; // Private variable for input value
-    private preValue: string = ''; // The value before clicking to edit
+    private control_value: string = ''; // The value exposed by the control
+    private editing_value: string = ''; // The value being shown in the editing text box
     private editing: boolean = false; // Is Component in edit mode?
     public onChange: any = Function.prototype;
     public onTouched: any = Function.prototype;
 
     // Control Value Accessors for ngModel
     get value(): any {
-        return this._value;
+        return this.editing_value;
     }
 
     set value(v: any) {
-        if (v !== this._value) {
-            this._value = v;
-            this.onChange(v);
-        }
+        this.editing_value = v;
     }
 
     constructor(element: ElementRef, private _renderer: Renderer) {
@@ -57,7 +54,8 @@ export class InlineEditComponent implements ControlValueAccessor {
 
     // Required for ControlValueAccessor interface
     writeValue(value: any) {
-        this._value = value;
+        this.control_value = value;
+        this.editing_value = value;
     }
 
     // Required forControlValueAccessor interface
@@ -70,33 +68,29 @@ export class InlineEditComponent implements ControlValueAccessor {
         this.onTouched = fn;
     }
 
-    // Do stuff when the input element loses focus
-    onBlur($event: Event) {
-        this.editing = false;
-    }
-
     // Start the editing process for the input element
-    edit(value) {
+    beginEdit(value) {
         if (this.disabled) {
             return;
         }
 
-        this.preValue = value; // Store original value in case the form is cancelled
+        // this.preValue = value; // Store original value in case the form is cancelled
         this.editing = true;
         // Focus on the input element just as the editing begins
         setTimeout(_ => this._renderer.invokeElementMethod(
             this.inlineEditControl.nativeElement,'focus', []));
     }
 
-    // Method to display the editable value as text and emit save event to host
-    onSubmit(value){
-        this.onSave.emit(value);
+    // Do stuff when the input element loses focus or enter is pressed
+    completeEdit($event: Event) {
         this.editing = false;
+        this.control_value = this.editing_value;
+        this.onChange(this.control_value);
     }
 
     // Method to reset the editable value
-    cancel(value:any){
-        this._value = this.preValue;
+    cancelEdit(value:any){
+        this.editing_value = this.control_value;
         this.editing = false;
     }
 }

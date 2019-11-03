@@ -1,8 +1,9 @@
 <div>
   <div *ngIf="editing">
-    <input #inlineEditControl [required]="required" (blur)="onBlur($event)" [name]="value" [(ngModel)]="value" [type]="type" [placeholder]="label" />
+    <input #inlineEditControl (keyup.enter)="completeEdit($event)" (blur)="completeEdit($event)" (keyup.esc)="cancelEdit($event)"
+           [name]="value" [(ngModel)]="value" [type]="type" [placeholder]="label" [required]="required" />
   </div>
   <div *ngIf="!editing">
-    <a matTooltip="double click to edit" (dblclick)="edit(value)" tabindex="0">{{value}}&nbsp;</a>
+    <a matTooltip="double click to edit" (dblclick)="beginEdit(value)" tabindex="0">{{value}}&nbsp;</a>
   </div>
 </div>

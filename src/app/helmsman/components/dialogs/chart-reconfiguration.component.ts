@@ -49,4 +49,13 @@ export class ChartReconfigurationDlgComponent {
         let preferred_order = ["tool_conf.xml", "job_conf.xml", "galaxy.yml"];
         return preferred_order.indexOf(b.key) - preferred_order.indexOf(a.key);
     }
+
+    configChanged(oldConfigName: string, newConfigName: string) {
+        if (oldConfigName && oldConfigName != newConfigName) {
+            let oldValue = this.configs[oldConfigName];
+            this.configs[newConfigName] = oldValue;
+            delete this.configs[oldConfigName]
+        }
+
+    }
 }
