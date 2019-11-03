@@ -53,7 +53,7 @@
             <button class="btn btn-secondary pill" type="button" matTooltip="Rollback to previous revision" (click)="rollbackChart(element)">
                 <i class="fa fa-undo"></i>
             </button>
-            <button *ngIf="element.name=='galaxy'; else place_holder" class="btn btn-secondary pill" type="button" matTooltip="Configure Galaxy" (click)="openChartReconfigurationDialog(element)">
+            <button *ngIf="element.name=='galaxy' && element.permissions.change_chart; else place_holder" class="btn btn-secondary pill" type="button" matTooltip="Configure Galaxy" (click)="openChartReconfigurationDialog(element)">
                 <i class="fa fa-edit"></i>
             </button>
             <ng-template #place_holder>
@@ -71,5 +71,7 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
     <br /><br />
-    <button mat-stroked-button color="primary" (click)="openAddChartDialog()"><mat-icon>add</mat-icon> Add Application</button>
+    <button mat-stroked-button color="primary" (click)="openAddChartDialog()" *ngIf="projectCtrl.value?.permissions.change_project">
+        <mat-icon>add</mat-icon> Add Application
+    </button>
 </form>
