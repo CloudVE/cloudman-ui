@@ -43,4 +43,10 @@ export class ChartReconfigurationDlgComponent {
     addNewTab() {
         this.configs['unnamed'] = "";
     }
+
+    sortConfigs(a: any, b: any) : number {
+        // Sorted in reverse
+        let preferred_order = ["tool_conf.xml", "job_conf.xml", "galaxy.yml"];
+        return preferred_order.indexOf(b.key) - preferred_order.indexOf(a.key);
+    }
 }
