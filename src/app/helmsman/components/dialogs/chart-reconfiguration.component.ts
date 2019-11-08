@@ -32,7 +32,7 @@ export class ChartReconfigurationDlgComponent {
 
     getChanges() {
         // Return difference between initially stored values, and final set of values
-        this.chart.values.config = this.getObjDiff(this.initialFrozenConfigs, this.configs);
+        this.chart.values.configs = this.getObjDiff(this.initialFrozenConfigs, this.configs);
         return this.chart.values;
     }
 
