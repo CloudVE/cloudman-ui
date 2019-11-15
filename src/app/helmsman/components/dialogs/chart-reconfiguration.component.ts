@@ -1,7 +1,10 @@
 import { Component, Inject, Optional } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import * as yaml from 'js-yaml'
 
 import { Chart } from '../../models/chart';
+import { objDeepDiff } from './util/objdiff';
+
 
 @Component({
     selector: 'app-chart-reconfiguration-dialog',
@@ -14,26 +17,40 @@ export class ChartReconfigurationDlgComponent {
     initialFrozenConfigs: any;
 
     constructor(@Optional() @Inject(MAT_DIALOG_DATA) public chart: Chart) {
-        this.configs = chart.values.configs;
-        this.initialFrozenConfigs = JSON.parse(JSON.stringify(this.configs));
+        // get a copy of the initial configs
+        this.initialFrozenConfigs = JSON.parse(JSON.stringify(chart.values));
+        this.configs = this.configsToText(chart.values.configs);
     }
 
-    // based on: https://stackoverflow.com/a/37396358
-    getObjDiff(o1, o2) {
-        let diff = Object.keys(o2).reduce((diff, key) => {
-            if (o1[key] === o2[key]) return diff
-            return {
-              ...diff,
-              [key]: o2[key]
+    configsToText(configs: any) {
+        let initial_result = {};
+        return Object.keys(configs).reduce((result, key) => {
+            if (typeof configs[key] === 'string' || configs[key] instanceof String) {
+                result[key] = configs[key];
             }
-          }, {})
-        return diff;
+            else {
+                result[key] = yaml.safeDump(configs[key]);
+            }
+            return result;
+            }, initial_result);
+    }
+
+    textToConfigs(configs: any) {
+        let initial_result = {};
+        return Object.keys(configs).reduce((result, key) => {
+            // uwsgi.yml is not valid yaml, so we treat it as a string
+            if (key.endsWith(".yml") && key !== 'uwsgi.yml')
+                result[key] = yaml.safeLoad(configs[key]);
+            else
+                result[key] = configs[key];
+            return result;
+            }, initial_result);
     }
 
     getChanges() {
         // Return difference between initially stored values, and final set of values
-        this.chart.values.configs = this.getObjDiff(this.initialFrozenConfigs, this.configs);
-        return this.chart.values;
+        this.chart.values.configs = this.textToConfigs(this.configs);
+        return objDeepDiff(this.initialFrozenConfigs, this.chart.values);
     }
 
     trackByKey(index: number, obj: any): string {
