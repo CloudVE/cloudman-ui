@@ -24,6 +24,7 @@ import { AceEditorModule } from 'ng2-ace-editor';
 import { HelmsManService } from './services/helmsman.service';
 import { ProjManService } from "./services/projman.service";
 import { AddChartDlgComponent } from "./components/dialogs/add-chart.component";
+import { SafePipe } from "./components/chart-management/safe-pipe";
 
 
 @NgModule({
@@ -46,7 +47,7 @@ import { AddChartDlgComponent } from "./components/dialogs/add-chart.component";
     LayoutModule,
     AceEditorModule
   ],
-  declarations: [ChartManagementComponent, CreateProjectDlgComponent, AddChartDlgComponent, ChartReconfigurationDlgComponent, InlineEditComponent],
+  declarations: [ChartManagementComponent, CreateProjectDlgComponent, AddChartDlgComponent, ChartReconfigurationDlgComponent, InlineEditComponent, SafePipe],
   providers: [HelmsManService, ProjManService],
   exports: [ChartManagementComponent, ChartReconfigurationDlgComponent]
 })
