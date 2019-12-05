@@ -2,6 +2,10 @@ table {
   width: 100%;
 }
 
+tr.grafana-dashboard-row {
+  height: 0;
+}
+
 .mat-column-name {
   width: 20%;
 }

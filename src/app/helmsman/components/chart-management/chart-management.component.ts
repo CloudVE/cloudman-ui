@@ -155,4 +155,8 @@ export class ChartManagementComponent implements OnInit {
     compareProjectIds(p1: Project, p2: Project) {
         return (!p1 && !p2) || (p1.id == p2.id);
     }
+
+    getGrafanaUrl(element) {
+        return `/grafana/d/gxy_user_stats_${element.id}/galaxy-user-statistics?refresh=120s&orgId=1&kiosk&var-Node=All&theme=light`;
+    }
 }

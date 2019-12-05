@@ -2,7 +2,7 @@ import { Component, ElementRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { NodeAddDlgComponent } from '../dialogs/node-add.component';
-import {LoginService} from "../../../login/services/login/login.service";
+import { LoginService } from "../../../login/services/login/login.service";
 
 
 @Component({
