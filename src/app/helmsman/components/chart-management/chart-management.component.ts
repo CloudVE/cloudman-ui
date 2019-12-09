@@ -157,6 +157,6 @@ export class ChartManagementComponent implements OnInit {
     }
 
     getGrafanaUrl(element) {
-        return `/grafana/d/gxy_user_stats_${element.id}/galaxy-user-statistics?refresh=120s&orgId=1&kiosk&var-Node=All&theme=light`;
+        return `/grafana/d/gxy_general_stats_${element.id}/galaxy-overview?refresh=120s&orgId=1&kiosk&var-Node=All&theme=light`;
     }
 }
