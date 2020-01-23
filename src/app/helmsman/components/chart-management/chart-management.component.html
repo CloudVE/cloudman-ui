@@ -50,13 +50,18 @@
             <button class="btn btn-secondary pill" type="button" matTooltip="Upgrade Galaxy" disabled="true">
                 <i class="fa fa-arrow-up"></i>
             </button>
-            <button class="btn btn-secondary pill" type="button" matTooltip="Rollback to previous revision" (click)="rollbackChart(element)">
+            <button *ngIf="element.permissions.change_chart; else place_holder_rollback" class="btn btn-secondary pill" type="button" matTooltip="Rollback to previous revision" (click)="rollbackChart(element)">
                 <i class="fa fa-undo"></i>
             </button>
-            <button *ngIf="element.name=='galaxy' && element.permissions.change_chart; else place_holder" class="btn btn-secondary pill" type="button" matTooltip="Configure Galaxy" (click)="openChartReconfigurationDialog(element)">
+            <ng-template #place_holder_rollback>
+                <button class="btn btn-secondary pill" type="button" disabled>
+                <i class="fa fa-undo"></i>
+                </button>
+            </ng-template>
+            <button *ngIf="element.name=='galaxy' && element.permissions.change_chart; else place_holder_configure" class="btn btn-secondary pill" type="button" matTooltip="Configure Galaxy" (click)="openChartReconfigurationDialog(element)">
                 <i class="fa fa-edit"></i>
             </button>
-            <ng-template #place_holder>
+            <ng-template #place_holder_configure>
                 <button class="btn btn-secondary pill" type="button" disabled>
                 <i class="fa fa-edit"></i>
                 </button>
