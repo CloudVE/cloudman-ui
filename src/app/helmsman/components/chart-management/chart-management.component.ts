@@ -102,11 +102,11 @@ export class ChartManagementComponent implements OnInit {
                             'path': `/${this.projectCtrl.value.name}/galaxy`
                         },
                         'persistence': {
-                            'storageClass': 'nfs-provisioner'
+                            'storageClass': 'nfs'
                         },
                         'postgresql': {
                             'persistence': {
-                                'storageClass': 'ebs-provisioner'
+                                'storageClass': 'ebs'
                             }
                         }
                     };
