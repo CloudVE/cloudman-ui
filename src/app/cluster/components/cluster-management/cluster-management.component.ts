@@ -1,8 +1,9 @@
-import { Component, ElementRef } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-
-import { NodeAddDlgComponent } from '../dialogs/node-add.component';
-import { LoginService } from "../../../login/services/login/login.service";
+import { Component } from '@angular/core';
+import { map, tap } from "rxjs/operators";
+import { Observable } from "rxjs";
+import { FormControl } from "@angular/forms";
+import { Cluster } from "../../../shared/models/cluster";
+import { ClusterService } from "../../../shared/services/cluster.service";
 
 
 @Component({
@@ -12,20 +13,14 @@ import { LoginService } from "../../../login/services/login/login.service";
 })
 export class ClusterManagementComponent {
 
+    clusterCtrl = new FormControl('');
+    clusterObs: Observable<Cluster>;
     show_animation = true;
 
-    constructor(private dialog: MatDialog, private elementRef: ElementRef,
-                private _loginService: LoginService) {}
-
-    openAddNodeDialog(obj: any) {
-        const dialogRef = this.dialog.open(NodeAddDlgComponent,
-                                           { data: obj });
-
-        dialogRef.afterClosed().subscribe(result => {
-            if (result === 'save') {
-
-            }
-        });
+    constructor(private clusterService: ClusterService) {
+        this.clusterObs = this.clusterService.getClusters().pipe(
+                              map(clusters => clusters[0]),
+                              tap(cluster => this.clusterCtrl.patchValue(cluster)));
     }
 
     onGrafanaLoaded(event: any) {

@@ -1,10 +1,11 @@
-<button class="btn btn-primary" type="button" matTooltip="Add node" (click)="openAddNodeDialog(element)" *ngIf="_loginService.getCurrentUser().isAdmin()">
-    <i class="fa fa-plus"></i> Add Node
-</button>
-<cluster-node-list></cluster-node-list>
+<div *ngIf="clusterObs | async as cluster">
+    <cluster-autoscaler-list [cluster]="cluster"></cluster-autoscaler-list>
+    <br />
+    <cluster-node-list></cluster-node-list>
 
-<div>
-<div *ngIf="show_animation" class="loading_splash"><h1><i class="fa fa-spinner fa-spin fa-fw"></i> Loading...</h1></div>
-<iframe #grafanaframe src="/grafana/d/cm_cluster_dashboard/nodes?refresh=10s&orgId=1&kiosk&var-Node=All&theme=light"
-width="100%" height="1140px" frameborder="0" marginheight="0" marginwidth="0" iframeAutoHeight (load)="onGrafanaLoaded(event)"></iframe>
+    <div>
+    <div *ngIf="show_animation" class="loading_splash"><h1><i class="fa fa-spinner fa-spin fa-fw"></i> Loading...</h1></div>
+    <iframe #grafanaframe src="/grafana/d/cm_cluster_dashboard/nodes?refresh=10s&orgId=1&kiosk&var-Node=All&theme=light"
+    width="100%" height="1140px" frameborder="0" marginheight="0" marginwidth="0" iframeAutoHeight (load)="onGrafanaLoaded(event)"></iframe>
+    </div>
 </div>
