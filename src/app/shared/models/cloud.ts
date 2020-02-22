@@ -41,6 +41,7 @@ export type GCPRegion = Region;
 export type OpenStackRegion = Region;
 
 export interface PlacementZone {
+    id: string;
     cloud: Cloud;
     region: Region;
     cloud_id: string;

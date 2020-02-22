@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
-import {Observable, throwError as observableThrowError} from 'rxjs';
+import { Observable, throwError as observableThrowError } from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 import { AppSettings } from '../../app.settings';
 import { QueryResult } from '../models/query';
-import {Cluster, ClusterNode} from "../models/cluster";
-import {PlacementZone} from "../models/cloud";
-import {Credentials} from "../models/profile";
+import { Cluster, ClusterNode, ClusterAutoScaler } from "../models/cluster";
 
 @Injectable()
 export class ClusterService {
@@ -39,6 +37,11 @@ export class ClusterService {
         return this.http.get<Cluster>(`${this._cluster_url}/${id}/`);
     }
 
+    public updateCluster(cluster: Cluster): Observable<Cluster> {
+        return this.http.put<Cluster>(`${this._cluster_url}/${cluster.id}/`, cluster)
+            .pipe(catchError(this.handleError));
+    }
+
     public getClusterNodes(cluster_id: number): Observable<ClusterNode[]> {
         return this.http.get<QueryResult<ClusterNode>>(`${this._cluster_url}/${cluster_id}/nodes/`)
             .pipe(
@@ -53,6 +56,28 @@ export class ClusterService {
 
     public deleteClusterNode(node: ClusterNode): Observable<ClusterNode> {
         return this.http.delete<ClusterNode>(`${this._cluster_url}/${node.cluster.id}/nodes/${node.id}/`)
+            .pipe(catchError(this.handleError));
+    }
+
+    public getClusterAutoScalers(cluster_id: number): Observable<ClusterAutoScaler[]> {
+        return this.http.get<QueryResult<ClusterAutoScaler>>(`${this._cluster_url}/${cluster_id}/autoscalers/`)
+            .pipe(
+                map(response => response.results),
+                catchError(this.handleError));
+    }
+
+    public createClusterAutoScaler(autoscaler: ClusterAutoScaler): Observable<ClusterAutoScaler> {
+        return this.http.post<ClusterAutoScaler>(`${this._cluster_url}/${autoscaler.cluster.id}/autoscalers/`, autoscaler)
+            .pipe(catchError(this.handleError));
+    }
+
+    public updateClusterAutoScaler(autoscaler: ClusterAutoScaler): Observable<ClusterAutoScaler> {
+        return this.http.put<ClusterAutoScaler>(`${this._cluster_url}/${autoscaler.cluster.id}/autoscalers/${autoscaler.id}/`, autoscaler)
+            .pipe(catchError(this.handleError));
+    }
+
+    public deleteClusterAutoScaler(autoscaler: ClusterAutoScaler): Observable<ClusterAutoScaler> {
+        return this.http.delete<ClusterAutoScaler>(`${this._cluster_url}/${autoscaler.cluster.id}/autoscalers/${autoscaler.id}/`)
             .pipe(catchError(this.handleError));
     }
 
