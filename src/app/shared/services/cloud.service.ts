@@ -93,7 +93,6 @@ export class CloudService {
 
     public getStaticIPs(cloud_id: string, region_id: string, zone_id: string, network_id: string,
                         gateway_id: string): Observable<StaticIP[]> {
-        console.log('network_id: ' + network_id + ', gateway_id: ' + gateway_id);
         return this.http.get<QueryResult<StaticIP>>(
             `${this.getZoneEndpoint(cloud_id, region_id, zone_id)}/networking/networks/${network_id}/gateways/${gateway_id}/floating_ips/`)
             .pipe(
