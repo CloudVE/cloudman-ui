@@ -1,0 +1,162 @@
+<div>
+    <form class="form" (ngSubmit)="onSubmit(form.getRawValue())">
+        <mat-expansion-panel #autoscalerPanel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    AutoScaling
+                </mat-panel-title>
+                <mat-panel-description>
+                    Expand to view autoscaling settings for your cluster
+                    &nbsp;&nbsp;<div><i *ngIf="autoScalerObs | async as autoscaler; fetchingAutoScalers" class="fa fa-spinner fa-spin fa-fw"></i></div>
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <br />
+            <mat-card>
+                <div class="error" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+                <mat-card-content>
+                    <mat-checkbox [formControl]="autoScalingEnabledCtrl">
+                        Enable Cluster AutoScaling
+                    </mat-checkbox>
+                    <br /><br />
+
+                    <div *ngIf="autoScalingEnabledCtrl?.value">
+                        <mat-form-field>
+                            <mat-label>AutoScaler Name</mat-label>
+                            <input matInput id="id_autoscaler_name" [formControl]="scalingGroupNameCtrl" type="text" class="form-control input-md" />
+                        </mat-form-field>
+
+                        <mat-form-field>
+                            <mat-label>Minimum Nodes</mat-label>
+                            <input matInput id="id_minnodes" [formControl]="minNodesCtrl" type="text" class="form-control input-md"
+                                [errorStateMatcher]="minMaxNodesMatcher" />
+                            <mat-error *ngIf="minNodesCtrl.hasError('min')">Min nodes must be <strong>greater</strong> than 0</mat-error>
+                            <mat-error *ngIf="form.hasError('range')">Max nodes must be <strong>greater</strong> than min nodes</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field>
+                            <mat-label>Maximum Nodes</mat-label>
+                            <input matInput id="id_maxnodes" [formControl]="maxNodesCtrl" type="text" class="form-control input-md"
+                                [errorStateMatcher]="minMaxNodesMatcher" />
+                            <mat-error *ngIf="maxNodesCtrl.hasError('min')">Max nodes must be <strong>greater</strong> than 0</mat-error>
+                            <mat-error *ngIf="form.hasError('range')">Max nodes must be <strong>greater</strong> than min nodes</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field>
+                            <mat-label>Availability Zone {{ zoneCtrl.value }}</mat-label>
+                            <mat-select id="id_zone" [formControl]="zoneCtrl" [compareWith]="isSameZone">
+                                <mat-option class="full-width-container" *ngFor="let zone of zoneObs | async" [value]="zone.id">
+                                {{ zone.zone_id }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="zoneCtrl.hasError('required')">Availability zone is <strong>required</strong></mat-error>
+                            <mat-error *ngIf="vmTypeObjCtrl.hasError('required')">Instance type is <strong>required</strong></mat-error>
+                            <mat-placeholder><i *ngIf="vmTypeHelp.includes('Retrieving')" class="fa fa-spinner fa-spin fa-fw"></i>
+                                {{ vmTypeHelp }}</mat-placeholder>
+                        </mat-form-field>
+
+                        <mat-form-field>
+                            <mat-select id="id_instance_type" [formControl]="vmTypeObjCtrl">
+                                <mat-select-trigger>
+                                    <div class="row">
+                                        <div class="col-md-6">{{ vmTypeObjCtrl.value?.name }}</div>
+                                        <div class="col-md-2">
+                                            <div class="row">
+                                                <div class="col-md-3"><mat-icon>memory</mat-icon></div>
+                                                <div class="col-md-6"><span class="pull-right">{{ vmTypeObjCtrl.value?.vcpus }} VCPUs</span></div>
+                                                <div class="col-md-3"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="row">
+                                                <div class="col-md-3"><mat-icon>sim_card</mat-icon></div>
+                                                <div class="col-md-8"><span class="pull-right">{{ vmTypeObjCtrl.value?.ram }} GB RAM</span></div>
+                                                <div class="col-md-1"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="row">
+                                                <div class="col-md-3"><mat-icon>storage</mat-icon></div>
+                                                <div class="col-md-7"><span class="pull-right">{{ vmTypeObjCtrl.value?.size_total_disk }} GB Disk</span></div>
+                                                <div class="col-md-2"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </mat-select-trigger>
+                                <mat-option class="full-width-container" disabled>
+                                    <div class="row">
+                                        <div class="col-md-6">VM Type</div>
+                                        <div class="col-md-2">CPUs</div>
+                                        <div class="col-md-2">RAM (GB)</div>
+                                        <div class="col-md-2">Total Disk (GB)</div>
+                                    </div>
+                                </mat-option>
+                                <mat-option class="full-width-container" *ngFor="let vmType of vmTypeObs | async | orderBy: 'name'" [value]="vmType">
+                                    <div class="row">
+                                        <div class="col-md-6">{{ vmType.name }}</div>
+                                        <div class="col-md-2">
+                                            <div class="row">
+                                                <div class="col-md-3"><mat-icon>memory</mat-icon></div>
+                                                <div class="col-md-3"><span class="pull-right">{{ vmType.vcpus }}</span></div>
+                                                <div class="col-md-6"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="row">
+                                                <div class="col-md-3"><mat-icon>sim_card</mat-icon></div>
+                                                <div class="col-md-4"><span class="pull-right">{{ vmType.ram }}</span></div>
+                                                <div class="col-md-5"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="row">
+                                                <div class="col-md-3"><mat-icon>storage</mat-icon></div>
+                                                <div class="col-md-5"><span class="pull-right">{{ vmType.size_total_disk }}</span></div>
+                                                <div class="col-md-4"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="vmTypeObjCtrl.hasError('required')">Instance type is <strong>required</strong></mat-error>
+                            <mat-placeholder><i *ngIf="vmTypeHelp.includes('Retrieving')" class="fa fa-spinner fa-spin fa-fw"></i>
+                                {{ vmTypeHelp }}</mat-placeholder>
+                        </mat-form-field>
+
+                        <button mat-button mat-raised-button color="primary" type="submit" [disabled]="submitPending || !form.valid">Save</button>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+
+
+
+<!--            <table class="table table-hover" *ngIf="autoscalerPanel.expanded">-->
+<!--                <thead>-->
+<!--                    <tr>-->
+<!--                        <th class="col-md-3"><p> Name </p></th>-->
+<!--                        <th class="col-md-3"><p> VM Type</p></th>-->
+<!--                        <th class="col-md-3"><p> Zone</p></th>-->
+<!--                        <th class="col-md-1"><p> Min Nodes</p></th>-->
+<!--                        <th class="col-md-1"><p> Max Nodes</p></th>-->
+<!--                        <th class="col-md-1"><p> Actions</p></th>-->
+<!--                    </tr>-->
+<!--                </thead>-->
+<!--                <tbody>-->
+<!--                  <tr *ngFor="let autoscaler of autoscalerObservable | async;">-->
+<!--                      <td>{{ autoscaler.vm_type }}</td>-->
+<!--                      <td>{{ autoscaler.name }}</td>-->
+<!--                      <td>{{ autoscaler.zone }}</td>-->
+<!--                      <td>{{ autoscaler.min_nodes }}</td>-->
+<!--                      <td>{{ autoscaler.max_nodes }}</td>-->
+<!--                      <td class="col-md-1">-->
+<!--                          <a class="text-info" href="javascript:void(0);" (click)="deleteAutoScaler(autoscaler)" title="Delete"><i class="fa fa-remove"></i></a>-->
+<!--                      </td>-->
+<!--                  </tr>-->
+<!--                </tbody>-->
+<!--            </table>-->
+<!--            <button class="btn btn-primary" type="button" matTooltip="Add AutoScaling Group" (click)="openAddAutoScalerDialog(element)" *ngIf="_loginService.getCurrentUser().isAdmin()">-->
+<!--                <i class="fa fa-plus"></i> Change AutoScaling Settings-->
+<!--            </button>-->
+        </mat-expansion-panel>
+    </form>
+</div>
