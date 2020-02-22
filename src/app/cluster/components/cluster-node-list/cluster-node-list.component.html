@@ -44,7 +44,7 @@
                         </div>
                     </td>
                     <td>{{ node.deployment.launch_task?.result?.cloudLaunch?.publicIP }}</td>
-                    <td><p class="text-success" *ngIf="node.autoscaler"><i class="fa fa-check-circle-o"></i></p></td>
+                    <td class="text-center"><p class="text-success" *ngIf="node.autoscaler"><i class="fa fa-check-circle-o"></i></p></td>
                     <td class="col-md-1">
                         <a class="text-info" href="javascript:void(0);" (click)="deleteNode(node)" title="Delete"><i class="fa fa-remove"></i></a>
                     </td>

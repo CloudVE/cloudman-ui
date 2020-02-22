@@ -43,7 +43,7 @@
                         </mat-form-field>
 
                         <mat-form-field>
-                            <mat-label>Availability Zone {{ zoneCtrl.value }}</mat-label>
+                            <mat-label>Availability Zone</mat-label>
                             <mat-select id="id_zone" [formControl]="zoneCtrl" [compareWith]="isSameZone">
                                 <mat-option class="full-width-container" *ngFor="let zone of zoneObs | async" [value]="zone.id">
                                 {{ zone.zone_id }}
