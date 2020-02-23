@@ -15,7 +15,7 @@ export class ClusterNode {
     id: number;
     name: string;
     cluster: Cluster;
-    instance_type: string;
+    vm_type: string;
     deployment: Deployment;
     autoscaler: number;
 }
