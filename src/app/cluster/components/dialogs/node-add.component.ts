@@ -46,7 +46,7 @@ export class NodeAddDlgComponent {
                 private cloudService: CloudService) {
         this.form = fb.group({
             'cluster': this.clusterCtrl,
-            'vmType': this.vmTypeCtrl,
+            'vm_type': this.vmTypeCtrl,
         });
 
         this.vmTypeObs = forkJoin(this.clusterService.getClusters(), this.appService.getApplications()
