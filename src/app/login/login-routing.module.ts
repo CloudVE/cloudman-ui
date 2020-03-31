@@ -24,7 +24,14 @@ const appRoutes: Routes = [
             externalUrl: '/cloudman/openid/openid/KeyCloak'
         }
     },
-    { path: 'logout', component: LogoutPageComponent },
+    { path: 'logout', component: LogoutPageComponent,
+        resolve: {
+            url: 'externalUrlRedirectResolver'
+        },
+        data: {
+            externalUrl: '/cloudman/openid/logout'
+        }
+    },
 ];
 
 @NgModule({

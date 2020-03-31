@@ -48,7 +48,7 @@
                             </li>
                             <li class="divider" *ngIf="_loginService.getCurrentUser().isAdmin()"></li>
                             <li>
-                                <a routerLink="/logout" (click)=logout()>
+                                <a routerLink="/logout">
                                     <i class="fa fa-sign-out"></i> Logout
                                     <span class="sr-only">(Logout)</span>
                                 </a>
