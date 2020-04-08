@@ -28,6 +28,9 @@ export class ChartReconfigurationDlgComponent {
             if (typeof configs[key] === 'string' || configs[key] instanceof String) {
                 result[key] = configs[key];
             }
+            else if (!configs[key]) {
+                result[key] = "";
+            }
             else {
                 result[key] = yaml.safeDump(configs[key]);
             }
