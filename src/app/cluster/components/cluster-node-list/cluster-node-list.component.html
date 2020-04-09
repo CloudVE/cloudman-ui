@@ -51,7 +51,7 @@
                   </tr>
                 </tbody>
             </table>
-            <button class="btn btn-primary" type="button" matTooltip="Add node" (click)="openAddNodeDialog(element)" *ngIf="_loginService.getCurrentUser().isAdmin()">
+            <button class="btn btn-primary" type="button" matTooltip="Add node" (click)="openAddNodeDialog(element)" *ngIf="loginService.getCurrentUser().isAdmin()">
                 <i class="fa fa-plus"></i> Manually Add Node
             </button>
         </mat-expansion-panel>
