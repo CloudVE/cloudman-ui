@@ -32,8 +32,9 @@ export class ChartManagementComponent implements OnInit {
     activeProjectChanged = new Subject<Project>();
     projectCtrl = new FormControl('');
 
-    constructor(private dialog: MatDialog, private _projectService: ProjManService,
-                private _loginService: LoginService) {}
+    constructor(public loginService: LoginService,
+                private dialog: MatDialog,
+                private _projectService: ProjManService) {}
 
     ngOnInit() {
         this.projectsObs = this.projectsChanged.pipe(

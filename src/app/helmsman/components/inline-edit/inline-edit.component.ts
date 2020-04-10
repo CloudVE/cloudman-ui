@@ -1,15 +1,6 @@
 // refs: https://www.codementor.io/godson.ukpere/creating-an-inline-edit-component-in-angular-2-nmkdlpxtq
 // https://medium.com/front-end-weekly/inline-editing-with-angular2-58b43cc2aba
-import {
-    Component,
-    Input,
-    ElementRef,
-    ViewChild,
-    Renderer,
-    Output,
-    EventEmitter,
-    forwardRef
-} from '@angular/core';
+import { Component, Input, ElementRef, ViewChild, Output, EventEmitter, forwardRef, Renderer2 } from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 const INLINE_EDIT_CONTROL_VALUE_ACCESSOR = {
@@ -27,7 +18,7 @@ const INLINE_EDIT_CONTROL_VALUE_ACCESSOR = {
 
 export class InlineEditComponent implements ControlValueAccessor {
 
-    @ViewChild('inlineEditControl', { static: false }) inlineEditControl: ElementRef; // input DOM element
+    @ViewChild('inlineEditControl') inlineEditControl: ElementRef; // input DOM element
     @Output() public onSave:EventEmitter<any> = new EventEmitter();
 
     @Input() label: string = '';  // Label value for input element
@@ -36,7 +27,7 @@ export class InlineEditComponent implements ControlValueAccessor {
     @Input() disabled: boolean = false; // Is input disabled?
     private control_value: string = ''; // The value exposed by the control
     private editing_value: string = ''; // The value being shown in the editing text box
-    private editing: boolean = false; // Is Component in edit mode?
+    public editing: boolean = false; // Is Component in edit mode?
     public onChange: any = Function.prototype;
     public onTouched: any = Function.prototype;
 
@@ -49,7 +40,7 @@ export class InlineEditComponent implements ControlValueAccessor {
         this.editing_value = v;
     }
 
-    constructor(element: ElementRef, private _renderer: Renderer) {
+    constructor(element: ElementRef, private _renderer: Renderer2) {
     }
 
     // Required for ControlValueAccessor interface
@@ -77,8 +68,7 @@ export class InlineEditComponent implements ControlValueAccessor {
         // this.preValue = value; // Store original value in case the form is cancelled
         this.editing = true;
         // Focus on the input element just as the editing begins
-        setTimeout(_ => this._renderer.invokeElementMethod(
-            this.inlineEditControl.nativeElement,'focus', []));
+        setTimeout(_ => this.inlineEditControl.nativeElement.focus());
     }
 
     // Do stuff when the input element loses focus or enter is pressed

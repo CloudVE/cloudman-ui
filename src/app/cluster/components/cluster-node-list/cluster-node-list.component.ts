@@ -20,8 +20,8 @@ export class ClusterNodeListComponent {
     nodeChanged = new Subject();
     public fetchingNodes = false;
 
-    constructor(private clusterService: ClusterService,
-                private _loginService: LoginService,
+    constructor(public loginService: LoginService,
+                private clusterService: ClusterService,
                 private dialog: MatDialog) {
         this.nodeObservable = merge(timer(0, 10000), this.nodeChanged).pipe(
             tap(() => { this.fetchingNodes = true; }),
