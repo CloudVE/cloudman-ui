@@ -16,9 +16,9 @@
                     <mat-card-content>
                         <app-chart-management></app-chart-management>
                     </mat-card-content>
-                </mat-card>  
+                </mat-card>
               </mat-tab>
-              <mat-tab label="Tab 2">
+              <mat-tab label="Tab 2" *ngIf="loginService.getCurrentUser().isAdmin()">
                 <ng-template mat-tab-label>
                   <mat-icon>build</mat-icon>&nbsp;Cluster Status
                 </ng-template>
@@ -26,7 +26,7 @@
                     <mat-card-content>
                         <app-cluster-management></app-cluster-management>
                     </mat-card-content>
-                </mat-card>  
+                </mat-card>
               </mat-tab>
             </mat-tab-group>
           </div>
