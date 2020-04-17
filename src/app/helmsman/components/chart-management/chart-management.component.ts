@@ -97,6 +97,7 @@ export class ChartManagementComponent implements OnInit {
                 if (charts["galaxy"]) {
                     let newChart = new ProjectChart()
                     newChart.name = 'galaxy';
+                    newChart.repo_name = 'cloudve';
                     newChart.project = this.projectCtrl.value;
                     newChart.values = {
                         'ingress': {
