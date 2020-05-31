@@ -5,7 +5,7 @@ import { map, catchError } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 import { AppSettings } from '../../app.settings';
-import { Chart } from '../models/chart';
+import { Chart, InstallTemplate } from '../models/chart';
 import { QueryResult } from '../models/query';
 
 
@@ -14,7 +14,19 @@ export class HelmsManService {
     constructor(private http: HttpClient) { }
 
     private _charts_url = `${AppSettings.HELMSMAN_API_ENDPOINT}/charts/`;
+    private _install_templates_url = `${AppSettings.HELMSMAN_API_ENDPOINT}/install_templates/`;
 
+
+    public getInstallTemplates(options = {}): Observable<InstallTemplate[]> {
+        return this.http.get<QueryResult<InstallTemplate>>(`${this._install_templates_url}`)
+            .pipe(map(response => response.results),
+                  catchError(this.handleError));
+    }
+
+    public getInstalledTemplate(template_name: string): Observable<InstallTemplate> {
+        return this.http.get<InstallTemplate>(`${this._charts_url}${template_name}/`)
+            .pipe(catchError(this.handleError));
+    }
 
     public getInstalledCharts(options = {}): Observable<Chart[]> {
         return this.http.get<QueryResult<Chart>>(`${this._charts_url}`)

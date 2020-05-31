@@ -2,27 +2,12 @@
 <h1 mat-dialog-title>Add Applications</h1>
 <div mat-dialog-content>
     <div class="chart-container">
-        <section>
-            <mat-checkbox name="galaxy" [formControl]="galaxyCtrl">Galaxy</mat-checkbox>
-        </section>
-        <section>
-            <mat-checkbox name="jupyterhub" [formControl]="jupyterCtrl">JupyterHub</mat-checkbox>
-        </section>
-        <section>
-            <mat-checkbox name="smrtportal" disabled>SMRT Portal</mat-checkbox>
-        </section>
-        <section>
-            <mat-checkbox name="commandline" disabled>Linux Terminal</mat-checkbox>
-        </section>
-        <section>
-            <mat-checkbox name="desktop" disabled>Linux Desktop</mat-checkbox>
-        </section>
-        <section>
-            <mat-checkbox name="rstudio" disabled>RStudio</mat-checkbox>
+        <section *ngFor="let install_tpl of installTemplatesObs | async; index as i">
+            <mat-checkbox name="template_action" [formControl]="installTemplateCtrls.controls[i].controls['action']">{{ install_tpl.display_name }}</mat-checkbox>
         </section>
     </div>
 </div>
 <div mat-dialog-actions class="pull-right">
     <button mat-button mat-stroked-button mat-dialog-close="cancel" tabindex="1">Cancel</button>
-    <button mat-button mat-raised-button mat-dialog-close="save" color="primary" tabindex="2">Add</button>
+    <button mat-button mat-raised-button mat-dialog-close="save" color="primary" tabindex="2">Update</button>
 </div>

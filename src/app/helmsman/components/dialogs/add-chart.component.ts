@@ -1,7 +1,11 @@
 import { Component, Inject, Optional } from '@angular/core';
-import { FormControl } from "@angular/forms";
-import { Project, ProjectChart } from "../../models/project";
+import { FormArray, FormControl, FormGroup } from "@angular/forms";
+import { ProjectChart } from "../../models/project";
 import { MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { Observable } from "rxjs";
+import { HelmsManService } from "../../services/helmsman.service";
+import { InstallTemplate } from "../../models/chart";
+import { startWith, switchMap, tap } from 'rxjs/operators';
 
 @Component({
     selector: 'app-add-chart-dialog',
@@ -10,25 +14,33 @@ import { MAT_DIALOG_DATA } from "@angular/material/dialog";
 })
 export class AddChartDlgComponent {
 
-    galaxyCtrl = new FormControl('');
-    jupyterCtrl = new FormControl('');
+    installTemplatesObs: Observable<InstallTemplate[]>;
 
-    constructor(@Optional() @Inject(MAT_DIALOG_DATA) private installedCharts: ProjectChart[]) {
-        if (this.installedCharts) {
-            for (let chart of this.installedCharts) {
-                if (chart.name == 'galaxy')
-                    this.galaxyCtrl.setValue(true);
-                else if (chart.name == 'jupyterhub')
-                    this.jupyterCtrl.setValue(true);
-            }
-        }
+    installTemplateCtrls: FormArray;
+
+    constructor(private helmsmanService: HelmsManService,
+                @Optional() @Inject(MAT_DIALOG_DATA)
+                private installedCharts: ProjectChart[]) {
+        this.installTemplatesObs = this.helmsmanService.getInstallTemplates().pipe(
+            tap(templates => {
+                const formGroups = templates.map(
+                    tpl => {
+                        let chart = this.getMatchingChart(tpl)
+                        return new FormGroup({
+                            'install_template': new FormControl(tpl),
+                            'action': new FormControl(!!chart),
+                            'chart': new FormControl(chart)
+                        })
+                    });
+                this.installTemplateCtrls = new FormArray(formGroups);
+            }));
     }
 
-    getCharts() : any {
-        return {
-            "galaxy": this.galaxyCtrl.value,
-            "jupyterhub": this.jupyterCtrl.value
-        };
+    getMatchingChart(tpl: InstallTemplate) : ProjectChart {
+        return this.installedCharts.find(c => c.name == tpl.chart);
     }
 
+    getChartChanges() : any {
+        return this.installTemplateCtrls.value;
+    }
 }
