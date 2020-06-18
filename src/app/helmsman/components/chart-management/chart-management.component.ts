@@ -12,7 +12,7 @@ import { ProjectChart } from "../../models/project";
 import { Subject } from "rxjs";
 import { startWith, switchMap, tap } from 'rxjs/operators';
 import { AddChartDlgComponent } from "../dialogs/add-chart.component";
-import {LoginService} from "../../../login/services/login/login.service";
+import { LoginService } from "../../../login/services/login/login.service";
 
 @Component({
     selector: 'app-chart-management',
@@ -22,7 +22,7 @@ import {LoginService} from "../../../login/services/login/login.service";
 export class ChartManagementComponent implements OnInit {
     displayedColumns = ['name', 'access_address', 'updated', 'actions'];
     projectsObs: Observable<Project[]>;
-    chartObjs: Observable<ProjectChart[]>;
+    chartObs: Observable<ProjectChart[]>;
 
     // TODO: Temp hack to track installed charts
     installedCharts: ProjectChart[];
@@ -45,7 +45,7 @@ export class ChartManagementComponent implements OnInit {
                     this.projectCtrl.setValue(projects[0]);
                 }
             }));
-        this.chartObjs = this.activeProjectChanged.pipe(
+        this.chartObs = this.activeProjectChanged.pipe(
             switchMap(project => this._projectService.getProjectCharts(project)),
             tap(charts => this.installedCharts = charts));
         this.projectCtrl.valueChanges.subscribe(
@@ -93,54 +93,27 @@ export class ChartManagementComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(result => {
             if (result === 'save') {
-                let charts = dialogRef.componentInstance.getCharts();
-                if (charts["galaxy"]) {
-                    let newChart = new ProjectChart()
-                    newChart.name = 'galaxy';
-                    newChart.repo_name = 'cloudve';
-                    newChart.project = this.projectCtrl.value;
-                    newChart.values = {
-                        'ingress': {
-                            'path': `/${this.projectCtrl.value.name}/galaxy`
-                        },
-                        'persistence': {
-                            'storageClass': 'nfs'
-                        },
-                        'postgresql': {
-                            'persistence': {
-                                'storageClass': 'ebs'
-                            }
+                let chartChanges = dialogRef.componentInstance.getChartChanges();
+                for (var change of chartChanges) {
+                    if (change.action == true) {
+                        let newChart = new ProjectChart();
+                        newChart.install_template = change.install_template.name;
+                        newChart.project = this.projectCtrl.value;
+                        this._projectService.createProjectChart(newChart)
+                            .subscribe(proj => {
+                                this.activeProjectChanged.next(this.projectCtrl.value);
+                            });
+                    } else if (change.action == false) {
+                        let oldChart = new ProjectChart();
+                        if (change.chart) {
+                            oldChart.id = change.chart.id;
+                            oldChart.project = this.projectCtrl.value;
+                            this._projectService.deleteProjectChart(oldChart)
+                                .subscribe(proj => {
+                                    this.activeProjectChanged.next(this.projectCtrl.value);
+                                });
                         }
-                    };
-                    this._projectService.createProjectChart(newChart)
-                        .subscribe(proj => {
-                            this.projectsChanged.next(null);
-                        });
-                }
-                if (charts["jupyterhub"]) {
-                    let newChart = new ProjectChart()
-                    newChart.name = 'jupyterhub';
-                    newChart.repo_name = 'jupyterhub';
-                    newChart.project = this.projectCtrl.value;
-                    newChart.values = {
-                        'ingress': {
-                            'enabled': true,
-                            'path': `/${this.projectCtrl.value.name}/jupyterhub`,
-                            'hosts': [
-                                null,
-                            ]
-                        },
-                        'hub': {
-                            'baseUrl': `/${this.projectCtrl.value.name}/jupyterhub`
-                        },
-                        'proxy': {
-                            'secretToken': 'dummyvaluefornowd5ba12469a356b7a14df426248bceb8fd368dccc2af567644'
-                        }
-                    };
-                    this._projectService.createProjectChart(newChart)
-                        .subscribe(proj => {
-                            this.activeProjectChanged.next(this.projectCtrl.value);
-                        });
+                    }
                 }
             }
         });
@@ -148,7 +121,11 @@ export class ChartManagementComponent implements OnInit {
 
     getAppURL(values) {
         if (values && values['ingress']) {
-            if (values['ingress']['path']) {
+            if (values['ingress']['access_path']) {
+                // FIXME: Should not be directly accessing DOM elements
+                return `${window.location.origin}${values['ingress']['access_path']}/`;
+            }
+            else if (values['ingress']['path']) {
                 // FIXME: Should not be directly accessing DOM elements
                 return `${window.location.origin}${values['ingress']['path']}/`;
             }
