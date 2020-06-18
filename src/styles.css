@@ -40,7 +40,7 @@
 
 /* FOOTER */
 .footer {
-    background: linear-gradient(50deg, AliceBlue 17%, #e0e8ee 83%);
+    background: linear-gradient(-50deg, #005080 17%, #0d040a 83%);
     height: 130px;
     position: relative;
     width: 100%;
@@ -59,7 +59,7 @@
 
 .footer h3 {
     border-bottom: 1px solid #BAC1C8;
-    color: #54697E;
+    color: white;
     font-size: 18px;
     font-weight: 600;
     line-height: 10px;
