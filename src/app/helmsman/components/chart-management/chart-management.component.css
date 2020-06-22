@@ -1,31 +1,49 @@
-table {
-  width: 100%;
-}
-
-tr.grafana-dashboard-row {
-  height: 0;
-}
-
-.mat-column-name {
-  width: 20%;
-}
-
-.mat-column-updated {
-  width: 20%;
-}
-
-.mat-column-access_address {
-  width: 30%;
-}
-
-.mat-column-actions {
-  width: 30%;
-}
-
-.text-inside-grid {
-}
-
 .project-header {
-  position: absolute;
-  left: 5px;
+    position: absolute;
+    left: 5px;
+}
+
+.chart-card {
+    max-width: 256px;
+}
+
+.mat-toolbar.mat-primary {
+    background: transparent;
+    color: black;
+}
+
+.mat-card {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 32px;
+    transition: all .5s ease; /* back to normal */
+}
+
+img {
+	filter: grayscale(1); /* Firefox 35+ */
+	-webkit-filter: grayscale(1);
+    transition: all 1s ease 0s;
+    -moz-transition: all 1s ease 0s;
+    -webkit-transition: all 1s ease 0s;
+    -ms-transition: all 1s ease 0s;
+    -o-transition: all 1s ease 0s;
+}
+
+.mat-card:hover {
+  transform: translate3D(0,-1px,0) scale(1.03);
+  transition: all .4s ease; /* zoom in */
+}
+
+.mat-card-header {
+    flex-shrink: 0;
+}
+
+.mat-card-content {
+    flex-grow: 1;
+    overflow: auto;
+}
+
+.progress {
+    margin: -19px -16px 16px -16px;
+    width: calc(100% + 32px);
 }

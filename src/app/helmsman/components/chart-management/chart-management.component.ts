@@ -1,18 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { FormControl } from "@angular/forms";
-import { Observable } from 'rxjs/Observable';
+import {Component, OnInit} from '@angular/core';
+import {MatDialog} from '@angular/material/dialog';
+import {FormControl} from "@angular/forms";
+import {Observable} from 'rxjs/Observable';
 
-import { ChartReconfigurationDlgComponent } from '../dialogs/chart-reconfiguration.component';
-import { CreateProjectDlgComponent } from '../dialogs/create-project.component';
-import { ProjManService } from "../../services/projman.service";
-import { Project } from "../../models/project";
-import { ProjectChart } from "../../models/project";
+import {ChartReconfigurationDlgComponent} from '../dialogs/chart-reconfiguration.component';
+import {CreateProjectDlgComponent} from '../dialogs/create-project.component';
+import {ProjManService} from "../../services/projman.service";
+import {Project} from "../../models/project";
+import {ProjectChart} from "../../models/project";
 
-import { Subject } from "rxjs";
-import { startWith, switchMap, tap } from 'rxjs/operators';
-import { AddChartDlgComponent } from "../dialogs/add-chart.component";
-import { LoginService } from "../../../login/services/login/login.service";
+import {interval, Subject} from "rxjs";
+import {flatMap, map, startWith, switchMap, takeWhile, tap} from 'rxjs/operators';
+import {AddChartDlgComponent} from "../dialogs/add-chart.component";
+import {LoginService} from "../../../login/services/login/login.service";
 
 @Component({
     selector: 'app-chart-management',
@@ -47,7 +47,15 @@ export class ChartManagementComponent implements OnInit {
             }));
         this.chartObs = this.activeProjectChanged.pipe(
             switchMap(project => this._projectService.getProjectCharts(project)),
-            tap(charts => this.installedCharts = charts));
+            tap(charts => this.installedCharts = charts),
+            tap(charts => charts.map(chart => {
+                interval(5000).pipe(
+                    flatMap(() => this._projectService.getChartHealth(chart, this.getAppURL(chart.values))),
+                    takeWhile(chart => !chart.app_healthy)
+                ).subscribe(v => v);
+            }
+            ))
+        );
         this.projectCtrl.valueChanges.subscribe(
             proj => this.activeProjectChanged.next(proj));
     }
@@ -89,7 +97,7 @@ export class ChartManagementComponent implements OnInit {
 
     openAddChartDialog() {
         const dialogRef = this.dialog.open(AddChartDlgComponent,
-            { data: this.installedCharts });
+            { data: this.installedCharts || [] });
 
         dialogRef.afterClosed().subscribe(result => {
             if (result === 'save') {
@@ -97,7 +105,7 @@ export class ChartManagementComponent implements OnInit {
                 for (var change of chartChanges) {
                     if (change.action == true) {
                         let newChart = new ProjectChart();
-                        newChart.install_template = change.install_template.name;
+                        newChart.use_install_template = change.install_template.name;
                         newChart.project = this.projectCtrl.value;
                         this._projectService.createProjectChart(newChart)
                             .subscribe(proj => {

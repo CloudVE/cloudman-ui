@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { throwError } from "rxjs";
-import { map, catchError } from 'rxjs/operators';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs/Observable';
+import {of, throwError} from "rxjs";
+import {map, catchError} from 'rxjs/operators';
+import {HttpClient, HttpErrorResponse, HttpResponse} from '@angular/common/http';
 
-import { AppSettings } from '../../app.settings';
-import { Project, ProjectChart } from '../models/project';
-import { QueryResult } from '../models/query';
+import {AppSettings} from '../../app.settings';
+import {Project, ProjectChart} from '../models/project';
+import {QueryResult} from '../models/query';
 
 
 @Injectable()
@@ -66,6 +66,18 @@ export class ProjManService {
         chart.state = "rollback";
         return this.http.put<ProjectChart>(`${this._projects_url}/${chart.project.id}/charts/${chart.id}/`, chart)
             .pipe(catchError(this.handleError));
+    }
+
+    public getChartHealth(chart: ProjectChart, access_path: string): Observable<ProjectChart> {
+        return this.http.get(access_path)
+            .pipe(
+                map((response: HttpResponse<any>) => {
+                    chart.app_healthy = [200, 401, 403].includes(response.status);
+                    return chart;}),
+                catchError((err, caught) => {
+                    chart.app_healthy = false;
+                    return of(chart);
+                }));
     }
 
     private handleError(err: HttpErrorResponse) {

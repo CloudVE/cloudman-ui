@@ -1,95 +1,80 @@
 <form>
-    <mat-grid-list cols="12" rowHeight="40px">
-        <mat-grid-tile colspan="1">
-            <div class="project-header"><h5>Project</h5></div>
-        </mat-grid-tile>
-        <mat-grid-tile colspan="4" class="full-width-container">
-            <mat-form-field class="full-width-container" style="width: 100%" required>
+
+    <div fxLayoutGap="16px">
+        <span>
+            <a mat-button aria-label="Project">Project:</a>
+        </span>
+        <span>
+            <mat-form-field required>
                 <mat-select id="id_project" [formControl]="projectCtrl" [compareWith]="compareProjectIds">
-                    <mat-option *ngFor="let proj of projectsObs | async" [value]="proj" class="full-width-container">
+                    <mat-option *ngFor="let proj of projectsObs | async" [value]="proj">
                         {{ proj.name }}
                     </mat-option>
                 </mat-select>
             </mat-form-field>
-        </mat-grid-tile>
-        <mat-grid-tile colspan="1" *ngIf="loginService.getCurrentUser().isAdmin()">
-            <button mat-icon-button (click)="openCreateProjectDialog()">
+        </span>
+        <span>
+            <button mat-mini-fab (click)="openCreateProjectDialog()" color="primary" matTooltip="Create New Project">
                 <mat-icon>add</mat-icon>
             </button>
-        </mat-grid-tile>
-        <mat-grid-tile colspan="6">
-        </mat-grid-tile>
-    </mat-grid-list>
+        </span>
+    </div>
 
-    <br /><br />
+    <br/><br/>
 
-    <table mat-table [dataSource]="chartObs | async" multiTemplateDataRows>
-
-      <!-- Name Column -->
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef> Name </th>
-        <td mat-cell *matCellDef="let element"> {{element.display_name}} </td>
-      </ng-container>
-
-      <!-- Access address Column -->
-      <ng-container matColumnDef="access_address">
-        <th mat-header-cell *matHeaderCellDef> Access Address </th>
-        <td mat-cell *matCellDef="let element"> <a href="{{ getAppURL(element.values) }}">{{ getAppURL(element.values) }}</a></td>
-      </ng-container>
-
-      <!-- Updated Column -->
-      <ng-container matColumnDef="updated">
-        <th mat-header-cell *matHeaderCellDef> Updated </th>
-        <td mat-cell *matCellDef="let element"> {{element.updated}} </td>
-      </ng-container>
-
-      <!-- Actions Column -->
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef> Actions </th>
-        <td mat-cell *matCellDef="let element">
-            <button class="btn btn-secondary pill" type="button" matTooltip="Upgrade Galaxy" disabled="true">
-                <i class="fa fa-arrow-up"></i>
-            </button>
-            <button *ngIf="element.permissions.change_chart; else place_holder_rollback" class="btn btn-secondary pill" type="button" matTooltip="Rollback to previous revision" (click)="rollbackChart(element)">
-                <i class="fa fa-undo"></i>
-            </button>
-            <ng-template #place_holder_rollback>
-                <button class="btn btn-secondary pill" type="button" disabled>
-                <i class="fa fa-undo"></i>
+    <div fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="start stretch" fxLayoutGap="32px">
+        <mat-card class="chart-card" fxFlex="18" *ngFor="let chart of chartObs | async;" appMaterialElevation>
+            <mat-card-header>
+                <img mat-card-avatar src="{{chart.install_template?.icon_url}}"
+                     *ngIf="chart.install_template?.icon_url"/>
+                <span *ngIf="!chart.install_template?.icon_url" mat-card-avatar>
+                    <mat-icon>apps</mat-icon>
+                </span>
+                <mat-card-title>{{chart.install_template?.display_name || chart.display_name}}</mat-card-title>
+                <mat-card-subtitle>{{chart.install_template?.maintainers || "&nbsp;"}}</mat-card-subtitle>
+            </mat-card-header>
+            <a href="{{ getAppURL(chart.values) }}">
+                <img mat-card-image src="{{chart.install_template.icon_url}}"
+                     *ngIf="chart.install_template?.icon_url"
+                     alt="Access {{chart.display_name}}"/>
+                <mat-progress-bar class="progress" mode="indeterminate" *ngIf="!chart.app_healthy"></mat-progress-bar>
+            </a>
+            <mat-card-content>
+                <p [innerHTML]="chart.install_template?.description"></p>
+            </mat-card-content>
+            <mat-card-actions fxLayoutAlign="space-between">
+                <button mat-button type="button" matTooltip="Upgrade Galaxy"
+                        disabled="true">
+                    <mat-icon>upgrade</mat-icon>
                 </button>
-            </ng-template>
-            <button *ngIf="element.name=='galaxy' && element.permissions.change_chart; else place_holder_configure" class="btn btn-secondary pill" type="button" matTooltip="Configure Galaxy" (click)="openChartReconfigurationDialog(element)">
-                <i class="fa fa-edit"></i>
-            </button>
-            <ng-template #place_holder_configure>
-                <button class="btn btn-secondary pill" type="button" disabled>
-                <i class="fa fa-edit"></i>
+                <button *ngIf="chart.permissions.change_chart; else place_holder_rollback" mat-button type="button"
+                        matTooltip="Rollback to previous revision" (click)="rollbackChart(chart)">
+                    <mat-icon>undo</mat-icon>
                 </button>
-            </ng-template>
-            <button class="btn btn-secondary pill" type="button" matTooltip="Delete Galaxy" disabled="true">
-                <i class="fa fa-trash"></i>
-            </button>
-        </td>
-      </ng-container>
+                <ng-template #place_holder_rollback>
+                    <button mat-button type="button" disabled>
+                        <mat-icon>undo</mat-icon>
+                    </button>
+                </ng-template>
+                <button *ngIf="chart.name=='galaxy' && chart.permissions.change_chart; else place_holder_configure"
+                        mat-button type="button" matTooltip="Configure Galaxy"
+                        (click)="openChartReconfigurationDialog(chart)">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <ng-template #place_holder_configure>
+                    <button mat-button type="button" disabled>
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                </ng-template>
+            </mat-card-actions>
+        </mat-card>
+    </div>
 
-      <!-- ref: https://stackblitz.com/angular/ygdrrokyvkv?file=app%2Ftable-expandable-rows-example.html -->
-      <!-- Galaxy Dashboard Column -->
-      <ng-container matColumnDef="grafanaDashboard">
-          <td mat-cell [attr.colspan]="displayedColumns.length" *matCellDef="let element">
-              <div *ngIf="element.name == 'galaxy'">
-                  <iframe #gxygrafanaframe [src]="getGrafanaUrl(element) | safe"
-                          width="100%" height="310px" frameborder="0" marginheight="0" marginwidth="0" iframeAutoHeight></iframe>
-              </div>
-          </td>
-      </ng-container>
+    <br/><br/>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      <tr mat-row *matRowDef="let row; columns: ['grafanaDashboard'];" class="grafana-dashboard-row"></tr>
-
-    </table>
-    <br /><br />
-    <button mat-stroked-button color="primary" (click)="openAddChartDialog()" *ngIf="projectCtrl?.value?.permissions?.change_project">
-        <mat-icon>add</mat-icon> Add Application
+    <button mat-flat-button color="primary" (click)="openAddChartDialog()"
+            *ngIf="projectCtrl?.value?.permissions?.change_project">
+        <mat-icon>add</mat-icon>
+        Add Application
     </button>
 </form>
