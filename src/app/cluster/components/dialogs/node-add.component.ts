@@ -1,22 +1,21 @@
-import { Component, Inject, Optional } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {Component, Inject, Optional} from '@angular/core';
+import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {
     FormBuilder,
     FormGroup,
     FormControl,
     Validators
 } from '@angular/forms';
-import { forkJoin } from 'rxjs';
-import { Observable } from 'rxjs/Observable';
-import { map, switchMap, tap } from "rxjs/operators";
+import {forkJoin, throwError} from 'rxjs';
+import {Observable} from 'rxjs/Observable';
+import {catchError, map, switchMap, tap} from "rxjs/operators";
 
-import { VmType } from '../../../shared/models/cloud';
-import { ApplicationService } from "../../../shared/services/application.service";
-import { ClusterService } from "../../../shared/services/cluster.service";
-import { CloudService } from '../../../shared/services/cloud.service';
-import { CloudDeploymentTarget } from "../../../shared/models/deployment";
-import { ClusterNode } from "../../../shared/models/cluster";
-
+import {VmType} from '../../../shared/models/cloud';
+import {ApplicationService} from "../../../shared/services/application.service";
+import {ClusterService} from "../../../shared/services/cluster.service";
+import {CloudService} from '../../../shared/services/cloud.service';
+import {CloudDeploymentTarget} from "../../../shared/models/deployment";
+import {ClusterNode} from "../../../shared/models/cluster";
 
 
 @Component({
@@ -49,7 +48,7 @@ export class NodeAddDlgComponent {
             'vm_type': this.vmTypeCtrl,
         });
 
-        this.vmTypeObs = forkJoin(this.clusterService.getClusters(), this.appService.getApplications()
+        this.vmTypeObs = forkJoin([this.clusterService.getClusters(), this.appService.getApplications()]
         ).pipe(
             tap(data => { this.vmTypeHelp = 'Retrieving instance types...'; }),
             // data[0] contains the Cluster array, and data[1] contains the App array
@@ -57,7 +56,11 @@ export class NodeAddDlgComponent {
             map(([clusters, apps]) => <CloudDeploymentTarget>apps[0].versions[0].target_config[0].target),
             map(target => target.target_zone),
             switchMap(zone => this.cloudService.getVmTypes(zone.cloud.id, zone.region.region_id, zone.zone_id)),
-            tap(vmTypes => { this.vmTypeHelp = 'What type of virtual hardware would you like to use?'; })
+            tap(vmTypes => { this.vmTypeHelp = 'What type of virtual hardware would you like to use?'; }),
+            catchError((err, caught) => {
+                this.vmTypeHelp = 'Could not fetch instance types: ' + err;
+                return throwError(this.vmTypeHelp);
+            }),
         );
     }
 
