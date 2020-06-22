@@ -15,6 +15,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -45,6 +46,7 @@ import { AddChartDlgComponent } from "./helmsman/components/dialogs/add-chart.co
     MatCardModule,
     MatMenuModule,
     MatTabsModule,
+    FlexLayoutModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,

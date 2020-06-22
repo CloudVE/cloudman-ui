@@ -1,13 +1,11 @@
-
-import { filter } from 'rxjs/operators';
-import { Component } from '@angular/core';
-import { Router, RouterOutlet, NavigationEnd, Event as NavigationEvent } from '@angular/router';
-import { routerTransition } from './app.routing.animations';
-import { AppSettings } from './app.settings';
-import { LoginService } from './login/services/login/login.service';
-import { User } from './shared/models/user';
-
-
+import {ChangeDetectorRef, Component, OnDestroy} from '@angular/core';
+import {MediaMatcher} from '@angular/cdk/layout';
+import {Router, RouterOutlet, NavigationEnd, Event as NavigationEvent} from '@angular/router';
+import {routerTransition} from './app.routing.animations';
+import {filter} from 'rxjs/operators';
+import {AppSettings} from './app.settings';
+import {LoginService} from './login/services/login/login.service';
+import {User} from './shared/models/user';
 
 
 @Component({
@@ -16,8 +14,16 @@ import { User } from './shared/models/user';
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-    constructor(private _loginService: LoginService, private router: Router) {
+export class AppComponent implements OnDestroy {
+    mobileQuery: MediaQueryList;
+
+    private _mobileQueryListener: () => void;
+
+    constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,
+                private _loginService: LoginService, private router: Router) {
+        this.mobileQuery = media.matchMedia('(max-width: 600px)');
+        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this.mobileQuery.addListener(this._mobileQueryListener);
         router.events.pipe(
             filter(event => event instanceof NavigationEnd))
             .subscribe((event: NavigationEvent) => {
@@ -50,4 +56,9 @@ export class AppComponent {
     getState(outlet: RouterOutlet) {
         return outlet.activatedRouteData.state;
     }
+
+    ngOnDestroy(): void {
+        this.mobileQuery.removeListener(this._mobileQueryListener);
+    }
+
 }
