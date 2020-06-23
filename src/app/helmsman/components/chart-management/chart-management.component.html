@@ -23,7 +23,9 @@
     <br/><br/>
 
     <div fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="start stretch" fxLayoutGap="32px">
-        <mat-card class="chart-card" fxFlex="18" *ngFor="let chart of chartObs | async;" appMaterialElevation>
+        <mat-card [ngClass]="chart.app_healthy ? 'chart-card-enabled': 'chart-card-disabled'"
+                  fxFlex="0 1 calc(20% - 32px)" class="chart-card"
+                  *ngFor="let chart of chartObs | async; trackBy: trackByChartId" appMaterialElevation>
             <mat-card-header>
                 <img mat-card-avatar src="{{chart.install_template?.icon_url}}"
                      *ngIf="chart.install_template?.icon_url"/>
@@ -33,13 +35,13 @@
                 <mat-card-title>{{chart.install_template?.display_name || chart.display_name}}</mat-card-title>
                 <mat-card-subtitle>{{chart.install_template?.maintainers || "&nbsp;"}}</mat-card-subtitle>
             </mat-card-header>
-            <a href="{{ getAppURL(chart.values) }}">
-                <img mat-card-image src="{{chart.install_template.icon_url}}"
-                     *ngIf="chart.install_template?.icon_url"
-                     alt="Access {{chart.display_name}}"/>
+            <a href="{{ getAppURL(chart.values) }}" target="_blank">
+                <img mat-card-image src="{{chart.install_template.screenshot_url || chart.install_template.icon_url}}"
+                     *ngIf="chart.install_template?.screenshot_url || chart.install_template?.icon_url"
+                     alt="Access {{chart.display_name}}" class="chart-image"/>
                 <mat-progress-bar class="progress" mode="indeterminate" *ngIf="!chart.app_healthy"></mat-progress-bar>
             </a>
-            <mat-card-content>
+            <mat-card-content class="card-content">
                 <p [innerHTML]="chart.install_template?.description"></p>
             </mat-card-content>
             <mat-card-actions fxLayoutAlign="space-between">

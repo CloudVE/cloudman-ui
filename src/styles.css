@@ -47,3 +47,7 @@ footer, .push {
 .mat-content > mat-panel-title, .mat-content > mat-panel-description {
   flex: 1 1 auto;
 }
+
+.grafana-expansion-panel .mat-expansion-panel-content > .mat-expansion-panel-body {
+  padding: 0 1px !important;
+}

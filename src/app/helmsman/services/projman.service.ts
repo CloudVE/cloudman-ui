@@ -69,11 +69,12 @@ export class ProjManService {
     }
 
     public getChartHealth(chart: ProjectChart, access_path: string): Observable<ProjectChart> {
-        return this.http.get(access_path)
+        return this.http.get(access_path, { responseType: 'text'})
             .pipe(
-                map((response: HttpResponse<any>) => {
-                    chart.app_healthy = [200, 401, 403].includes(response.status);
-                    return chart;}),
+                map(response => {
+                    chart.app_healthy = true;
+                    return chart;
+                }),
                 catchError((err, caught) => {
                     chart.app_healthy = false;
                     return of(chart);

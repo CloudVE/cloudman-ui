@@ -66,7 +66,7 @@
                             </mat-option>
                             <!-- Use flex css instead of angular flexbox due to performance:-->
                             <!-- https://github.com/angular/flex-layout/wiki/Performance-Considerations-->
-                            <mat-option class="full-width-container" *ngFor="let vmType of vmTypeObs | async | orderBy: 'name'" [value]="vmType">
+                            <mat-option *ngFor="let vmType of vmTypeObs | async | orderBy: 'name'" [value]="vmType">
                                 <div class="vmtype row" class.xs="vmtype column">
                                     <div class="vmtype_item_25">{{ vmType.name }}</div>
                                     <div class="spec row">

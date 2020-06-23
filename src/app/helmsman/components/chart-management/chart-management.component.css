@@ -1,27 +1,20 @@
-.project-header {
-    position: absolute;
-    left: 5px;
-}
-
-.chart-card {
-    max-width: 256px;
-}
-
 .mat-toolbar.mat-primary {
     background: transparent;
     color: black;
 }
 
-.mat-card {
+/* https://stackoverflow.com/a/52207832 */
+.chart-card {
+    max-width: 300px;
     display: flex;
     flex-direction: column;
-    margin-bottom: 32px;
+    margin-bottom: 32px; /* same as fxLayoutGap for even distribution */
     transition: all .5s ease; /* back to normal */
 }
 
-img {
-	filter: grayscale(1); /* Firefox 35+ */
-	-webkit-filter: grayscale(1);
+.chart-card-disabled img {
+    filter: grayscale(1); /* Firefox 35+ */
+    -webkit-filter: grayscale(1);
     transition: all 1s ease 0s;
     -moz-transition: all 1s ease 0s;
     -webkit-transition: all 1s ease 0s;
@@ -29,9 +22,29 @@ img {
     -o-transition: all 1s ease 0s;
 }
 
-.mat-card:hover {
-  transform: translate3D(0,-1px,0) scale(1.03);
-  transition: all .4s ease; /* zoom in */
+.chart-card-enabled img {
+    filter: none;
+    -webkit-filter: grayscale(0);
+    transition: all 1s ease 0s;
+    -moz-transition: all 1s ease 0s;
+    -webkit-transition: all 1s ease 0s;
+    -ms-transition: all 1s ease 0s;
+    -o-transition: all 1s ease 0s;
+}
+
+.chart-image {
+    max-height: 256px;
+    object-fit: contain;
+}
+
+.chart-card:hover {
+    transform: translate3D(0, -1px, 0) scale(1.03);
+    transition: all .4s ease; /* zoom in */
+}
+
+.chart-content {
+    max-height: 256px;
+    overflow: scroll;
 }
 
 .mat-card-header {

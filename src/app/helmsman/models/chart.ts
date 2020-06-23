@@ -25,4 +25,5 @@ export class InstallTemplate {
     description: string;
     info_url: string;
     icon_url: string;
+    screenshot_url: string;
 }

@@ -9,7 +9,7 @@ import {ProjManService} from "../../services/projman.service";
 import {Project} from "../../models/project";
 import {ProjectChart} from "../../models/project";
 
-import {interval, Subject} from "rxjs";
+import {combineLatest, forkJoin, interval, Subject} from "rxjs";
 import {flatMap, map, startWith, switchMap, takeWhile, tap} from 'rxjs/operators';
 import {AddChartDlgComponent} from "../dialogs/add-chart.component";
 import {LoginService} from "../../../login/services/login/login.service";
@@ -38,23 +38,22 @@ export class ChartManagementComponent implements OnInit {
 
     ngOnInit() {
         this.projectsObs = this.projectsChanged.pipe(
-            startWith(null),
+            startWith(null as ProjectChart),
             switchMap(() => this._projectService.getProjects()),
             tap(projects => {
                 if (projects && projects.length && !this.projectCtrl.value) {
                     this.projectCtrl.setValue(projects[0]);
                 }
             }));
-        this.chartObs = this.activeProjectChanged.pipe(
-            switchMap(project => this._projectService.getProjectCharts(project)),
+        this.chartObs = combineLatest([this.activeProjectChanged, interval(10000).pipe(startWith(0))]).pipe(
+            switchMap(([project, interval]) => this._projectService.getProjectCharts(project)),
             tap(charts => this.installedCharts = charts),
-            tap(charts => charts.map(chart => {
-                interval(5000).pipe(
-                    flatMap(() => this._projectService.getChartHealth(chart, this.getAppURL(chart.values))),
-                    takeWhile(chart => !chart.app_healthy)
-                ).subscribe(v => v);
-            }
-            ))
+            switchMap(charts => {
+                    const obs = charts.map(chart => this._projectService.getChartHealth(
+                        chart, this.getAppURL(chart.values)));
+                    return forkJoin(obs);
+                }
+            )
         );
         this.projectCtrl.valueChanges.subscribe(
             proj => this.activeProjectChanged.next(proj));
@@ -150,5 +149,9 @@ export class ChartManagementComponent implements OnInit {
 
     getGrafanaUrl(element) {
         return `/grafana/d/gxy_general_stats_${element.id}/galaxy-overview?refresh=120s&orgId=1&kiosk&var-Node=All&theme=light`;
+    }
+
+    trackByChartId(idx: number, chart: ProjectChart) {
+        return chart.id;
     }
 }
