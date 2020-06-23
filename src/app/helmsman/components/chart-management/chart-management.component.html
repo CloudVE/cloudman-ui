@@ -34,6 +34,34 @@
                 </span>
                 <mat-card-title>{{chart.install_template?.display_name || chart.display_name}}</mat-card-title>
                 <mat-card-subtitle>{{chart.install_template?.maintainers || "&nbsp;"}}</mat-card-subtitle>
+                <span class="flex-spacer"></span>
+                <button mat-icon-button aria-label="Overview" style="margin: 0 -16px 16px -16px">
+                    <mat-icon [matMenuTriggerFor]="chartMenu">more_vert</mat-icon>
+                </button>
+                <mat-menu #chartMenu="matMenu">
+                    <button *ngIf="chart.name=='galaxy' && chart.permissions.change_chart; else place_holder_configure"
+                            mat-menu-item matTooltip="Configure {{ chart.display_name }}"
+                            (click)="openChartReconfigurationDialog(chart)">
+                        <mat-icon>edit</mat-icon> Settings
+                    </button>
+                    <ng-template #place_holder_configure>
+                        <button mat-menu-item disabled>
+                            <mat-icon>edit</mat-icon> Settings
+                        </button>
+                    </ng-template>
+                    <button mat-menu-item matTooltip="Upgrade {{ chart.display_name }}" disabled="true">
+                        <mat-icon>upgrade</mat-icon> Upgrade
+                    </button>
+                    <button *ngIf="chart.permissions.change_chart; else place_holder_rollback" mat-menu-item
+                            matTooltip="Rollback to previous revision" (click)="rollbackChart(chart)">
+                        <mat-icon>undo</mat-icon> Rollback
+                    </button>
+                    <ng-template #place_holder_rollback>
+                        <button mat-menu-item disabled>
+                            <mat-icon>undo</mat-icon> Rollback
+                        </button>
+                    </ng-template>
+                </mat-menu>
             </mat-card-header>
             <a href="{{ getAppURL(chart.values) }}" target="_blank">
                 <img mat-card-image
@@ -44,31 +72,6 @@
             <mat-card-content class="card-content">
                 <p [innerHTML]="chart.install_template?.description"></p>
             </mat-card-content>
-            <mat-card-actions fxLayoutAlign="space-between">
-                <button mat-button type="button" matTooltip="Upgrade Galaxy"
-                        disabled="true">
-                    <mat-icon>upgrade</mat-icon>
-                </button>
-                <button *ngIf="chart.permissions.change_chart; else place_holder_rollback" mat-button type="button"
-                        matTooltip="Rollback to previous revision" (click)="rollbackChart(chart)">
-                    <mat-icon>undo</mat-icon>
-                </button>
-                <ng-template #place_holder_rollback>
-                    <button mat-button type="button" disabled>
-                        <mat-icon>undo</mat-icon>
-                    </button>
-                </ng-template>
-                <button *ngIf="chart.name=='galaxy' && chart.permissions.change_chart; else place_holder_configure"
-                        mat-button type="button" matTooltip="Configure Galaxy"
-                        (click)="openChartReconfigurationDialog(chart)">
-                    <mat-icon>edit</mat-icon>
-                </button>
-                <ng-template #place_holder_configure>
-                    <button mat-button type="button" disabled>
-                        <mat-icon>edit</mat-icon>
-                    </button>
-                </ng-template>
-            </mat-card-actions>
         </mat-card>
     </div>
 

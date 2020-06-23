@@ -29,6 +29,7 @@ import {HelmsManService} from './services/helmsman.service';
 import {ProjManService} from "./services/projman.service";
 import {AddChartDlgComponent} from "./components/dialogs/add-chart.component";
 import {SafePipe} from "./components/chart-management/safe-pipe";
+import {MatMenuModule} from "@angular/material/menu";
 
 
 @NgModule({
@@ -49,6 +50,7 @@ import {SafePipe} from "./components/chart-management/safe-pipe";
     MatGridListModule,
     MatToolbarModule,
     MatProgressBarModule,
+    MatMenuModule,
     FlexLayoutModule,
     HelmsmanRoutingModule,
     LayoutModule,

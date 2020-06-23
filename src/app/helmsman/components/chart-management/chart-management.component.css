@@ -61,3 +61,7 @@
     margin: -19px -16px 16px -16px;
     width: calc(100% + 32px);
 }
+
+.flex-spacer {
+    flex: 1 1 auto;
+}
