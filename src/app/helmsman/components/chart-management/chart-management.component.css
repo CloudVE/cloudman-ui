@@ -49,6 +49,7 @@
 
 .mat-card-header {
     flex-shrink: 0;
+    padding-bottom: 20px;
 }
 
 .mat-card-content {
