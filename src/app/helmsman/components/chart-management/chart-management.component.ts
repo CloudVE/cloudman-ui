@@ -130,14 +130,14 @@ export class ChartManagementComponent implements OnInit {
         if (values && values['ingress']) {
             if (values['ingress']['access_path']) {
                 // FIXME: Should not be directly accessing DOM elements
-                return `${window.location.origin}${values['ingress']['access_path']}/`;
+                return `${window.location.origin}${values['ingress']['access_path']}`;
             }
             else if (values['ingress']['path']) {
                 // FIXME: Should not be directly accessing DOM elements
-                return `${window.location.origin}${values['ingress']['path']}/`;
+                return `${window.location.origin}${values['ingress']['path']}`;
             }
             else if (values['ingress']['hosts'] && values['ingress']['hosts'][0]['paths']) {
-                return `${window.location.origin}${values['ingress']['hosts'][0]['paths'][0]}/`;
+                return `${window.location.origin}${values['ingress']['hosts'][0]['paths'][0]}`;
             }
         }
         return "";
