@@ -6,6 +6,7 @@ import {filter} from 'rxjs/operators';
 import {AppSettings} from './app.settings';
 import {LoginService} from './login/services/login/login.service';
 import {User} from './shared/models/user';
+import {Title} from "@angular/platform-browser";
 
 
 @Component({
@@ -20,7 +21,8 @@ export class AppComponent implements OnDestroy {
     private _mobileQueryListener: () => void;
 
     constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,
-                private _loginService: LoginService, private router: Router) {
+                private _loginService: LoginService, private router: Router,
+                private titleService: Title) {
         this.mobileQuery = media.matchMedia('(max-width: 600px)');
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
         this.mobileQuery.addListener(this._mobileQueryListener);
@@ -55,6 +57,10 @@ export class AppComponent implements OnDestroy {
 
     getState(outlet: RouterOutlet) {
         return outlet.activatedRouteData.state;
+    }
+
+    getPageTitle(): string {
+        return this.titleService.getTitle();
     }
 
     ngOnDestroy(): void {

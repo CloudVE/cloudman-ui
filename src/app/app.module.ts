@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
+import {BrowserModule, Title} from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -60,11 +60,12 @@ import { AddChartDlgComponent } from "./helmsman/components/dialogs/add-chart.co
     HelmsmanModule
   ],
   providers: [
-  {
-    provide: HTTP_INTERCEPTORS,
-    useClass: AuthInterceptor,
-    multi: true,
-  }
+      {
+        provide: HTTP_INTERCEPTORS,
+        useClass: AuthInterceptor,
+        multi: true,
+      },
+      Title
   ],
   entryComponents: [CreateProjectDlgComponent, AddChartDlgComponent, ChartReconfigurationDlgComponent, NodeAddDlgComponent],
   bootstrap: [AppComponent]

@@ -5,6 +5,8 @@
         <h1>
             <a mat-button routerLink="/" aria-label="CloudMan"><img src="assets/images/logo_gvl.svg" style="max-height: 48px;"/></a>
         </h1>
+        <!-- Page title insertion point -->
+        <h1 style="padding-left: 20px;">{{ getPageTitle() }}</h1>
         <span class="flex-spacer"></span>
         <a mat-button routerLink="/system_overview" routerLinkActive="active" aria-label="Overview">
             <mat-icon>home</mat-icon> Overview
