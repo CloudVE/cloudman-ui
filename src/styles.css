@@ -51,3 +51,7 @@ footer, .push {
 .grafana-expansion-panel .mat-expansion-panel-content > .mat-expansion-panel-body {
   padding: 0 1px !important;
 }
+
+.green-progress .mat-progress-bar-fill::after {
+    background-color: green !important;
+}

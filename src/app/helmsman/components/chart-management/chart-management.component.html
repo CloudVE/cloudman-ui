@@ -67,7 +67,10 @@
                 <img mat-card-image
                      src="{{chart.install_template.screenshot_url || chart.install_template.icon_url || 'assets/images/no-image-available.png'}}"
                      alt="Access {{chart.display_name}}" class="chart-image"/>
-                <mat-progress-bar class="progress" mode="indeterminate" *ngIf="!chart.app_healthy"></mat-progress-bar>
+                <mat-progress-bar class="progress"
+                                  [mode]="chart.app_healthy ? 'determinate': 'indeterminate'"
+                                  value="100"
+                                  [ngClass]="chart.app_healthy ? 'green-progress': ''"></mat-progress-bar>
             </a>
             <mat-card-content class="card-content">
                 <p [innerHTML]="chart.install_template?.description"></p>
