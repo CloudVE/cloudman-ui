@@ -1,14 +1,15 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
+import {MatCardModule} from "@angular/material/card";
 
-import { LoginPageComponent } from './components/login-page/login-page.component';
-import { LoginBoxComponent } from './components/login-box/login-box.component';
-import { LayoutModule } from '../shared/layout.module';
-import { LoginRoutingModule } from './login-routing.module';
-import { LoginService } from './services/login/login.service';
-import { AuthGuardService } from './services/auth-guard/auth-guard.service';
-import { LogoutPageComponent } from './components/logout-page/logout-page.component';
+import {LoginPageComponent} from './components/login-page/login-page.component';
+import {LoginBoxComponent} from './components/login-box/login-box.component';
+import {LayoutModule} from '../shared/layout.module';
+import {LoginRoutingModule} from './login-routing.module';
+import {LoginService} from './services/login/login.service';
+import {AuthGuardService} from './services/auth-guard/auth-guard.service';
+import {LogoutPageComponent} from './components/logout-page/logout-page.component';
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import { LogoutPageComponent } from './components/logout-page/logout-page.compon
         CommonModule,
         FormsModule,
         LayoutModule,
+        MatCardModule,
         LoginRoutingModule
     ],
     declarations: [LoginPageComponent, LoginBoxComponent, LogoutPageComponent],
