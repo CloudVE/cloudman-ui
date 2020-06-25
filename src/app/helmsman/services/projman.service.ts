@@ -39,6 +39,7 @@ export class ProjManService {
     public getProjectCharts(project: Project): Observable<ProjectChart[]> {
         return this.http.get<QueryResult<ProjectChart>>(`${this._projects_url}/${project.id}/charts/`)
             .pipe(map(response => response.results),
+                  map(results => results.filter(projchart => projchart.name != 'projman')),
                   catchError(this.handleError));
     }
 
