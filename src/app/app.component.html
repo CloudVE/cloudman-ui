@@ -42,8 +42,8 @@
 
 <!-- Footer -->
 <footer id="footer" class="footer">
-    <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between stretch">
-        <mat-card>
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start stretch">
+        <mat-card fxFlex="25">
             <mat-card-header>
                 <mat-card-title><i class="fa fa-ticket"></i> About </mat-card-title>
             </mat-card-header>
@@ -54,7 +54,7 @@
                 </ul>
             </mat-card-content>
         </mat-card>
-        <mat-card>
+        <mat-card fxFlex="30">
             <mat-card-header>
                 <mat-card-title><i class="fa fa-code"></i> Developer </mat-card-title>
             </mat-card-header>
@@ -65,15 +65,14 @@
                 </ul>
             </mat-card-content>
         </mat-card>
-        <mat-card>
+        <span class="flex-spacer"></span>
+        <mat-card fxFlex="20">
             <mat-card-header>
                 <mat-card-title> </mat-card-title>
             </mat-card-header>
             <mat-card-content>
+                <img src="assets/images/logo_cloudman.svg" alt="cloudman" style="height: 50px; width: 100%;" />
             </mat-card-content>
-             <mat-card-actions>
-                 <img src="https://galaxyproject.org/images/galaxy-logos/cloudman-logo.jpg" alt="cloudman" style="max-height: 50px" />
-             </mat-card-actions>
         </mat-card>
     </div>
     <!--/.footer-->
