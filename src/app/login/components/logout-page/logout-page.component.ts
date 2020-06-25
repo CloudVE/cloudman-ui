@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { LoginService } from '../../services/login/login.service';
+import {Component, OnInit} from '@angular/core';
+import {LoginService} from '../../services/login/login.service';
+import {Title} from "@angular/platform-browser";
 
 @Component({
     selector: 'app-logout-page',
@@ -8,8 +9,10 @@ import { LoginService } from '../../services/login/login.service';
 })
 export class LogoutPageComponent implements OnInit {
 
-    constructor(
-        private _loginService: LoginService) { }
+    constructor(private titleService: Title,
+                private _loginService: LoginService) {
+        this.titleService.setTitle("Logout");
+    }
 
     ngOnInit() {
         this._loginService.logout();

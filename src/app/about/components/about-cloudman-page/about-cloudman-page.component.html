@@ -1,25 +1,19 @@
 <app-standard-layout>
-    <page-header>
-        <div class="col-md-12">
-            <h1>About</h1>
-        </div>
-    </page-header>
     <page-body>
-        <div class="col-md-12 lead text-justify">
-            <p>
-            CloudMan is an extensible cloud manager that orchestrates all of the steps required to provision a complete compute cluster environment
-            on a cloud infrastructure.
-            </p><p>
-            CloudLaunch has been developed with contributions from the following projects:
-            </p>
-        </div>
-        <div class="container credits">
-            <div class="col-lg-6  col-md-2 col-sm-4 col-xs-12 frame">
-                 <a href="https://galaxyproject.org/" target="_blank"><img src="assets/images/logo_galaxy.png"></a>
-             </div>
-             <div class="col-lg-6  col-md-2 col-sm-4 col-xs-12 frame">
-                 <a href="https://gvl.org.au/" target="_blank"><img src="assets/images/logo_gvl.jpg"></a>
-             </div>
-        </div>
+        <mat-card class="chart-card">
+            <mat-card-content fxLayout="row wrap" fxLayoutAlign="center stretch">
+                <p fxFlex="100" fxLayoutAlign="center center">
+                CloudMan is an extensible cloud manager that orchestrates all of the steps required to provision a complete compute cluster environment
+                on a cloud infrastructure. CloudLaunch has been developed with contributions from the following projects:
+                </p>
+                <br /><br />
+                <div class="credits">
+                     <a href="https://galaxyproject.org/" target="_blank"><img src="assets/images/logo_galaxy.png"></a>
+                 </div>
+                 <div class="credits">
+                     <a href="https://gvl.org.au/" target="_blank"><img src="assets/images/logo_gvl.svg"></a>
+                 </div>
+            </mat-card-content>
+        </mat-card>
     </page-body>
 </app-standard-layout>

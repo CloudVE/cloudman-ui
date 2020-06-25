@@ -1,68 +1,36 @@
 <div id="container" class="wrapper">
-    <!-- Begin Navigation Bar -->
-    <nav class="navbar navbar-default">
-        <div class="container">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
+
+    <nav class="main" [class.primary-is-mobile]="mobileQuery.matches">
+      <mat-toolbar color="primary" class="primary-toolbar">
+        <h1>
+            <a mat-button routerLink="/" aria-label="CloudMan"><img src="assets/images/logo_gvl.svg" style="max-height: 48px;"/></a>
+        </h1>
+        <!-- Page title insertion point -->
+        <h1 style="padding-left: 20px;">{{ getPageTitle() }}</h1>
+        <span class="flex-spacer"></span>
+        <a mat-button routerLink="/system_overview" routerLinkActive="active" aria-label="Overview">
+            <mat-icon>home</mat-icon> Overview
+        </a>
+        <span *ngIf="loggedIn==false">
+            <a mat-button routerLink="/login"><mat-icon>login</mat-icon> Login</a>
+        </span>
+        <span *ngIf="loggedIn">
+            <a mat-button aria-label="Overview" [matMenuTriggerFor]="appMenu">
+                <mat-icon>account_circle</mat-icon> User
+                <span *ngIf="currentUser?.username">({{ currentUser?.username }})</span>
+            </a>
+            <mat-menu #appMenu="matMenu">
+                <button mat-menu-item>
+                    <a mat-button routerLink="/logout">
+                        <mat-icon>login</mat-icon> Logout
+                    </a>
                 </button>
-                <a class="navbar-brand" href="#"><i class="fa fa-rocket"></i> CloudMan</a>
-            </div>
-
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-right">
-                    <li routerLinkActive="active">
-                        <a routerLink="/system_overview"><i class="fa fa-search"></i> Admin
-                            <span class="sr-only">(System Overview)</span></a>
-                    </li>
-                    <li *ngIf="loggedIn==false">
-                        <a routerLink="/login">
-                            <i class="fa fa-sign-in"></i> Login
-                            <span class="sr-only">(Login)</span>
-                        </a>
-                    </li>
-
-
-                    <li *ngIf="loggedIn" class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="bootstrap-elements.html" data-target="#" aria-expanded="false">
-                            <i class="fa fa-user"></i>
-                            User
-                            <span *ngIf="currentUser?.username">
-                                ({{ currentUser?.username }})
-                            </span>
-                            <span class="caret"></span>
-                            <div class="ripple-container"></div>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li *ngIf="_loginService.getCurrentUser().isAdmin()">
-                                <a routerLink="/profile">
-                                    <i class="fa fa-user-circle-o"></i> My Credentials
-                                    <span class="sr-only">(My Credentials)</span>
-                                </a>
-                            </li>
-                            <li class="divider" *ngIf="_loginService.getCurrentUser().isAdmin()"></li>
-                            <li>
-                                <a routerLink="/logout">
-                                    <i class="fa fa-sign-out"></i> Logout
-                                    <span class="sr-only">(Logout)</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container-fluid -->
+            </mat-menu>
+        </span>
+      </mat-toolbar>
     </nav>
 
-    <div class="container-fluid" [@routerTransition]="getState(o)">
+    <div [@routerTransition]="getState(o)">
         <!-- The router-outlet displays the template for the current component based on the URL -->
         <router-outlet #o="outlet"></router-outlet>
     </div>
@@ -74,29 +42,39 @@
 
 <!-- Footer -->
 <footer id="footer" class="footer">
-    <div class="container">
-        <div class="col-lg-2  col-md-2 col-sm-4 col-xs-4">
-                <h3><i class="fa fa-ticket"></i> About </h3>
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between stretch">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title><i class="fa fa-ticket"></i> About </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
                 <ul>
                     <li> <a routerLink="/about" routerLinkActive="active"> About </a> </li>
                     <li> <a href="{{ getSupportContactLink() }}"> Contact Us </a> </li>
                 </ul>
-            </div>
-            <div class="col-lg-2  col-md-2 col-sm-4 col-xs-4 col-lg-offset-1">
-                <h3><i class="fa fa-code"></i> Developer </h3>
+            </mat-card-content>
+        </mat-card>
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title><i class="fa fa-code"></i> Developer </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
                 <ul>
                     <li> <a href="{{ getDeveloperAPILink() }}"> Developer API (beta) </a> </li>
-                    <li> <a href="https://github.com/galaxyproject/cloudman-ui"> Source Code <i class="fa fa-github"></i></a> </li>
+                    <li> <a href="https://github.com/galaxyproject/cloudman"> Source Code <i class="fa fa-github"></i></a> </li>
                 </ul>
-            </div>
-            <div class="col-lg-3  col-md-3 col-sm-4 col-xs-4 col-lg-offset-4">
-                <ul class="pull-right" style="padding: 20% 0% 0% 0%">
-                    <li class="social social-facebook"> <a class="addthis_button_facebook"> <i class="fa fa-facebook"></i> </a> </li>
-                    <li class="social social-twitter"> <a class="addthis_button_twitter"> <i class="fa fa-twitter"></i> </a> </li>
-                    <li class="social social-google"> <a class="addthis_button_google"> <i class="fa fa-google-plus"></i> </a> </li>
-                    <li class="social social-more"> <a class="addthis_button_more"> <i class="fa fa-plus"></i> </a> </li>
-                </ul>
-            </div>
+            </mat-card-content>
+        </mat-card>
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title> </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+            </mat-card-content>
+             <mat-card-actions>
+                 <img src="https://galaxyproject.org/images/galaxy-logos/cloudman-logo.jpg" alt="cloudman" style="max-height: 50px" />
+             </mat-card-actions>
+        </mat-card>
     </div>
     <!--/.footer-->
 </footer>

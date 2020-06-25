@@ -8,7 +8,9 @@ export class Chart {
     updated: string;
     access_address: string;
     values: any;
-    install_template: string;
+    install_template: InstallTemplate;
+    use_install_template: string;
+    app_healthy: boolean = false;
 }
 
 export class InstallTemplate {
@@ -23,4 +25,5 @@ export class InstallTemplate {
     description: string;
     info_url: string;
     icon_url: string;
+    screenshot_url: string;
 }

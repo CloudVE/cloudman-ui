@@ -5,12 +5,12 @@
 	/* Google Chrome, Safari 6+ & Opera 15+ */
 	max-width: 200px;
 	max-height: 100px;
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	margin: auto;
+    transition: all 1s ease 0s;
+    -moz-transition: all 1s ease 0s;
+    -webkit-transition: all 1s ease 0s;
+    -ms-transition: all 1s ease 0s;
+    -o-transition: all 1s ease 0s;
+    margin: 20px;
 }
 
 /* Disable grayscale on hover */

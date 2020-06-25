@@ -1,31 +1,68 @@
-table {
-  width: 100%;
+.mat-toolbar.mat-primary {
+    background: transparent;
+    color: black;
 }
 
-tr.grafana-dashboard-row {
-  height: 0;
+/* https://stackoverflow.com/a/52207832 */
+.chart-card {
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 32px; /* same as fxLayoutGap for even distribution */
+    transition: all .5s ease; /* back to normal */
 }
 
-.mat-column-name {
-  width: 20%;
+.chart-card-disabled img {
+    filter: grayscale(1); /* Firefox 35+ */
+    -webkit-filter: grayscale(1);
+    transition: all 1s ease 0s;
+    -moz-transition: all 1s ease 0s;
+    -webkit-transition: all 1s ease 0s;
+    -ms-transition: all 1s ease 0s;
+    -o-transition: all 1s ease 0s;
 }
 
-.mat-column-updated {
-  width: 20%;
+.chart-card-enabled img {
+    filter: none;
+    -webkit-filter: grayscale(0);
+    transition: all 1s ease 0s;
+    -moz-transition: all 1s ease 0s;
+    -webkit-transition: all 1s ease 0s;
+    -ms-transition: all 1s ease 0s;
+    -o-transition: all 1s ease 0s;
 }
 
-.mat-column-access_address {
-  width: 30%;
+.chart-image {
+    max-height: 256px;
+    object-fit: contain;
 }
 
-.mat-column-actions {
-  width: 30%;
+.chart-card:hover {
+    transform: translate3D(0, -1px, 0) scale(1.03);
+    transition: all .4s ease; /* zoom in */
 }
 
-.text-inside-grid {
+.chart-content {
+    max-height: 256px;
+    overflow: scroll;
 }
 
-.project-header {
-  position: absolute;
-  left: 5px;
+.mat-card-header {
+    flex-shrink: 0;
+    padding-bottom: 20px;
 }
+
+.mat-card-content {
+    flex-grow: 1;
+    overflow: auto;
+}
+
+.progress {
+    margin: -19px -16px 16px -16px;
+    width: calc(100% + 32px);
+}
+
+.flex-spacer {
+    flex: 1 1 auto;
+}
+

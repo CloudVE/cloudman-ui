@@ -23,6 +23,7 @@ import { NodeAddDlgComponent } from './components/dialogs/node-add.component';
 import { ApplicationService } from '../shared/services/application.service';
 import { CloudService } from '../shared/services/cloud.service';
 import { ClusterService } from '../shared/services/cluster.service';
+import {FlexLayoutModule} from "@angular/flex-layout";
 
 
 @NgModule({
@@ -37,6 +38,7 @@ import { ClusterService } from '../shared/services/cluster.service';
     MatSelectModule,
     MatInputModule,
     MatExpansionModule,
+    FlexLayoutModule,
     FormsModule,
     ReactiveFormsModule,
     ClusterRoutingModule,

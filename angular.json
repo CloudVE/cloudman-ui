@@ -28,7 +28,6 @@
               {
                 "input": "node_modules/@angular/material/prebuilt-themes/indigo-pink.css"
               },
-              "node_modules/bootstrap-material-design/dist/css/ripples.min.css",
               "src/styles.css",
               "src/assets/scss/angular2-material-custom-theme.scss"
             ],
