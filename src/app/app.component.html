@@ -1,5 +1,4 @@
 <div id="container" class="wrapper">
-
     <nav class="main" [class.primary-is-mobile]="mobileQuery.matches">
       <mat-toolbar color="primary" class="primary-toolbar">
         <h1>
@@ -34,10 +33,6 @@
         <!-- The router-outlet displays the template for the current component based on the URL -->
         <router-outlet #o="outlet"></router-outlet>
     </div>
-
-
-    <!-- Pushes footer down -->
-    <div class="push"></div>
 </div>
 
 <!-- Footer -->
