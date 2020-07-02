@@ -29,6 +29,11 @@
      margin-left: -16px;
 }
 
+.mat-toolbar-row, .mat-toolbar-single-row {
+    height: auto;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
 /* FOOTER */
 
 .footer {
