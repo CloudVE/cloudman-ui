@@ -9,8 +9,8 @@ import {ProjManService} from "../../services/projman.service";
 import {Project} from "../../models/project";
 import {ProjectChart} from "../../models/project";
 
-import {combineLatest, forkJoin, interval, Subject} from "rxjs";
-import {flatMap, map, startWith, switchMap, takeWhile, tap} from 'rxjs/operators';
+import {forkJoin, interval, Subject, of, concat} from "rxjs";
+import {flatMap, startWith, switchMap, tap} from 'rxjs/operators';
 import {AddChartDlgComponent} from "../dialogs/add-chart.component";
 import {LoginService} from "../../../login/services/login/login.service";
 
@@ -45,13 +45,15 @@ export class ChartManagementComponent implements OnInit {
                     this.projectCtrl.setValue(projects[0]);
                 }
             }));
-        this.chartObs = combineLatest([this.activeProjectChanged, interval(10000).pipe(startWith(0))]).pipe(
-            switchMap(([project, interval]) => this._projectService.getProjectCharts(project)),
+        this.chartObs = this.activeProjectChanged.pipe(
+            switchMap(project => this._projectService.getProjectCharts(project)),
             tap(charts => this.installedCharts = charts),
-            switchMap(charts => {
-                    const obs = charts.map(chart => this._projectService.getChartHealth(
-                        chart, this.getAppURL(chart.values)));
-                    return forkJoin(obs);
+            flatMap(charts => {
+                    const obs = interval(5000).pipe(
+                        startWith(0),
+                        flatMap(() => forkJoin(charts.map(chart => this._projectService.getChartHealth(
+                            chart, this.getAppURL(chart.values))))));
+                    return concat(of(charts), obs);
                 }
             )
         );
