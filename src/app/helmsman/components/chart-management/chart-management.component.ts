@@ -9,8 +9,8 @@ import {ProjManService} from "../../services/projman.service";
 import {Project} from "../../models/project";
 import {ProjectChart} from "../../models/project";
 
-import {forkJoin, interval, Subject, of, concat} from "rxjs";
-import {flatMap, startWith, switchMap, tap} from 'rxjs/operators';
+import {forkJoin, interval, Subject, of, concat, throwError} from "rxjs";
+import {flatMap, startWith, switchMap, tap, retryWhen, delay, take, concat as concat_op} from 'rxjs/operators';
 import {AddChartDlgComponent} from "../dialogs/add-chart.component";
 import {LoginService} from "../../../login/services/login/login.service";
 
@@ -49,11 +49,25 @@ export class ChartManagementComponent implements OnInit {
             switchMap(project => this._projectService.getProjectCharts(project)),
             tap(charts => this.installedCharts = charts),
             flatMap(charts => {
-                    const obs = interval(5000).pipe(
+                    const initial_health = forkJoin(charts.map(chart => this._projectService.getChartHealth(
+                        chart, this.getAppURL(chart.values)).pipe(
+                            // https://stackoverflow.com/a/44911567
+                            retryWhen(errors =>
+                                // Delay the retry
+                                errors.pipe(
+                                    delay(5000),
+                                    // Retry a max of 5 minutes
+                                    take(60),
+                                    concat_op(throwError("Exceeded time limit for app readiness"))
+                                )
+                            )
+                        )
+                    ));
+                    // Rerun the initial health check periodically
+                    const periodic_health = interval(5000*60).pipe(
                         startWith(0),
-                        flatMap(() => forkJoin(charts.map(chart => this._projectService.getChartHealth(
-                            chart, this.getAppURL(chart.values))))));
-                    return concat(of(charts), obs);
+                        flatMap(() => initial_health));
+                    return concat(of(charts), periodic_health);
                 }
             )
         );

@@ -78,7 +78,7 @@ export class ProjManService {
                 }),
                 catchError((err, caught) => {
                     chart.app_healthy = false;
-                    return of(chart);
+                    return throwError(err);
                 }));
     }
 
@@ -93,5 +93,4 @@ export class ProjManService {
             return throwError(err.error || String(err) || 'Server error');
         }
     }
-
 }
