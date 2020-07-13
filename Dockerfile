@@ -5,7 +5,7 @@
 #########################
 
 # base image
-FROM node:13.0.1 as builder
+FROM node:14.5.0 as builder
 
 # set working directory
 RUN mkdir /app
@@ -28,7 +28,7 @@ RUN npm run build
 ##################
 
 # base image
-FROM nginx:1.17.5-alpine
+FROM nginx:1.19.1-alpine
 
 # copy artifact build from the 'build environment'
 COPY --from=builder /app/dist/cloudman-ui /usr/share/nginx/html
