@@ -1,33 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
 /* full width mat-form-field */
-.full-width-container {
-  display: flex !important;;
-  flex-direction: column !important;;
-  font-size: 16px !important;;
-}
-
-.full-width-container > * {
-  width: 100% !important;;
-}
-
-.radio-group-vertical {
-  display: inline-flex;
-  flex-direction: column;
-}
-
-.radio-group-vertical {
-  margin: 5px 5px 5px 15px;
-}
-
-.radio-group-horizontal {
-  display: inline-flex;
-  flex-direction: row;
-}
-
-.radio-group-horizontal > mat-radio-button {
-    margin: 15px 25px 5px 15px;
-}
-
 @keyframes fadein {
     from { opacity: 0; }
     to   { opacity: 1; }
@@ -38,54 +10,7 @@
     to   { opacity: 1; }
 }
 
-/* FOOTER */
-.footer {
-    background: linear-gradient(50deg, AliceBlue 17%, #e0e8ee 83%);
-    height: 130px;
-    position: relative;
-    width: 100%;
-    border-top: 1px solid #DDDDDD;
-}
-
-.helper {
-    display: inline-block;
-    height: 100%;
-    vertical-align: middle;
-}
-
-.footer p {
-    margin: 0;
-}
-
-.footer h3 {
-    border-bottom: 1px solid #BAC1C8;
-    color: #54697E;
-    font-size: 18px;
-    font-weight: 600;
-    line-height: 10px;
-    padding: 5px 0 10px;
-    text-transform: uppercase;
-}
-
-.footer ul {
-    font-size: 13px;
-    list-style-type: none;
-    margin-left: 0;
-    padding-left: 0;
-    margin-top: 5px;
-    color: #7F8C8D;
-}
-
-.footer ul li a {
-    padding: 0 0 5px 0;
-    display: block;
-}
-
-.footer a {
-    color: #78828D
-}
-
-/* Sticky Footer - http://ryanfait.com/resources/footer-stick-to-bottom-of-page/ */
+/* Sticky Footer - https://css-tricks.com/couple-takes-sticky-footer/ */
 * {
     margin: 0;
 }
@@ -94,123 +19,44 @@ html, body {
     height: 100%;
 }
 
-.wrapper {
-    min-height: 100%;
-    margin: 0 auto -130px;
-    /* the bottom margin is the negative value of the footer's height */
-}
-
-footer, .push {
-    height: 130px; /* '.push' must be the same height as 'footer' */
-}
-
-/* END FOOTER */
-.navbar {
-    margin-bottom: 0;
-}
-
-.form-group {
-    margin: 14px 0 0 0;
-}
-
-.control-label {
-    font-size: 16px !important;
-    /*color: #009688 !important;*/
-}
-
-.ui-select-match-text {
-    color: gray;
-    font-weight: 100;
-}
-
-.ui-select-placeholder {
-    color: darkred;
-}
-
-.loading_splash {
-    position: absolute;
-    top: 100;
-    left: 0;
-    right: 0;
+body {
     display: flex;
-    justify-content: space-around;
-    align-items: center;
-    flex-wrap: wrap;
+    flex-direction: column;
 }
 
-/* Social icons: Begin */
-.social-facebook {
-    background-color: #4c699e;
-    border: 2px solid #4c699e;
+.app-root {
+    display: block;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
 }
 
-.social-facebook:hover {
-    background-color: #47618d;
+.wrapper {
+    flex: 1;
 }
 
-.social-google {
-    background-color: #d34836;
-    border: 2px solid #d34836;
+footer {
+    flex-shrink: 0;
 }
 
-.social-google:hover {
-    background-color: #be5238;
+/* End Sticky Footer */
+
+.custom-expansion-header > .mat-content {
+    justify-content: flex-start;
 }
 
-.social-twitter {
-    background-color: #1daee3;
-    border: 2px solid #1daee3;
+.mat-content > mat-panel-title, .mat-content > mat-panel-description {
+    flex: 1 1 auto;
 }
 
-.social-twitter:hover {
-    background-color: #3997ba;
+.grafana-expansion-panel .mat-expansion-panel-content > .mat-expansion-panel-body {
+    padding: 0 1px !important;
 }
 
-.social-more {
-    background-color: #B5B5B5;
-    border: 2px solid #B5B5B5;
+.green-progress .mat-progress-bar-fill::after {
+    background-color: green !important;
 }
 
-.social-more:hover {
-
+.flex-spacer {
+    flex: 1 1 auto;
 }
-
-.social {
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
-    -o-border-radius: 50%;
-    -ms-border-radius: 50%;
-    border-radius: 50%;
-    float: left;
-    height: 36px;
-    line-height: 36px;
-    margin: 0 8px 0 0;
-    padding: 0;
-    text-align: center;
-    width: 36px;
-    -webkit-transform: scale(1);
-    /* Browser Variations: */
-    -moz-transform: scale(1);
-    -o-transform: scale(1);
-    -webkit-transition-duration: 0.5s;
-    -moz-transition-duration: 0.5s;
-    -o-transition-duration: 0.5s;
-}
-
-.social:hover {
-    -webkit-transform: scale(1.2);
-    -moz-transform: scale(1.2);
-    -o-transform: scale(1.2);
-}
-
-.social a i {
-    font-size: 16px;
-    margin: 0 0 0 0px;
-    color: #EDEFF1 !important;
-}
-
-.social a:focus {
-    outline: none;
-}
-
-/* Social Buttons: End */

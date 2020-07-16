@@ -10,3 +10,59 @@ material-design-framework {
 .mat-form-field {
   width: 100%;
 }
+
+/* Begin: Styling for vm select dropdown */
+.vmtype {
+    display: flex;
+    place-content: center space-between;
+    align-items: center;
+    box-sizing: border-box;
+
+    .row {
+        flex-direction: row;
+        -webkit-box-orient: horizontal;
+    }
+
+    .column {
+        flex-direction: column;
+        -webkit-box-orient: vertical;
+        height: 100px; /*  important for sizing of row heights */
+        margin-bottom: 20px;
+    }
+}
+
+.spec {
+    display: flex;
+    place-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    flex: 1 1 100%;
+    max-width: 25%;
+
+    .row {
+        flex-direction: row;
+        -webkit-box-orient: horizontal;
+    }
+}
+
+.vmtype_item_25, .spec_item_50 {
+    flex: 1 1 100%;
+    box-sizing: border-box;
+}
+
+.row .vmtype_item_25 {
+    max-width: 25%;
+}
+
+.row .spec_item_50 {
+    max-width: 50%;
+}
+
+.column .vmtype_item_25 {
+    max-height: 25%;
+}
+
+.column .spec_item_50 {
+    max-height: 25%;
+}
+/* End: Styling for vm select dropdown */

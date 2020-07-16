@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { throwError } from "rxjs";
-import { map, catchError } from 'rxjs/operators';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs/Observable';
+import {of, throwError} from "rxjs";
+import {map, catchError} from 'rxjs/operators';
+import {HttpClient, HttpErrorResponse, HttpResponse} from '@angular/common/http';
 
-import { AppSettings } from '../../app.settings';
-import { Project, ProjectChart } from '../models/project';
-import { QueryResult } from '../models/query';
+import {AppSettings} from '../../app.settings';
+import {Project, ProjectChart} from '../models/project';
+import {QueryResult} from '../models/query';
 
 
 @Injectable()
@@ -39,6 +39,7 @@ export class ProjManService {
     public getProjectCharts(project: Project): Observable<ProjectChart[]> {
         return this.http.get<QueryResult<ProjectChart>>(`${this._projects_url}/${project.id}/charts/`)
             .pipe(map(response => response.results),
+                  map(results => results.filter(projchart => projchart.name != 'projman')),
                   catchError(this.handleError));
     }
 
@@ -68,6 +69,19 @@ export class ProjManService {
             .pipe(catchError(this.handleError));
     }
 
+    public getChartHealth(chart: ProjectChart, access_path: string): Observable<ProjectChart> {
+        return this.http.get(access_path, { responseType: 'text'})
+            .pipe(
+                map(response => {
+                    chart.app_healthy = true;
+                    return chart;
+                }),
+                catchError((err, caught) => {
+                    chart.app_healthy = false;
+                    return throwError(err);
+                }));
+    }
+
     private handleError(err: HttpErrorResponse) {
         console.error(err);
         if (err.error instanceof Error) {
@@ -79,5 +93,4 @@ export class ProjManService {
             return throwError(err.error || String(err) || 'Server error');
         }
     }
-
 }

@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { LoginService } from "../../../login/services/login/login.service";
+import {Component} from '@angular/core';
+import {LoginService} from "../../../login/services/login/login.service";
+import {Title} from "@angular/platform-browser";
 
 @Component({
     selector: 'app-system-overview-page',
@@ -8,6 +9,8 @@ import { LoginService } from "../../../login/services/login/login.service";
 })
 export class SystemOverviewPageComponent {
 
-    constructor(public loginService: LoginService) {
+    constructor(private titleService: Title,
+                public loginService: LoginService) {
+        this.titleService.setTitle("Overview");
     }
 }

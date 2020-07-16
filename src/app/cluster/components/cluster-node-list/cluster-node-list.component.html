@@ -1,7 +1,7 @@
 <div>
     <form class="form">
         <mat-expansion-panel #nodePanel>
-            <mat-expansion-panel-header>
+            <mat-expansion-panel-header class="custom-expansion-header">
                 <mat-panel-title>
                     Nodes
                 </mat-panel-title>
@@ -10,50 +10,54 @@
                     &nbsp;&nbsp;<div><i *ngIf="fetchingNodes" class="fa fa-spinner fa-spin fa-fw"></i></div>
                 </mat-panel-description>
             </mat-expansion-panel-header>
-            <br />
-            <table class="table table-hover" *ngIf="nodePanel.expanded">
-                <thead>
-                    <tr>
-                        <th class="col-md-3"><p> Name </p></th>
-                        <th class="col-md-5"><p> Status</p></th>
-                        <th class="col-md-2"><p> IP</p></th>
-                        <th class="col-md-1"><p> AutoScaler Managed</p></th>
-                        <th class="col-md-1"><p> Actions</p></th>
-                    </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let node of nodeObservable | async;">
-                    <td>{{ node.name }}</td>
-                    <td class="text-left">
-                        <div>
+            <ng-template matExpansionPanelContent>
+                <br />
+                <div fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="space-between stretch">
+                    <div fxFlex="100">
+                        <div fxFlex>Name</div>
+                        <div fxFlex>Status</div>
+                        <div fxFlex>Uptime</div>
+                        <div fxFlex>Type</div>
+                        <div fxFlex>IP</div>
+                        <div fxFlex>AutoScaler Managed</div>
+                        <div fxFlex>Actions</div>
+                    </div>
+                    <div fxFlex="100">
+                        <hr />
+                    </div>
+                    <div fxFlex="100" *ngFor="let node of nodeObservable | async;">
+                        <div fxFlex>{{ node.name }}</div>
+                        <div fxFlex>
                             <div [ngSwitch]="node.deployment.latest_task?.status">
                               <div *ngSwitchCase="'SUCCESS'">
-                                <p class="text-success"><i class="fa fa-bolt fa-fw"></i> RUNNING</p>
+                                <p color="primary"><i class="fa fa-bolt fa-fw"></i> RUNNING</p>
                               </div>
-                              <p *ngSwitchCase="'FAILURE'" class="text-danger">FAILURE
+                              <p *ngSwitchCase="'FAILURE'" color="warn">FAILURE
                                  <br />{{ node.deployment.latest_task?.result?.exc_message }}
                               </p>
-                              <p *ngSwitchCase="'UNKNOWN'" class="text-warning">FAILURE
+                              <p *ngSwitchCase="'UNKNOWN'" color="accent">FAILURE
                                  <br />{{ node.deployment.latest_task?.result?.exc_message }}
                               </p>
-                              <p *ngSwitchCase="'PENDING'" class="text-info">PENDING</p>
+                              <p *ngSwitchCase="'PENDING'" color="link">PENDING</p>
                               <p *ngSwitchCase="'PROGRESSING'" class="text-info"><i class="fa fa-cog fa-spin fa-fw"></i> PROGRESSING
                                 <br />{{ node.deployment.latest_task?.result?.action }}
                               </p>
                             </div>
                         </div>
-                    </td>
-                    <td>{{ node.deployment.launch_task?.result?.cloudLaunch?.publicIP }}</td>
-                    <td class="text-center"><p class="text-success" *ngIf="node.autoscaler"><i class="fa fa-check-circle-o"></i></p></td>
-                    <td class="col-md-1">
-                        <a class="text-info" href="javascript:void(0);" (click)="deleteNode(node)" title="Delete"><i class="fa fa-remove"></i></a>
-                    </td>
-                  </tr>
-                </tbody>
-            </table>
-            <button class="btn btn-primary" type="button" matTooltip="Add node" (click)="openAddNodeDialog(element)" *ngIf="loginService.getCurrentUser().isAdmin()">
-                <i class="fa fa-plus"></i> Manually Add Node
-            </button>
+                        <div fxFlex>Uptime</div>
+                        <div fxFlex>{{ node.deployment.application_config?.config_cloudlaunch?.vmType }}</div>
+                        <div fxFlex>{{ node.deployment.launch_task?.result?.cloudLaunch?.publicIP }}</div>
+                        <div fxFlex><p class="text-success" *ngIf="node.autoscaler"><i class="fa fa-check-circle-o"></i></p></div>
+                        <div fxFlex>
+                            <a class="text-info" href="javascript:void(0);" (click)="deleteNode(node)" title="Delete"><i class="fa fa-remove"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <br /><br />
+                <button mat-button type="button" matTooltip="Add node" (click)="openAddNodeDialog(element)" *ngIf="loginService.getCurrentUser().isAdmin()">
+                    <mat-icon>add</mat-icon> Manually Add Node
+                </button>
+            </ng-template>
         </mat-expansion-panel>
     </form>
 </div>

@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
+import {BrowserModule, Title} from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -15,6 +15,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -45,6 +46,7 @@ import { AddChartDlgComponent } from "./helmsman/components/dialogs/add-chart.co
     MatCardModule,
     MatMenuModule,
     MatTabsModule,
+    FlexLayoutModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
@@ -58,11 +60,12 @@ import { AddChartDlgComponent } from "./helmsman/components/dialogs/add-chart.co
     HelmsmanModule
   ],
   providers: [
-  {
-    provide: HTTP_INTERCEPTORS,
-    useClass: AuthInterceptor,
-    multi: true,
-  }
+      {
+        provide: HTTP_INTERCEPTORS,
+        useClass: AuthInterceptor,
+        multi: true,
+      },
+      Title
   ],
   entryComponents: [CreateProjectDlgComponent, AddChartDlgComponent, ChartReconfigurationDlgComponent, NodeAddDlgComponent],
   bootstrap: [AppComponent]

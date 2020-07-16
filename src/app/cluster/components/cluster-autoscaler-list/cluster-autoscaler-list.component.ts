@@ -89,6 +89,7 @@ export class ClusterAutoScalerListComponent {
         this.autoScalingEnabledCtrl.valueChanges.subscribe(value => this.onChangeAutoScalingStatus(value));
 
         this.autoScalerObs = this.clusterSubject.pipe(
+                              tap(() => { this.fetchingAutoScalers = false; }),
                               tap(cluster => this.clusterCtrl.patchValue(cluster)),
                               tap(cluster => this.autoScalingEnabledCtrl.patchValue(cluster.autoscale)),
                               tap(cluster => this.zoneCtrl.patchValue(cluster.default_zone.id)),
@@ -97,8 +98,7 @@ export class ClusterAutoScalerListComponent {
                               switchMap(cluster => this.clusterService.getClusterAutoScalers(cluster.id)),
                               map(autoscalers => autoscalers[0]),
                               tap(autoscaler => this.form.patchValue(autoscaler || {})),
-                              tap(() => { this.fetchingAutoScalers = false; })),
-                              map(autoscaler => true);
+                              tap(() => { this.fetchingAutoScalers = false; }));
 
         this.zoneObs = this.cloudService.getClouds().pipe(
                       tap(clouds => { this.zoneHelp = 'Retrieving zones...'; }),

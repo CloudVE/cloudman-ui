@@ -1,15 +1,13 @@
-<div class="row cl-banner">
-    <div class="container">
-        <div class="row">
-            <!-- Page header insertion point -->
-            <ng-content select="page-header"></ng-content>
-        </div>
-    </div>
-</div>
+<mat-sidenav-container class="primary-container-sidenav-container"
+                     [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+    <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
+                 [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
+      <mat-nav-list>
+      </mat-nav-list>
+    </mat-sidenav>
 
-<div class="container">
-    <div class="row">
-        <!-- Page body insertion point -->
+    <mat-sidenav-content>
+          <!-- Page body insertion point -->
         <ng-content select="page-body"></ng-content>
-    </div>
-</div>
+    </mat-sidenav-content>
+</mat-sidenav-container>

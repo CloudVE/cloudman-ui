@@ -1,18 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { FormControl } from "@angular/forms";
-import { Observable } from 'rxjs/Observable';
+import {Component, OnInit} from '@angular/core';
+import {MatDialog} from '@angular/material/dialog';
+import {FormControl} from "@angular/forms";
+import {Observable} from 'rxjs/Observable';
 
-import { ChartReconfigurationDlgComponent } from '../dialogs/chart-reconfiguration.component';
-import { CreateProjectDlgComponent } from '../dialogs/create-project.component';
-import { ProjManService } from "../../services/projman.service";
-import { Project } from "../../models/project";
-import { ProjectChart } from "../../models/project";
+import {ChartReconfigurationDlgComponent} from '../dialogs/chart-reconfiguration.component';
+import {CreateProjectDlgComponent} from '../dialogs/create-project.component';
+import {ProjManService} from "../../services/projman.service";
+import {Project} from "../../models/project";
+import {ProjectChart} from "../../models/project";
 
-import { Subject } from "rxjs";
-import { startWith, switchMap, tap } from 'rxjs/operators';
-import { AddChartDlgComponent } from "../dialogs/add-chart.component";
-import { LoginService } from "../../../login/services/login/login.service";
+import {forkJoin, interval, Subject, of, concat, throwError} from "rxjs";
+import {flatMap, startWith, switchMap, tap, retryWhen, delay, take, concat as concat_op} from 'rxjs/operators';
+import {AddChartDlgComponent} from "../dialogs/add-chart.component";
+import {LoginService} from "../../../login/services/login/login.service";
 
 @Component({
     selector: 'app-chart-management',
@@ -38,7 +38,7 @@ export class ChartManagementComponent implements OnInit {
 
     ngOnInit() {
         this.projectsObs = this.projectsChanged.pipe(
-            startWith(null),
+            startWith(null as ProjectChart),
             switchMap(() => this._projectService.getProjects()),
             tap(projects => {
                 if (projects && projects.length && !this.projectCtrl.value) {
@@ -47,7 +47,30 @@ export class ChartManagementComponent implements OnInit {
             }));
         this.chartObs = this.activeProjectChanged.pipe(
             switchMap(project => this._projectService.getProjectCharts(project)),
-            tap(charts => this.installedCharts = charts));
+            tap(charts => this.installedCharts = charts),
+            flatMap(charts => {
+                    const initial_health = forkJoin(charts.map(chart => this._projectService.getChartHealth(
+                        chart, this.getAppURL(chart.values)).pipe(
+                            // https://stackoverflow.com/a/44911567
+                            retryWhen(errors =>
+                                // Delay the retry
+                                errors.pipe(
+                                    delay(5000),
+                                    // Retry a max of 5 minutes
+                                    take(60),
+                                    concat_op(throwError("Exceeded time limit for app readiness"))
+                                )
+                            )
+                        )
+                    ));
+                    // Rerun the initial health check periodically
+                    const periodic_health = interval(5000*60).pipe(
+                        startWith(0),
+                        flatMap(() => initial_health));
+                    return concat(of(charts), periodic_health);
+                }
+            )
+        );
         this.projectCtrl.valueChanges.subscribe(
             proj => this.activeProjectChanged.next(proj));
     }
@@ -89,7 +112,7 @@ export class ChartManagementComponent implements OnInit {
 
     openAddChartDialog() {
         const dialogRef = this.dialog.open(AddChartDlgComponent,
-            { data: this.installedCharts });
+            { data: this.installedCharts || [] });
 
         dialogRef.afterClosed().subscribe(result => {
             if (result === 'save') {
@@ -97,7 +120,7 @@ export class ChartManagementComponent implements OnInit {
                 for (var change of chartChanges) {
                     if (change.action == true) {
                         let newChart = new ProjectChart();
-                        newChart.install_template = change.install_template.name;
+                        newChart.use_install_template = change.install_template.name;
                         newChart.project = this.projectCtrl.value;
                         this._projectService.createProjectChart(newChart)
                             .subscribe(proj => {
@@ -123,14 +146,14 @@ export class ChartManagementComponent implements OnInit {
         if (values && values['ingress']) {
             if (values['ingress']['access_path']) {
                 // FIXME: Should not be directly accessing DOM elements
-                return `${window.location.origin}${values['ingress']['access_path']}/`;
+                return `${window.location.origin}${values['ingress']['access_path']}`;
             }
             else if (values['ingress']['path']) {
                 // FIXME: Should not be directly accessing DOM elements
-                return `${window.location.origin}${values['ingress']['path']}/`;
+                return `${window.location.origin}${values['ingress']['path']}`;
             }
             else if (values['ingress']['hosts'] && values['ingress']['hosts'][0]['paths']) {
-                return `${window.location.origin}${values['ingress']['hosts'][0]['paths'][0]}/`;
+                return `${window.location.origin}${values['ingress']['hosts'][0]['paths'][0]}`;
             }
         }
         return "";
@@ -142,5 +165,9 @@ export class ChartManagementComponent implements OnInit {
 
     getGrafanaUrl(element) {
         return `/grafana/d/gxy_general_stats_${element.id}/galaxy-overview?refresh=120s&orgId=1&kiosk&var-Node=All&theme=light`;
+    }
+
+    trackByChartId(idx: number, chart: ProjectChart) {
+        return chart.id;
     }
 }
