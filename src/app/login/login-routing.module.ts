@@ -12,6 +12,7 @@ import { AuthGuardService } from './services/auth-guard/auth-guard.service';
 // Pages
 import { LoginPageComponent } from './components/login-page/login-page.component';
 import { LogoutPageComponent } from './components/logout-page/logout-page.component';
+import { LoginService } from "./services/login/login.service";
 
 
 const appRoutes: Routes = [
@@ -21,15 +22,15 @@ const appRoutes: Routes = [
             url: 'externalUrlRedirectResolver'
         },
         data: {
-            externalUrl: '/cloudman/openid/openid/KeyCloak'
+            externalUrl: '/cloudman/oidc/authenticate/'
         }
     },
     { path: 'logout', component: LogoutPageComponent,
         resolve: {
-            url: 'externalUrlRedirectResolver'
+            url: 'externalUrlPostResolver'
         },
         data: {
-            externalUrl: '/cloudman/openid/logout'
+            externalUrl: '/cloudman/oidc/authenticate/'
         }
     },
 ];
@@ -43,6 +44,15 @@ const appRoutes: Routes = [
                     useValue: (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) =>
                     {
                         window.location.href = (route.data as any).externalUrl;
+                    }
+                },
+                {
+                    provide: 'externalUrlPostResolver',
+                    useValue: (route: ActivatedRouteSnapshot, state: RouterStateSnapshot, _loginService: LoginService) =>
+                    {
+                        _loginService.logout().subscribe(
+                            result => window.location.href = (route.data as any).externalUrl
+                        )
                     }
                 }
             ]
