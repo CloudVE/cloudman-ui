@@ -1,6 +1,6 @@
 /* tslint:disable:no-unused-variable */
 
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { NodeAddDlgComponent } from './node-add.component';
 
 describe('Component: Chart Reconfiguration Dialog', () => {
