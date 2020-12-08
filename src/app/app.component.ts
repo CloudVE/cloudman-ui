@@ -51,10 +51,6 @@ export class AppComponent implements OnDestroy {
         return AppSettings.CLOUDMAN_SUPPORT_LINK;
     }
 
-    logout() {
-        this._loginService.logout().subscribe();
-    }
-
     getState(outlet: RouterOutlet) {
         return outlet.activatedRouteData.state;
     }

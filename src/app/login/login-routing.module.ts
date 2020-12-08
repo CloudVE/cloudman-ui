@@ -6,12 +6,10 @@ import {
     ActivatedRouteSnapshot,
     RouterStateSnapshot
 } from '@angular/router';
-// Services
-import { AuthGuardService } from './services/auth-guard/auth-guard.service';
 
 // Pages
-import { LoginPageComponent } from './components/login-page/login-page.component';
-import { LogoutPageComponent } from './components/logout-page/logout-page.component';
+import {LoginPageComponent} from './components/login-page/login-page.component';
+import {LogoutPageComponent} from './components/logout-page/logout-page.component';
 
 
 const appRoutes: Routes = [
@@ -21,17 +19,10 @@ const appRoutes: Routes = [
             url: 'externalUrlRedirectResolver'
         },
         data: {
-            externalUrl: '/cloudman/openid/openid/KeyCloak'
+            externalUrl: '/cloudman/oidc/authenticate/'
         }
     },
-    { path: 'logout', component: LogoutPageComponent,
-        resolve: {
-            url: 'externalUrlRedirectResolver'
-        },
-        data: {
-            externalUrl: '/cloudman/openid/logout'
-        }
-    },
+    { path: 'logout', component: LogoutPageComponent }
 ];
 
 @NgModule({

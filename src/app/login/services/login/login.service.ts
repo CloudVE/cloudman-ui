@@ -16,7 +16,7 @@ export class LoginService {
     constructor(private http: HttpClient) { }
 
     private _loginUrl = `${AppSettings.CLOUDLAUNCH_API_ENDPOINT}/auth/login/`;
-    private _logoutUrl = `${AppSettings.CLOUDLAUNCH_API_ENDPOINT}/auth/logout/`;
+    private _logoutUrl = `${AppSettings.CLOUDMAN_SERVER_ROOT}/oidc/logout/`;
     private _currentUserUrl = `${AppSettings.CLOUDLAUNCH_API_ENDPOINT}/auth/user/`;
     private _login_method: string = null;
     private _current_user: User = null;
