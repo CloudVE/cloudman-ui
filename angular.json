@@ -22,21 +22,26 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              { "glob": "worker-xml.js", "input": "./node_modules/ace-builds/src-min/", "output": "/" }
+              {
+                "glob": "worker-xml.js",
+                "input": "./node_modules/ace-builds/src-min/",
+                "output": "/"
+              }
             ],
             "styles": [
               {
-                "input": "node_modules/@angular/material/prebuilt-themes/indigo-pink.css"
+                "input": "node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+                "inject": true
               },
               "src/styles.css",
               "src/assets/scss/angular2-material-custom-theme.scss"
             ],
             "scripts": [
-                "node_modules/ace-builds/src-min/ace.js",
-                "node_modules/ace-builds/src-min/mode-yaml.js",
-                "node_modules/ace-builds/src-min/mode-xml.js",
-                "node_modules/ace-builds/src-min/theme-chrome.js",
-                "node_modules/ace-builds/src-min/worker-xml.js"
+              "node_modules/ace-builds/src-min/ace.js",
+              "node_modules/ace-builds/src-min/mode-yaml.js",
+              "node_modules/ace-builds/src-min/mode-xml.js",
+              "node_modules/ace-builds/src-min/theme-chrome.js",
+              "node_modules/ace-builds/src-min/worker-xml.js"
             ]
           },
           "configurations": {
@@ -56,7 +61,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -91,7 +95,8 @@
             "karmaConfig": "src/karma.conf.js",
             "styles": [
               {
-                "input": "node_modules/@angular/material/prebuilt-themes/indigo-pink.css"
+                "input": "node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+                "inject": true
               },
               "styles.css"
             ],
