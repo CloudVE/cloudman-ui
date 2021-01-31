@@ -50,6 +50,7 @@ export class ClusterAutoScalerListComponent {
     scalingGroupNameCtrl = new FormControl({value: 'default', disabled: true}, Validators.required);
     zoneCtrl = new FormControl({value: 'default', disabled: true}, Validators.required);
     vmTypeCtrl = new FormControl('', Validators.required);
+    vmTypePrefixCtrl = new FormControl('');
     vmTypeObjCtrl = new FormControl('', Validators.required);
     minNodesCtrl = new FormControl(0, Validators.min(0));
     maxNodesCtrl = new FormControl(5, Validators.min(0));
@@ -82,6 +83,7 @@ export class ClusterAutoScalerListComponent {
             'name': this.scalingGroupNameCtrl,
             'zone': this.zoneCtrl,
             'vm_type': this.vmTypeCtrl,
+            'allowed_vm_type_prefixes': this.vmTypePrefixCtrl,
             'min_nodes': this.minNodesCtrl,
             'max_nodes': this.maxNodesCtrl
         }, { validator: NumberRangeValidator });

@@ -56,6 +56,11 @@
                         </mat-form-field>
 
                         <mat-form-field>
+                            <mat-label>Restrict VM Types To</mat-label>
+                            <input matInput id="id_allowed_vm_types" [formControl]="vmTypePrefixCtrl" type="text" />
+                        </mat-form-field>
+
+                        <mat-form-field>
                             <mat-select id="id_vm_type" [formControl]="vmTypeObjCtrl">
                                 <mat-select-trigger>
                                     <div fxLayout="row" fxLayoutAlign="space-between center">
