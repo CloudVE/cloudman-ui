@@ -25,6 +25,7 @@ export class ClusterAutoScaler {
     name: string;
     cluster: Cluster;
     vm_type: string;
+    allowed_vm_type_prefixes: string;
     zone: string;
     min_nodes: number;
     max_nodes: number;
