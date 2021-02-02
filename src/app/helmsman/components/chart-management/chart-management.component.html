@@ -65,7 +65,7 @@
             </mat-card-header>
             <a href="{{ getAppURL(chart.values) }}" target="_blank">
                 <img mat-card-image
-                     src="{{chart.install_template.screenshot_url || chart.install_template.icon_url || 'assets/images/no-image-available.png'}}"
+                     src="{{chart.install_template?.screenshot_url || chart.install_template?.icon_url || 'assets/images/no-image-available.png'}}"
                      alt="Access {{chart.display_name}}" class="chart-image"/>
                 <mat-progress-bar class="progress"
                                   [mode]="chart.app_healthy ? 'determinate': 'indeterminate'"
