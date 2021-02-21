@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { MatDialog} from "@angular/material/dialog";
-import { Observable, Subject, timer, merge } from 'rxjs';
-import { map, tap, switchMap } from "rxjs/operators";
+import { Observable, Subject, timer, merge, interval } from 'rxjs';
+import { map, tap, switchMap, startWith } from "rxjs/operators";
 
 import { ClusterService } from "../../../shared/services/cluster.service";
-import { ClusterNode}  from "../../../shared/models/cluster";
+import { ClusterNode }  from "../../../shared/models/cluster";
 import { LoginService } from "../../../login/services/login/login.service";
 import { NodeAddDlgComponent } from "../dialogs/node-add.component";
+import * as moment from 'moment';
 
 
 @Component({
@@ -18,6 +19,7 @@ export class ClusterNodeListComponent {
 
     nodeObservable: Observable<ClusterNode[]>;
     nodeChanged = new Subject();
+    currentTimer: Observable<moment.Moment>;
     public fetchingNodes = false;
 
     constructor(public loginService: LoginService,
@@ -30,6 +32,9 @@ export class ClusterNodeListComponent {
             switchMap(cluster => this.clusterService.getClusterNodes(cluster.id)),
             tap(() => { this.fetchingNodes = false; }),
         )
+        this.currentTimer = interval(5000).pipe(
+                               startWith(0),
+                               map(() => moment()));
     }
 
     openAddNodeDialog(obj: any) {
@@ -46,5 +51,10 @@ export class ClusterNodeListComponent {
     deleteNode(node) {
         this.clusterService.deleteClusterNode(node)
           .subscribe(result => { this.nodeChanged.next(null); });
-  }
+    }
+
+     calculateUptime(node: ClusterNode, currentTime: moment.Moment) {
+        const launchTime = moment(node.deployment.added);
+        return moment.duration(currentTime.diff(launchTime)).humanize();
+    }
 }

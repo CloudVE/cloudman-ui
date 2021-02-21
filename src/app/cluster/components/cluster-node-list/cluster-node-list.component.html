@@ -51,13 +51,13 @@
                                       <div *ngSwitchCase="'SUCCESS'">
                                         <p color="primary"><i class="fa trash fa-fw"></i> DELETED</p>
                                       </div>
-                                      <p *ngSwitchCase="'FAILURE'" color="warn">FAILURE
+                                      <p *ngSwitchCase="'FAILURE'" color="warn">DELETE FAILED
                                          <br />{{ node.deployment.latest_task?.result?.exc_message }}
                                       </p>
-                                      <p *ngSwitchCase="'UNKNOWN'" color="accent">FAILURE
+                                      <p *ngSwitchCase="'UNKNOWN'" color="accent">DELETE FAILED
                                          <br />{{ node.deployment.latest_task?.result?.exc_message }}
                                       </p>
-                                      <p *ngSwitchCase="'PENDING'" color="link">DELETING</p>
+                                      <p *ngSwitchCase="'PENDING'" color="link"><i class="fa fa-cog fa-spin fa-fw"></i> DELETING</p>
                                       <p *ngSwitchCase="'PROGRESSING'" class="text-info"><i class="fa fa-cog fa-spin fa-fw"></i> PROGRESSING
                                         <br />{{ node.deployment.latest_task?.result?.action }}
                                       </p>
@@ -65,7 +65,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div fxFlex>Uptime</div>
+                        <div fxFlex>{{ calculateUptime(node, currentTimer | async) }} ago</div>
                         <div fxFlex>{{ node.deployment.application_config?.config_cloudlaunch?.vmType }}</div>
                         <div fxFlex>{{ node.deployment.launch_task?.result?.cloudLaunch?.publicIP }}</div>
                         <div fxFlex><p class="text-success" *ngIf="node.autoscaler"><i class="fa fa-check-circle-o"></i></p></div>
