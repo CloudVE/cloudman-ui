@@ -41,7 +41,8 @@
               "node_modules/ace-builds/src-min/mode-yaml.js",
               "node_modules/ace-builds/src-min/mode-xml.js",
               "node_modules/ace-builds/src-min/theme-chrome.js",
-              "node_modules/ace-builds/src-min/worker-xml.js"
+              "node_modules/ace-builds/src-min/worker-xml.js",
+              "node_modules/moment/min/moment.min.js"
             ]
           },
           "configurations": {
