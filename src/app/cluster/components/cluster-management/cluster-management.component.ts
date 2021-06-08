@@ -5,6 +5,7 @@ import { FormControl } from "@angular/forms";
 import { Cluster } from "../../../shared/models/cluster";
 import { ClusterService } from "../../../shared/services/cluster.service";
 
+declare let window;
 
 @Component({
     selector: 'app-cluster-management',
@@ -25,5 +26,9 @@ export class ClusterManagementComponent {
 
     onGrafanaLoaded(event: any) {
         this.show_animation = false;
+    }
+
+    getKeycloakPath() : string {
+        return window.location.protocol + '//auth.' + window.location.host + '/auth/admin'
     }
 }
