@@ -1,8 +1,9 @@
-import {BrowserModule, Title} from '@angular/platform-browser';
+import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+import { APP_BASE_HREF } from '@angular/common'
 import { HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LayoutModule } from '@angular/cdk/layout';
@@ -18,7 +19,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AppComponent } from './app.component';
-import { AppRoutingModule } from './app-routing.module';
+import { AppRoutingModule, getBaseLocation } from './app-routing.module';
 import { LoginModule } from './login/login.module';
 import { AuthInterceptor } from './login/services/auth-interceptor';
 import { HelmsmanModule } from './helmsman/helmsman.module';
@@ -65,7 +66,11 @@ import { AddChartDlgComponent } from "./helmsman/components/dialogs/add-chart.co
         useClass: AuthInterceptor,
         multi: true,
       },
-      Title
+      Title,
+      {
+        provide: APP_BASE_HREF,
+        useFactory: getBaseLocation
+      }
   ],
   entryComponents: [CreateProjectDlgComponent, AddChartDlgComponent, ChartReconfigurationDlgComponent, NodeAddDlgComponent],
   bootstrap: [AppComponent]
