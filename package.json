@@ -31,7 +31,7 @@
     "moment": "^2.29.3",
     "ng2-ace-editor": "^0.3.9",
     "ngx-order-pipe": "^2.2.0",
-    "rxjs": "6.5.5",
+    "rxjs": "7.5.5",
     "rxjs-compat": "^6.5.5",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.4"
@@ -51,7 +51,7 @@
     "karma-coverage-istanbul-reporter": "~3.0.2",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
-    "lite-server": "^2.5.4",
+    "lite-server": "^2.6.1",
     "protractor": "~7.0.0",
     "ts-node": "~8.0.3",
     "tslint": "~6.1.0",

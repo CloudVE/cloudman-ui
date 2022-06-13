@@ -7,7 +7,7 @@ import {
     Validators
 } from '@angular/forms';
 import {forkJoin, throwError} from 'rxjs';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {catchError, map, switchMap, tap} from "rxjs/operators";
 
 import {VmType} from '../../../shared/models/cloud';

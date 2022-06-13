@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {UntypedFormControl} from "@angular/forms";
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 
 import {ChartReconfigurationDlgComponent} from '../dialogs/chart-reconfiguration.component';
 import {CreateProjectDlgComponent} from '../dialogs/create-project.component';
