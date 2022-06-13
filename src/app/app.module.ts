@@ -31,48 +31,47 @@ import { AddChartDlgComponent } from "./helmsman/components/dialogs/add-chart.co
 
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    LayoutModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatSidenavModule,
-    MatIconModule,
-    MatListModule,
-    MatGridListModule,
-    MatCardModule,
-    MatMenuModule,
-    MatTabsModule,
-    FlexLayoutModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    HttpClientXsrfModule.withOptions({
-        cookieName: 'csrftoken',
-        headerName: 'X-CSRFToken',
-    }),
-    AppRoutingModule,
-    LoginModule,
-    ClusterModule,
-    HelmsmanModule
-  ],
-  providers: [
-      {
-        provide: HTTP_INTERCEPTORS,
-        useClass: AuthInterceptor,
-        multi: true,
-      },
-      Title,
-      {
-        provide: APP_BASE_HREF,
-        useFactory: getBaseLocation
-      }
-  ],
-  entryComponents: [CreateProjectDlgComponent, AddChartDlgComponent, ChartReconfigurationDlgComponent, NodeAddDlgComponent],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent
+    ],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        LayoutModule,
+        MatToolbarModule,
+        MatButtonModule,
+        MatSidenavModule,
+        MatIconModule,
+        MatListModule,
+        MatGridListModule,
+        MatCardModule,
+        MatMenuModule,
+        MatTabsModule,
+        FlexLayoutModule,
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        HttpClientXsrfModule.withOptions({
+            cookieName: 'csrftoken',
+            headerName: 'X-CSRFToken',
+        }),
+        AppRoutingModule,
+        LoginModule,
+        ClusterModule,
+        HelmsmanModule
+    ],
+    providers: [
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthInterceptor,
+            multi: true,
+        },
+        Title,
+        {
+            provide: APP_BASE_HREF,
+            useFactory: getBaseLocation
+        }
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }
