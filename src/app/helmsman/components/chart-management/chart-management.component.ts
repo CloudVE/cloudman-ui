@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
-import {FormControl} from "@angular/forms";
+import {UntypedFormControl} from "@angular/forms";
 import {Observable} from 'rxjs/Observable';
 
 import {ChartReconfigurationDlgComponent} from '../dialogs/chart-reconfiguration.component';
@@ -30,7 +30,7 @@ export class ChartManagementComponent implements OnInit {
     // Form controls
     projectsChanged = new Subject();
     activeProjectChanged = new Subject<Project>();
-    projectCtrl = new FormControl('');
+    projectCtrl = new UntypedFormControl('');
 
     constructor(public loginService: LoginService,
                 private dialog: MatDialog,

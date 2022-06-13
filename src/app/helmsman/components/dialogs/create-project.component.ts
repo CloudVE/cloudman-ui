@@ -1,5 +1,5 @@
 import { Component, Inject, Optional } from '@angular/core';
-import { FormControl } from "@angular/forms";
+import { UntypedFormControl } from "@angular/forms";
 import { Project } from "../../models/project";
 
 @Component({
@@ -9,7 +9,7 @@ import { Project } from "../../models/project";
 })
 export class CreateProjectDlgComponent {
 
-    projectCtrl = new FormControl('');
+    projectCtrl = new UntypedFormControl('');
 
     constructor() {
     }

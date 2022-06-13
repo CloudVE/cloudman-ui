@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { ErrorStateMatcher } from "@angular/material/core";
 import {
-    FormBuilder,
-    FormGroup,
-    FormControl,
+    UntypedFormBuilder,
+    UntypedFormGroup,
+    UntypedFormControl,
     Validators,
     ValidatorFn, FormGroupDirective, NgForm
 } from '@angular/forms';
@@ -17,7 +17,7 @@ import { Cluster } from "../../../shared/models/cluster";
 import { ClusterAutoScaler } from "../../../shared/models/cluster";
 
 
-const NumberRangeValidator: ValidatorFn = (fg: FormGroup) => {
+const NumberRangeValidator: ValidatorFn = (fg: UntypedFormGroup) => {
   const start = fg.get('min_nodes').value;
   const end = fg.get('max_nodes').value;
   return start !== null && end !== null && start < end
@@ -27,7 +27,7 @@ const NumberRangeValidator: ValidatorFn = (fg: FormGroup) => {
 
 
 class MaxNodesGreaterThanMinErrorMatcher implements ErrorStateMatcher {
-    isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    isErrorState(control: UntypedFormControl | null, form: FormGroupDirective | NgForm | null): boolean {
         return control.touched && form.hasError('range');
     }
 };
@@ -41,19 +41,19 @@ class MaxNodesGreaterThanMinErrorMatcher implements ErrorStateMatcher {
 export class ClusterAutoScalerListComponent {
 
     // Form ControlsmaxNodesCtrl
-    form: FormGroup;
+    form: UntypedFormGroup;
     zoneHelp = "Select a zone";
     vmTypeHelp = "Select an instance size";
-    autoScalingEnabledCtrl = new FormControl('');
-    autoscalerIdCtrl = new FormControl(null);
-    clusterCtrl = new FormControl('', Validators.required);
-    scalingGroupNameCtrl = new FormControl({value: 'default', disabled: true}, Validators.required);
-    zoneCtrl = new FormControl({value: 'default', disabled: true}, Validators.required);
-    vmTypeCtrl = new FormControl('', Validators.required);
-    vmTypePrefixCtrl = new FormControl('');
-    vmTypeObjCtrl = new FormControl('', Validators.required);
-    minNodesCtrl = new FormControl(0, Validators.min(0));
-    maxNodesCtrl = new FormControl(5, Validators.min(0));
+    autoScalingEnabledCtrl = new UntypedFormControl('');
+    autoscalerIdCtrl = new UntypedFormControl(null);
+    clusterCtrl = new UntypedFormControl('', Validators.required);
+    scalingGroupNameCtrl = new UntypedFormControl({value: 'default', disabled: true}, Validators.required);
+    zoneCtrl = new UntypedFormControl({value: 'default', disabled: true}, Validators.required);
+    vmTypeCtrl = new UntypedFormControl('', Validators.required);
+    vmTypePrefixCtrl = new UntypedFormControl('');
+    vmTypeObjCtrl = new UntypedFormControl('', Validators.required);
+    minNodesCtrl = new UntypedFormControl(0, Validators.min(0));
+    maxNodesCtrl = new UntypedFormControl(5, Validators.min(0));
 
     clusterSubject = new BehaviorSubject<Cluster>(null);
     zoneSubject = new BehaviorSubject<PlacementZone>(null);
@@ -74,7 +74,7 @@ export class ClusterAutoScalerListComponent {
     }
     get cluster() { return this.clusterSubject.value; }
 
-    constructor(fb: FormBuilder,
+    constructor(fb: UntypedFormBuilder,
                 private clusterService: ClusterService,
                 private cloudService: CloudService) {
         this.form = fb.group({

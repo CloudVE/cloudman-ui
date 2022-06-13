@@ -1,9 +1,9 @@
 import {Component, Inject, Optional} from '@angular/core';
 import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {
-    FormBuilder,
-    FormGroup,
-    FormControl,
+    UntypedFormBuilder,
+    UntypedFormGroup,
+    UntypedFormControl,
     Validators
 } from '@angular/forms';
 import {forkJoin, throwError} from 'rxjs';
@@ -26,10 +26,10 @@ import {ClusterNode} from "../../../shared/models/cluster";
 export class NodeAddDlgComponent {
 
     // Form Controls
-    form: FormGroup;
+    form: UntypedFormGroup;
     vmTypeHelp = "Select an instance size";
-    clusterCtrl = new FormControl('', Validators.required);
-    vmTypeCtrl = new FormControl('', Validators.required);
+    clusterCtrl = new UntypedFormControl('', Validators.required);
+    vmTypeCtrl = new UntypedFormControl('', Validators.required);
 
     public errorMessage: string;
     public submitPending = false;
@@ -37,7 +37,7 @@ export class NodeAddDlgComponent {
     // Observables
     vmTypeObs: Observable<VmType[]>;
 
-    constructor(fb: FormBuilder,
+    constructor(fb: UntypedFormBuilder,
                 private dialogRef: MatDialogRef<NodeAddDlgComponent>,
                 @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
                 private appService: ApplicationService,

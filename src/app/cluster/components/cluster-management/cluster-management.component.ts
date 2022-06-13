@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { map, tap } from "rxjs/operators";
 import { Observable } from "rxjs";
-import { FormControl } from "@angular/forms";
+import { UntypedFormControl } from "@angular/forms";
 import { Cluster } from "../../../shared/models/cluster";
 import { ClusterService } from "../../../shared/services/cluster.service";
 
@@ -14,7 +14,7 @@ declare let window;
 })
 export class ClusterManagementComponent {
 
-    clusterCtrl = new FormControl('');
+    clusterCtrl = new UntypedFormControl('');
     clusterObs: Observable<Cluster>;
     show_animation = true;
 
