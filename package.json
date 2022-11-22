@@ -28,7 +28,7 @@
     "core-js": "^2.6.11",
     "js-yaml": "^3.14.0",
     "lodash": "^4.17.21",
-    "moment": "^2.29.3",
+    "moment": "^2.29.4",
     "ng2-ace-editor": "^0.3.9",
     "ngx-order-pipe": "^2.2.0",
     "rxjs": "7.5.5",
